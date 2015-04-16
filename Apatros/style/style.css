@@ -1,0 +1,25 @@
+﻿header ul li {
+    display: inline-block;
+}
+
+    header ul li a {
+        padding: 10px;
+        border-radius: 5px;
+        background: aquamarine;
+        border: 1px solid black;
+        text-decoration: none;
+        font-size: 20px;
+        color: black;
+    }
+
+.book {
+    display: inline-block;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px;
+}
+
+.book h4 {
+    display: inline-block;
+}

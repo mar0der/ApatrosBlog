@@ -1,0 +1,18 @@
+﻿<div id="books-container">
+    {{#results}}
+    <div class="book" data-id="{{objectId}}">
+        <div>{{title}}</div>
+        <div>{{author}}</div>
+        <div>{{isbn}}</div>
+        <button class="edit-book-btn">ed</button>
+        <button class="delete-book-btn">x</button>
+    </div>
+    {{/results}}
+</div>
+<label>Title</label>
+<input id="add-book-title" type="text"/>
+<label>Author</label>
+<input id="add-book-author" type="text"/>
+<label>ISBN</label>
+<input id="add-book-isbn" type="text"/>
+<button id="add-book-btn">Add Book</button>
