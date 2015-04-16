@@ -213,12 +213,15 @@
     <Content Include="models\ajaxRequester.js" />
     <Content Include="models\model.js" />
     <Content Include="style\style.css" />
-    <Content Include="views\books.html" />
-    <Content Include="views\tags.html" />
+    <Content Include="templates\books.html" />
+    <Content Include="templates\tags.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="viewModels\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

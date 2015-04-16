@@ -11,7 +11,7 @@
     Controller.prototype.loadBooks = function (container) {
         this._model.books.getAll()
             .then(function (data) {
-                $.get('./views/books.html', function (template) {
+                $.get('./templates/books.html', function (template) {
                     var output = mustache.render(template, data);
                     container.html(output);
                 });
@@ -22,7 +22,7 @@
 
     Controller.prototype.loadTags = function (container) {
 
-        container.load('./views/tags.html');
+        container.load('./templates/tags.html');
     }
 
     Controller.prototype.init = function (container) {
