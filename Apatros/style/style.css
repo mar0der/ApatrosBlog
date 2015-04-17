@@ -1,25 +1,102 @@
-﻿header ul li {
+﻿html, body, div, article, aside, header, nav, ul, li, a, p, span, strong, em, footer, section, h1, h2, h3, h4 {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: Arial;
+	font-size: 13px;
+	color: #000;
+}
+
+/* very importat to have it*/
+
+.clearfix:before, .clearfix:after {  content: "\0020"; display: block; height: 0; visibility: hidden;    } 
+.clearfix:after { clear: both; }
+.clearfix { zoom: 1; }
+
+div, article, header, footer, section, aside, ul, li, h1, h2, h3, h4, h5, body {
+	display: block;
+	margin: 2%;
+}
+
+
+div#wrapper {
+	width: 955px;
+	height: auto;
+	border: 1px solid gray;
+	margin: 0 auto;
+}
+
+/*header*/
+header {
+	height: 150px;
+	background-color: pink;
+}
+
+header ul li {
     display: inline-block;
 }
 
     header ul li a {
         padding: 10px;
         border-radius: 5px;
-        background: aquamarine;
+        background: antiquewhite;
         border: 1px solid black;
         text-decoration: none;
         font-size: 20px;
         color: black;
     }
 
-.book {
-    display: inline-block;
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 5px;
+    /*sidebars*/
+aside#left {
+	width: 20%;
+	border: 1px solid green;
+	float: left;
+	background-color: blue;
+	display: inline-block;
 }
 
-.book h4 {
-    display: inline-block;
+aside#right {
+	width: 20%;
+	border: 1px solid green;
+	float: right;
+	background-color: yellow;
+	display: inline-block;
 }
+
+/*content*/
+section {
+	display: inline-block;
+	width: 48%;
+	height: 500px;
+	border: 1px solid red;
+	background-color: red;
+}
+
+/*footer*/
+footer {
+	height: 150px;
+	background-color: green;
+}
+
+/*responsive design*/
+@media (max-width: 960px) {
+	div#wrapper {
+		width: 100%
+	}
+
+	aside#right {
+		float: left;
+		clear: left;
+	}
+	
+	section{
+		width:72%;
+	}
+}
+
+
+
+
+
+
+

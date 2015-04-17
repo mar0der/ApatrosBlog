@@ -13,16 +13,16 @@
 
 require(['sammy', 'controller', 'jquery'], function (Sammy, controller) {
     
-    var container = $('#wrapper');
+    var container = $('#content');
     controller.init(container);
     var router = Sammy(function() {
-        this.get('#/books', function() {
+        this.get('#/posts', function() {
             controller.loadBooks(container);
         });
 
-        this.get('#/tags', function () {
+        this.get('#/writepost', function () {
             controller.loadTags(container);
         });
     });
-    router.run('#/books');
+    router.run('#/post');
 });
