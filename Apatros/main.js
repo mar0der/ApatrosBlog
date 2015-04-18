@@ -20,16 +20,16 @@ require(['sammy', 'controller', 'jquery'], function (Sammy, controller) {
             controller.loadBooks(container);
         });
 
-        this.get('#/writepost', function () {
-            controller.loadTags(container);
-        });
-
         this.get('#/login', function () {
             controller.loadLogin(container);
         });
 
         this.get('#/register', function () {
             controller.loadRegister(container);
+        });
+
+        this.get('#/writepost', function () {
+            controller.loadAddPost(container);
         });
     });
     router.run('#/post');
