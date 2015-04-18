@@ -9,15 +9,16 @@
     }
 
     Controller.prototype.loadBooks = function (container) {
-        this._model.books.getAll()
-            .then(function (data) {
-                $.get('./templates/books.html', function (template) {
-                    var output = mustache.render(template, data);
-                    container.html(output);
-                });
-            }, function error(err) {
-                console.log(err);
-            });
+        container.load('./templates/posts.html');
+//        this._model.books.getAll()
+//            .then(function (data) {
+//                $.get('./templates/books.html', function (template) {
+//                    var output = mustache.render(template, data);
+//                    container.html(output);
+//                });
+//            }, function error(err) {
+//                console.log(err);
+//            });
     };
 
     Controller.prototype.loadTags = function (container) {
