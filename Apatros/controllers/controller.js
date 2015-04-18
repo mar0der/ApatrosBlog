@@ -33,6 +33,10 @@
         container.load('./templates/register.html');
     };
 
+    Controller.prototype.loadAddPost = function (container) {
+        container.load('./templates/addPost.html');
+    };
+
     Controller.prototype.init = function (container) {
         attachCreateBookHandler.call(this, container);
         attachDeleteBookHandler.call(this, container);
