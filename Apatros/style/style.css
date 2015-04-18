@@ -71,6 +71,33 @@ section {
 	border: 1px solid red;
 	background-color: red;
 }
+.post h3{
+    margin: 0;
+    float: left;
+}
+.post .date{
+    float: right;
+    margin: 0;
+}
+.post .author{
+    float: left;
+}
+.post .numberOfViews{
+    float: right;
+}
+.post {
+    border-bottom: 1px solid #000;
+    margin-bottom: 20px;
+}
+.post .readMore{
+    float: right;
+}
+.clear:after{
+    content: '';
+    display: block;
+    clear: both;
+    zoom: 1;
+}
 
 /*footer*/
 footer {
