@@ -23,6 +23,14 @@ require(['sammy', 'controller', 'jquery'], function (Sammy, controller) {
         this.get('#/writepost', function () {
             controller.loadTags(container);
         });
+
+        this.get('#/login', function () {
+            controller.loadLogin(container);
+        });
+
+        this.get('#/register', function () {
+            controller.loadRegister(container);
+        });
     });
     router.run('#/post');
 });

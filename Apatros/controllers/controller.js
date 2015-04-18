@@ -18,19 +18,27 @@
             }, function error(err) {
                 console.log(err);
             });
-    }
+    };
 
     Controller.prototype.loadTags = function (container) {
 
         container.load('./templates/tags.html');
-    }
+    };
+
+    Controller.prototype.loadLogin = function (container) {
+        container.load('./templates/login.html');
+    };
+
+    Controller.prototype.loadRegister = function (container) {
+        container.load('./templates/register.html');
+    };
 
     Controller.prototype.init = function (container) {
         attachCreateBookHandler.call(this, container);
         attachDeleteBookHandler.call(this, container);
         attachEditBookHandler.call(this, container);
 
-    }
+    };
 
     attachCreateBookHandler = function attachCreateBookHandler(container) {
         var _this = this;
