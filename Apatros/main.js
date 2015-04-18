@@ -7,7 +7,10 @@
         'mustache': 'libs/mustache/mustache',
         'Q': 'libs/q/q',
         'sammy': 'libs/sammy/main',
-        'config': 'config'
+        'config': 'config',
+        'postModel': 'models/postModel',
+        'modelRepo': 'models/modelRepo',
+        'postView' : 'views/postView'
     }
 });
 
@@ -17,7 +20,7 @@ require(['sammy', 'controller', 'jquery'], function (Sammy, controller) {
     controller.init(container);
     var router = Sammy(function() {
         this.get('#/posts', function() {
-            controller.loadBooks(container);
+            controller.loadPosts(container);
         });
 
         this.get('#/login', function () {
@@ -28,9 +31,9 @@ require(['sammy', 'controller', 'jquery'], function (Sammy, controller) {
             controller.loadRegister(container);
         });
 
-        this.get('#/writepost', function () {
+        this.get('#/writePost', function () {
             controller.loadAddPost(container);
         });
     });
-    router.run('#/post');
+    router.run('#/posts');
 });

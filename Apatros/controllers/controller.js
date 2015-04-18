@@ -1,4 +1,5 @@
-﻿define(['model', 'mustache'], function (model, mustache) {
+﻿define(['model', 'mustache', 'modelRepo', 'postView'],
+    function (model, mustache, modelRepo, postView) {
 
     var attachCreateBookHandler,
         attachDeleteBookHandler,
@@ -8,20 +9,16 @@
         this._model = model;
     }
 
-    Controller.prototype.loadBooks = function (container) {
-        this._model.books.getAll()
-            .then(function (data) {
-                $.get('./templates/books.html', function (template) {
-                    var output = mustache.render(template, data);
-                    container.html(output);
-                });
-            }, function error(err) {
-                console.log(err);
-            });
+    Controller.prototype.loadPosts = function (container) {
+        var postsRepo = modelRepo.load('https://api.parse.com/1');
+        postsRepo.getPosts().then(
+            function (data) {
+                postView.load(container, data);
+            }
+        )
     };
 
     Controller.prototype.loadTags = function (container) {
-
         container.load('./templates/tags.html');
     };
 

@@ -1,13 +1,13 @@
 ﻿<div id="books-container">
-    {{#results}}
-    <div class="book" data-id="{{objectId}}">
+    {{#posts}}
+    <div class="book" data-id="{{id}}">
         <div>{{title}}</div>
-        <div>{{author}}</div>
-        <div>{{isbn}}</div>
+        <div>{{body}}</div>
+        <div>{{tags}}</div>
         <button class="edit-book-btn">ed</button>
         <button class="delete-book-btn">x</button>
     </div>
-    {{/results}}
+    {{/posts}}
 </div>
 <label>Title</label>
 <input id="add-book-title" type="text"/>
