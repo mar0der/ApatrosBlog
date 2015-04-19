@@ -19,12 +19,15 @@
     }
 });
 
-require(['sammy', 'controller', 'jquery'], function (Sammy, Controller) {
-    
-    var selector = $('#content');
-    var controller = Controller.load(selector);
+require(['sammy', 'controller', 'postsRepoModel', 'jquery'],
+    function (Sammy, Controller, postsRepoModel) {
+
+    var model = postsRepoModel.load('https://api.parse.com/1');
+    var controller = Controller.load(model);
 
     var router = Sammy(function() {
+        var selector = $('#content');
+
         this.get('#/posts', function() {
             controller.loadPosts(selector);
         });

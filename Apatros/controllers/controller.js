@@ -4,12 +4,11 @@
               loginView, registerView, addPostView) {
 
     function Controller(model) {
-        this._model = model;
+        this.model = model;
     }
 
     Controller.prototype.loadPosts = function (selector) {
-        var repo = postsRepoModel.load('https://api.parse.com/1');
-        repo.getPosts().then(
+        this.model.getPosts().then(
             function (data) {
                 postsView.load(selector, data);
             }
