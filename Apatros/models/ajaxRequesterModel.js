@@ -30,23 +30,23 @@
             }
         });
         return defer.promise;
-    }
+    };
 
     makePost = function makePost(url, headers, data) {
         return makeRequest(url, headers, 'POST', data);
-    }
+    };
 
     makeGet = function makeGet(url, headers) {
         return makeRequest(url, headers, 'GET');
-    }
+    };
 
     makePut = function makePut(url, headers, data) {
         return makeRequest(url, headers, 'PUT', data);
-    }
+    };
 
     makeDelete = function makeDelete(url, headers) {
         return makeRequest(url, headers, 'DELETE', null);
-    }
+    };
 
     return new AjaxRequester();
 

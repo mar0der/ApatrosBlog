@@ -1,13 +1,13 @@
 ﻿define(['mustache'], function (Mustache) {
-    function postView(selector, data) {
-        $.get('templates/post.html', function (template) {
+    function registerView(selector, data) {
+        $.get('templates/register.html', function (template) {
             var output = Mustache.render(template, data);
             $(selector).html(output);
         })
     }
     return {
         load: function (selector, data) {
-            postView(selector, data);
+            registerView(selector, data);
         }
     }
 });
