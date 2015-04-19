@@ -1,6 +1,6 @@
-﻿define(['mustache', 'postsView', 'tagsView',
+﻿define(['mustache', 'postsView', 'postView', 'tagsView',
         'loginView', 'registerView', 'addPostView'],
-    function (mustache, postsView, tagsView,
+    function (mustache, postsView, postView, tagsView,
               loginView, registerView, addPostView) {
 
         function Controller(model) {
@@ -13,6 +13,14 @@
                 postsView.load(selector, data);
             }
         )
+    };
+
+    Controller.prototype.loadPost = function (selector, id) {
+        this.model.posts.postsRepo.posts.forEach(function (post) {
+            if (post.id == id) {
+                postView.load(selector, post);
+            }
+        })
     };
 
     Controller.prototype.loadTags = function (selector) {

@@ -14,7 +14,7 @@ define(['ajaxRequesterModel', 'postModel', 'Q', 'credentialsModel'], function (R
             data['results'].forEach(function (post) {
                 var p = new postModel(
                     post['objectId'],
-                    post['author'],
+    this.postsRepo.posts.length = 0;
                     post['title'],
                     post['body'],
                     post['createdAt'],

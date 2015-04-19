@@ -39,7 +39,9 @@ require(['sammy', 'controller', 'appRepository', 'config', 'jquery'],
         this.get('#/posts', function() {
             controller.loadPosts(selector);
         });
-
+        this.get('#/posts/:id', function () {
+            controller.loadPost(selector, this.params['id']);
+        });
         this.get('#/login', function () {
             controller.loadLogin(selector);
         });
