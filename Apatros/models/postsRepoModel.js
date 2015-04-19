@@ -9,12 +9,13 @@ define(['ajaxRequesterModel', 'postModel', 'Q', 'credentialsModel'], function (R
     PostsRepo.prototype.getPosts = function () {
     var deffer = Q.defer();
     var _this = this;
+    this.postsRepo.posts.length = 0;
     var data = Requester.get(this.baseUrl + 'classes/Post', credentials.getHeaders()).then(
         function (data) {
             data['results'].forEach(function (post) {
                 var p = new postModel(
                     post['objectId'],
-    this.postsRepo.posts.length = 0;
+                    post['author']['objectId'],
                     post['title'],
                     post['body'],
                     post['createdAt'],
