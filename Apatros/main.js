@@ -1,14 +1,22 @@
 ﻿require.config({
     paths: {
-        'ajaxRequesterModel': 'models/ajaxRequesterModel',
         'controller': 'controllers/controller',
         'jquery': 'libs/jquery/dist/jquery',
         'mustache': 'libs/mustache/mustache',
         'Q': 'libs/q/q',
         'sammy': 'libs/sammy/main',
         'config': 'config',
+        'ajaxRequesterModel': 'models/ajaxRequesterModel',
+        'appRepository': 'models/appRepository',
+        'credentialsModel': 'models/credentialsModel',
         'postsRepoModel': 'models/postsRepoModel',
         'postModel': 'models/postModel',
+        'commentsRepoModel': 'models/commentsRepoModel',
+        'commentModel': 'models/commentModel',
+        'tagsRepoModel': 'models/tagsRepoModel',
+        'tagModel': 'models/tagModel',
+        'usersRepoModel': 'models/usersRepoModel',
+        'userModel': 'models/userModel',
         'postsView' : 'views/postsView',
         'postView' : 'views/postView',
         'addPostView': 'views/addPostView',
@@ -19,10 +27,10 @@
     }
 });
 
-require(['sammy', 'controller', 'postsRepoModel', 'jquery'],
-    function (Sammy, Controller, postsRepoModel) {
+require(['sammy', 'controller', 'appRepository', 'config', 'jquery'],
+    function (Sammy, Controller, appRepo, config) {
 
-    var model = postsRepoModel.load('https://api.parse.com/1');
+        var model = appRepo.load(config.baseUrl);
     var controller = Controller.load(model);
 
     var router = Sammy(function() {

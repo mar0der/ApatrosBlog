@@ -1,14 +1,14 @@
-﻿define(['mustache', 'postsRepoModel', 'postsView', 'tagsView',
+﻿define(['mustache', 'postsView', 'tagsView',
         'loginView', 'registerView', 'addPostView'],
-    function (mustache, postsRepoModel, postsView, tagsView,
+    function (mustache, postsView, tagsView,
               loginView, registerView, addPostView) {
 
-    function Controller(model) {
+        function Controller(model) {
         this.model = model;
     }
 
     Controller.prototype.loadPosts = function (selector) {
-        this.model.getPosts().then(
+        this.model.posts.getPosts().then(
             function (data) {
                 postsView.load(selector, data);
             }
@@ -37,7 +37,7 @@
 
     return {
         load: function (model) {
-            return new Controller(model)
+            return new Controller(model);
         }
     }
 });

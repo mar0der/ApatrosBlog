@@ -1,4 +1,4 @@
-define(['ajaxRequesterModel', 'postModel', 'Q', 'config'], function (Requester, postModel, Q, config) {
+define(['ajaxRequesterModel', 'postModel', 'Q', 'credentialsModel'], function (Requester, postModel, Q, credentials) {
     function PostsRepo(baseUrl) {
         this.baseUrl = baseUrl;
         this.postsRepo = {
@@ -9,7 +9,7 @@ define(['ajaxRequesterModel', 'postModel', 'Q', 'config'], function (Requester, 
     PostsRepo.prototype.getPosts = function () {
     var deffer = Q.defer();
     var _this = this;
-    var data = Requester.get(this.baseUrl+'/classes/Book', config.headers).then(
+    var data = Requester.get(this.baseUrl + '/classes/Book', credentials.getHeaders()).then(
         function (data) {
             data['results'].forEach(function (post) {
                 var p = new postModel(post['objectId'],post['title'], post['author'], post['isbn']);
