@@ -1,11 +1,12 @@
 ﻿define( function () {
 
-    function Post(id, title, body) {
+    function Post(id, author, title, body, date, visits) {
         this.id = id;
+        this.author = author;
         this.title = title;
         this.body = body;
-        this.comments = [];
-        this.tags = [];
+        this.date = date;
+        this.visits = visits;
     }
 
     return Post;

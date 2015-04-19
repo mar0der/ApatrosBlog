@@ -30,7 +30,7 @@
 require(['sammy', 'controller', 'appRepository', 'config', 'jquery'],
     function (Sammy, Controller, appRepo, config) {
 
-        var model = appRepo.load(config.baseUrl);
+    var model = appRepo.load(config.baseUrl);
     var controller = Controller.load(model);
 
     var router = Sammy(function() {
