@@ -67,7 +67,8 @@ aside#right {
 section {
 	display: inline-block;
 	width: 48%;
-	height: 500px;
+    min-height: 300px;
+	height: auto;
 	border: 1px solid red;
 	background-color: red;
 }

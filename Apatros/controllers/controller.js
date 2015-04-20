@@ -1,6 +1,6 @@
-﻿define(['mustache', 'postsView', 'postView', 'tagsView',
+﻿define(['postsView', 'postView', 'tagsView',
         'loginView', 'registerView', 'addPostView'],
-    function (mustache, postsView, postView, tagsView,
+    function (postsView, postView, tagsView,
               loginView, registerView, addPostView) {
 
         function Controller(model) {
