@@ -3,7 +3,7 @@
     headers['X-Parse-Session-Token'] = getSessionToken();
     
     function getSessionToken() {
-        sessionStorage.getItem('sessionToken');
+        return sessionStorage.getItem('sessionToken');
     }
 
     function setSessionToken(sessionToken) {
