@@ -78,7 +78,7 @@
 
         var attachAddCommentHandler = function attachAddCommentHandler(container) {
             var _this = this;
-            container.on('click', '#submit-post', function (ev) {
+            container.on('click', '#submit-comment', function (ev) {
                 alert('add comment submit');
             });
         }

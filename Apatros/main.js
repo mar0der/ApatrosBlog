@@ -6,7 +6,6 @@
         'Q': 'libs/q/q',
         'sammy': 'libs/sammy/main',
         'noty': 'libs/noty/js/noty/packaged/jquery.noty.packaged',
-
         'config': 'config',
         'ajaxRequesterModel': 'models/ajaxRequesterModel',
         'appRepository': 'models/appRepository',
@@ -35,12 +34,13 @@
 require(['sammy', 'controller', 'appRepository', 'config', 'noty', 'jquery'],
     function (Sammy, Controller, appRepo, config) {
 
+        var container = $('#content');
         var model = appRepo.load(config.baseUrl);
         var controller = Controller.load(model);
+        var router;
+        controller.init(container);
 
-        var router = Sammy(function () {
-
-            var container = $('#content');
+        router = Sammy(function () {
 
             this.get('#/posts', function () {
                 controller.loadPosts(container);
