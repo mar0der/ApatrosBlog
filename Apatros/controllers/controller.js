@@ -16,11 +16,11 @@
         };
 
         Controller.prototype.loadPost = function (selector, id) {
-            this.model.posts.postsRepo.posts.forEach(function (post) {
-                if (post.id == id) {
+            this.model.posts.getPost(id).then(
+                function (post) {
                     postView.load(selector, post);
                 }
-            })
+            )
         };
 
         Controller.prototype.loadTags = function (selector) {

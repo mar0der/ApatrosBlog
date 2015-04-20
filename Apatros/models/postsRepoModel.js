@@ -15,7 +15,7 @@ define(['ajaxRequesterModel', 'postModel', 'Q', 'credentialsModel'], function (R
             data['results'].forEach(function (post) {
                 var p = new postModel(
                     post['objectId'],
-                    post['author']['objectId'],
+                    post['author'],
                     post['title'],
                     post['body'],
                     post['createdAt'],
@@ -28,7 +28,17 @@ define(['ajaxRequesterModel', 'postModel', 'Q', 'credentialsModel'], function (R
         );
         return deffer.promise;
     };
-
+    PostsRepo.prototype.getPost = function (id) {
+        var deffer = Q.defer();
+        var post = Requester.get(this.baseUrl + 'classes/Post/' + id, credentials.getHeaders()).then(
+            function (post) {
+                deffer.resolve(post);
+            }, function (error) {
+                deffer.reject(error)
+            }
+        );
+        return deffer.promise;
+    };
     PostsRepo.prototype.addPost = function () {
         //TODO
     };
