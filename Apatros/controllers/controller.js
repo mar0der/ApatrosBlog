@@ -30,29 +30,29 @@
         Controller.prototype.loadPost = function (container, id) {
             this.model.posts.getPost(id).then(
                 function (post) {
-                    postView.load(selector, post);
+                    postView.load(container, post);
                 }
             )
         };
 
         Controller.prototype.loadTags = function (container) {
             //TODO: Load Tags logic
-            tagsView.load(selector);
+            tagsView.load(container);
         };
 
         Controller.prototype.loadLogin = function (container) {
-            loginView.load(selector);
+            loginView.load(container);
             //TODO: Login Logic
         };
 
         Controller.prototype.loadRegister = function (container) {
-            registerView.load(selector);
+            registerView.load(container);
             //TODO: Register Logic
         };
 
         Controller.prototype.loadAddPost = function (container) {
             //TODO: Add Post Logic
-            addPostView.load(selector);
+            addPostView.load(container);
         };
 
         var attachRegisterHandler = function attachRegisterHandler(container) {
