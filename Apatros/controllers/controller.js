@@ -21,10 +21,10 @@
 
         Controller.prototype.loadPosts = function (container) {
             this.model.posts.getPosts().then(
-                function (data) {
+                function(data) {
                     postsView.load(container, data);
                 }
-            )
+            );
         };
 
         Controller.prototype.loadPost = function (container, id) {
@@ -79,7 +79,13 @@
         var attachAddCommentHandler = function attachAddCommentHandler(container) {
             var _this = this;
             container.on('click', '#submit-comment', function (ev) {
-                alert('add comment submit');
+                var commentContent = $('#comment-content').val();
+                var postId = $('#post-container').data('id');
+                if (commentContent) {
+                    _this.model.comments.add(commentContent, postId);
+                } else {
+                    alert('add noty error');
+                }
             });
         }
 

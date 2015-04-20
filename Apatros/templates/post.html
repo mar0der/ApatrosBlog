@@ -1,4 +1,4 @@
-﻿<div class="post clear" id={{id}}>
+﻿<div class="post clear" id="post-container" data-id="{{ObjectId}}">
     <div class="clear">
         <h3>{{title}}</h3>
         <div class="date">{{date}}</div>
@@ -13,4 +13,11 @@
     <div class="tags">
         <p>{{tags}}</p>
     </div>
+</div>
+<div id="comments-container">
+</div>
+<div id="add-comment-form">
+    <label for="comment-content">Leave comment</label>
+    <textarea id="comment-content" placeholder="your comment..."></textarea>
+    <button id="submit-comment">Add Comment</button>
 </div>

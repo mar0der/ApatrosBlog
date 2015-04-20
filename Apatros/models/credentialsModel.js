@@ -10,12 +10,20 @@
         sessionStorage.setItem('sessionToken', sessionToken);
     }
 
-    function getUsername(sessionToken) {
+    function getUsername(username) {
         sessionStorage.getItem('username');
     }
 
     function setUsername(sessionToken) {
-        sessionStorage.setItem('username', sessionToken);
+        sessionStorage.setItem('username', username);
+    }
+
+    function getUserId(userId) {
+        sessionStorage.getItem('userId');
+    }
+
+    function setUserId(userId) {
+        sessionStorage.setItem('userId', userId);
     }
 
     function getHeaders() {
@@ -27,6 +35,8 @@
         setSessionToken: setSessionToken,
         getUsername: getUsername,
         setUsername: setUsername,
+        getUserId: getUserId,
+        setUserId: setUserId,
         getHeaders: getHeaders
     }
 });

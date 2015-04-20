@@ -1,7 +1,7 @@
 ﻿define([], function () {
-    function Comment(id, body) {
+    function Comment(id, content) {
         this.id = id;
-        this.title = body;
+        this.content = contnet;
     }
 
     return Comment;

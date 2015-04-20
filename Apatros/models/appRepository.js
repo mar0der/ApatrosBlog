@@ -1,7 +1,8 @@
-﻿define(['postsRepoModel'], function(posts) {
+﻿define(['postsRepoModel', 'commentsRepoModel'], function (posts, comments) {
     function AppRepo(baseUrl) {
         
         this.posts = posts.load(baseUrl);
+        this.comments = comments.load(baseUrl);
 
     }
 
