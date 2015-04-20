@@ -1,0 +1,54 @@
+form {
+    width: 400px;
+    border: 2px solid grey
+}
+
+header {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid grey;
+}
+
+footer {
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 20px 0px;
+    border-top: 2px solid grey;
+}
+
+h2 {
+    color: grey;
+    text-align: center;
+}
+
+fieldset {
+    border: none;
+}
+
+label {
+    margin-left: 5px;
+}
+
+.required-info {
+    color: red;
+}
+
+input {
+    margin: 5px 5px 10px;
+    padding: 5px;
+}
+
+button {
+    padding: 5px;
+}
+
+#password-match-error,
+#email-validation-error,
+#registration-error {
+    color: red;
+}
+
+span {
+    margin-left: 5px;
+}
