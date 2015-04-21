@@ -25,7 +25,8 @@
         'editPostView': 'views/editPostView',
         'loginView': 'views/loginView',
         'registerView': 'views/registerView',
-        'tagsView': 'views/tagsView'
+        'tagsView': 'views/tagsView',
+        'registrationValidator': 'helpers/registration-validator'
     },
     shim: {
         'noty': ['jquery']

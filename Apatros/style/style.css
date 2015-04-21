@@ -122,7 +122,44 @@ footer {
 	}
 }
 
+/* Registration Styling*/
+form, h2 {
+	color: white;
+}
 
+fieldset {
+	border: 2px solid white;
+	margin: 5px;
+}
+
+#submit-registration:enabled {
+	color: green;
+	margin: 5px;
+	padding: 5px;
+	border: 2px solid green;
+	background: none;
+	outline: none;
+}
+
+input {
+	padding: 5px;
+	margin-bottom: 5px;
+	margin-right: 5px;
+	outline: none;
+}
+
+span {
+	color: white;
+}
+
+#submit-registration:disabled {
+	color: white;
+	margin: 5px;
+	padding: 5px;
+	border: 2px solid white;
+	background: none;
+	outline: none;
+}
 
 
 

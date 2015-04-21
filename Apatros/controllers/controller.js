@@ -1,7 +1,9 @@
 ﻿define(['postsView', 'postView', 'tagsView',
-        'loginView', 'registerView', 'addPostView'],
+        'loginView', 'registerView', 'addPostView',
+        'registrationValidator', 'credentialsModel'],
     function (postsView, postView, tagsView,
-              loginView, registerView, addPostView) {
+              loginView, registerView, addPostView,
+              validator, credentials) {
 
         var attachRegisterHandler,
             attachLoginHandler,
@@ -21,7 +23,7 @@
 
         Controller.prototype.loadPosts = function (container) {
             this.model.posts.getPosts().then(
-                function(data) {
+                function (data) {
                     postsView.load(container, data);
                 }
             );
@@ -57,9 +59,75 @@
 
         var attachRegisterHandler = function attachRegisterHandler(container) {
             var _this = this;
-            container.on('click', '#submit-registration', function(ev) {
-                alert('regestration submit');
+
+            // Attach keyup to validate the fields of the registration form
+            var inputFields = $('#registration-form  > fieldset > input');
+
+            container.on('keyup', inputFields, function (event) {
+                var target = event.target;
+                var submitButton = $('#submit-registration');
+
+                validator.validateInput(target);
+
+                if (document.getElementsByClassName('passed').length === 6) {
+                    submitButton.prop('disabled', false);
+                } else {
+                    submitButton.prop('disabled', true);
+                }
             });
+
+            // Attach click to submit registration
+            container.on('click', '#submit-registration', function (ev) {
+                var registrationInfo = parseRegistrationInfo();
+
+                var newUser = {
+                    username: registrationInfo[0],
+                    password: registrationInfo[1],
+                    email: registrationInfo[3],
+                    firstName: registrationInfo[4],
+                    lastName: registrationInfo[5]
+                };
+
+                _this.model.users.addUser(newUser)
+                    .then(function (data) {
+
+                        alert(2);
+                        _this.model.users.assignRole(data);
+
+                    }, function (error) {
+
+                        console.log(JSON.parse(error['responseText'])['error']);
+
+                    });
+
+
+                // TODO Display successfull signup message
+                // TODO Logout user
+            });
+
+
+            // WHERE SHOULD I PUT THIS ?
+            function parseRegistrationInfo() {
+                var newUserName,
+                    newPassword_1,
+                    newPassword_2,
+                    newEmail,
+                    newFirstName,
+                    newLastName,
+
+                    registrationInfo = [];
+
+                newUserName = $('#register-user-name').val();
+                newPassword_1 = $('#register-password').val();
+                newPassword_2 = $('#repeat-password').val();
+                newEmail = $('#register-email').val();
+                newFirstName = $('#register-first-name').val();
+                newLastName = $('#register-last-name').val();
+
+                registrationInfo.push(newUserName, newPassword_1, newPassword_2, newEmail, newFirstName, newLastName);
+
+                return registrationInfo;
+            }
         };
 
         var attachLoginHandler = function attachLoginHandler(container) {
@@ -79,23 +147,23 @@
                 var tagsIds = [];
                 addPostView.loading(container);
                 _this.model.posts.addPost(postTitle, postBody).then(
-                    function(data){
+                    function (data) {
                         postId = data.objectId;
                         return _this.model.tags.addTags(postTags);
-                    }).then(function(data){
-                        data.forEach(function (value){
+                    }).then(function (data) {
+                        data.forEach(function (value) {
                             tagsIds.push(value.success.objectId);
                         });
 
                         return _this.model.tagsPosts.addTagsPosts(tagsIds, postId);
                     }).then(
-                        function(){
-                            window.location.hash = '/view-post/' + postId;
-                        },
-                        function(error){
-                            console.log(error.responseText);
-                        }
-                    );
+                    function () {
+                        window.location.hash = '/view-post/' + postId;
+                    },
+                    function (error) {
+                        console.log(error.responseText);
+                    }
+                );
             });
         };
 
@@ -117,4 +185,4 @@
                 return new Controller(model);
             }
         }
-});
+    });
