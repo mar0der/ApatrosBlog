@@ -18,6 +18,7 @@
         'tagModel': 'models/tagModel',
         'usersRepoModel': 'models/usersRepoModel',
         'userModel': 'models/userModel',
+        'tagsPostsRepoModel': 'models/tagsPostsRepoModel',
         'postsView': 'views/postsView',
         'postView': 'views/postView',
         'addPostView': 'views/addPostView',
