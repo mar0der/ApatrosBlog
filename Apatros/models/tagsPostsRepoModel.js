@@ -1,23 +1,31 @@
-﻿define(['ajaxRequesterModel', 'tagModel', 'Q', 'credentialsModel'], function (Requester, tagModel, Q, credentials) {
+define(['ajaxRequesterModel', 'Q', 'credentialsModel'], function (Requester, Q, credentials) {
     function TagsRepo(baseUrl) {
         this._baseUrl = baseUrl;
-        this._serviceUrl = baseUrl + 'classes/Tag';
+        this._serviceUrl = baseUrl + 'classes/TagsPosts';
     }
 
-    TagsRepo.prototype.addTags = function addTags(tagsText){
+    TagsRepo.prototype.addTagsPosts = function addTagsPosts(tagsIds, postId){
         var _this = this;
         var defer = Q.defer();
-        var tags = tagsText.split(',');
         var data = {
             requests: []
         };
 
-        tags.forEach(function (value){
+        tagsIds.forEach(function (value){
             data.requests.push({
                 method: 'POST',
                 path: _this._serviceUrl,
                 body: {
-                    tagName: value
+                    postId: {
+                        __type: 'Pointer',
+                        className: 'Post',
+                        objectId: postId
+                    },
+                    tagId: {
+                        __type: 'Pointer',
+                        className: 'Tag',
+                        objectId: value
+                    }
                 }
             });
         });

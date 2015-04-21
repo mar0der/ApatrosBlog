@@ -9,7 +9,7 @@
             attachAddCommentHandler;
 
         function Controller(model) {
-        this.model = model;
+            this.model = model;
         }
 
         Controller.prototype.init = function (container) {
@@ -17,7 +17,7 @@
             attachLoginHandler.call(this, container);
             attachAddPostHandler.call(this, container);
             attachAddCommentHandler.call(this, container);
-        }
+        };
 
         Controller.prototype.loadPosts = function (container) {
             this.model.posts.getPosts().then(
@@ -60,21 +60,44 @@
             container.on('click', '#submit-registration', function(ev) {
                 alert('regestration submit');
             });
-        }
+        };
 
         var attachLoginHandler = function attachLoginHandler(container) {
             var _this = this;
             container.on('click', '#submit-login', function (ev) {
                 alert('login submit');
             });
-        }
+        };
 
         var attachAddPostHandler = function attachAddPostHandler(container) {
             var _this = this;
             container.on('click', '#submit-post', function (ev) {
-                alert('add post submit');
+                var postTitle = $('#post-title').val().trim();
+                var postBody = $('#post-body').val().trim();
+                var postTags = $('#post-tags').val().trim();
+                var postId;
+                var tagsIds = [];
+                addPostView.loading(container);
+                _this.model.posts.addPost(postTitle, postBody).then(
+                    function(data){
+                        postId = data.objectId;
+                        return _this.model.tags.addTags(postTags);
+                    }).then(function(data){
+                        data.forEach(function (value){
+                            tagsIds.push(value.success.objectId);
+                        });
+
+                        return _this.model.tagsPosts.addTagsPosts(tagsIds, postId);
+                    }).then(
+                        function(){
+                            window.location.hash = '/view-post/' + postId;
+                        },
+                        function(error){
+                            console.log(error.responseText);
+                        }
+                    );
             });
-        }
+        };
 
         var attachAddCommentHandler = function attachAddCommentHandler(container) {
             var _this = this;
@@ -87,7 +110,7 @@
                     alert('add noty error');
                 }
             });
-        }
+        };
 
         return {
             load: function (model) {

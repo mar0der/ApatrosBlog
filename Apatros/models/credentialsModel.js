@@ -11,7 +11,7 @@
     }
 
     function getUsername(username) {
-        sessionStorage.getItem('username');
+        return sessionStorage.getItem('username');
     }
 
     function setUsername(sessionToken) {
@@ -19,7 +19,7 @@
     }
 
     function getUserId(userId) {
-        sessionStorage.getItem('userId');
+        return sessionStorage.getItem('userId');
     }
 
     function setUserId(userId) {
