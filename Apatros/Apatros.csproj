@@ -57,6 +57,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="helpers\registration-validator.js" />
     <Content Include="libs\jquery\.bowerrc" />
     <Content Include="libs\jquery\.jscsrc" />
     <Content Include="libs\jquery\.npmignore" />
@@ -238,6 +239,7 @@
     <Content Include="views\editPostView.js" />
     <Content Include="views\loginView.js" />
     <Content Include="views\logoutView.js" />
+    <Content Include="helpers\notifications.js" />
     <Content Include="views\postsView.js" />
     <Content Include="views\postView.js" />
     <Content Include="views\registerView.js" />

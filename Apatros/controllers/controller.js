@@ -1,14 +1,15 @@
-﻿define(['postsView', 'postView', 'tagsView',
+﻿define(['notifications', 'postsView', 'postView', 'tagsView',
         'loginView', 'logoutView', 'registerView', 'addPostView',
         'registrationValidator', 'credentialsModel'],
-    function (postsView, postView, tagsView,
+    function (noty, postsView, postView, tagsView,
               loginView, logoutView, registerView, addPostView,
               validator, credentials) {
 
         var attachRegisterHandler,
             attachLoginHandler,
             attachAddPostHandler,
-            attachAddCommentHandler;
+            attachAddCommentHandler,
+                test;
 
         function Controller(model) {
             this.model = model;
@@ -20,8 +21,9 @@
             attachLogoutHandler.call(this, container);
             attachAddPostHandler.call(this, container);
             attachAddCommentHandler.call(this, container);
+            test.call(this, container);
         };
-
+        //Routing
         Controller.prototype.loadPosts = function (container) {
             this.model.posts.getPosts().then(
                 function (data) {
@@ -35,10 +37,8 @@
                 function (post) {
                     postView.load(container, post);
                 }
-            )
+            );
         };
-
-
 
         Controller.prototype.loadTags = function (container) {
             //TODO: Load Tags logic
@@ -55,7 +55,6 @@
             //TODO: Login Logic
         };
 
-
         Controller.prototype.loadRegister = function (container) {
             registerView.load(container);
             //TODO: Register Logic
@@ -66,7 +65,17 @@
             addPostView.load(container);
         };
 
-        var attachRegisterHandler = function attachRegisterHandler(container) {
+        test = function(container) {
+            container.on('click', function () {
+                ///TODO: delete later
+            });
+        }
+
+
+
+
+        //Event Handlers
+        attachRegisterHandler = function attachRegisterHandler(container) {
             var _this = this;
 
             // Attach keyup to validate the fields of the registration form
@@ -99,23 +108,17 @@
 
                 _this.model.users.addUser(newUser)
                     .then(function (data) {
-
-                  
-                        
-
+                        noty.success('You have successfully registered!');
+                        window.location.hash = '/posts';
+                       
+                        //// TODO Display successfull signup message
                     }, function (error) {
-
+                        alert('add noty popup');
                         console.log(JSON.parse(error['responseText'])['error']);
-
                     });
 
 
-
-
-                // TODO Display successfull signup message
-                // TODO Logout user
             });
-
 
             // WHERE SHOULD I PUT THIS ?
             function parseRegistrationInfo() {
@@ -141,7 +144,7 @@
             }
         };
 
-        var attachLoginHandler = function attachLoginHandler(container) {
+        attachLoginHandler = function attachLoginHandler(container) {
             var _this = this;
             container.on('click', '#submit-login', function (ev) {
                 var username = $('#username').val()
@@ -151,8 +154,8 @@
                 _this.model.users.loginUser(user)
                    .then(function (data) {
                        credentials.setSessionToken(data['sessionToken']);
-                       var userId = data['objectId'];                       
-                    
+                       var userId = data['objectId'];
+
                        _this.model.users.getUser(userId)
                            .then(function (data) {
                                var emailVerified = data['emailVerified'];
@@ -166,20 +169,11 @@
 
 
                                }
-                               else
-                               {
+                               else {
                                    _this.model.users.assignRole(data);
                                    logoutView.load(container);
                                }
-
-                        
                            });
-
-                               
-                          
-
-
-                       
                    }, function (error) {
 
                        console.log(JSON.parse(error['responseText'])['error']);
@@ -189,12 +183,12 @@
             });
         };
 
-        var attachLogoutHandler = function attachLogoutHandler(container) {
+        attachLogoutHandler = function attachLogoutHandler(container) {
             var _this = this;
             container.on('click', '#submit-logout', function (ev) {
-                _this.model.users.logoutUser()              
+                _this.model.users.logoutUser()
                 .then(function (data) {
-                        
+
                 }, function (error) {
 
                     console.log(JSON.parse(error['responseText'])['error']);
@@ -204,7 +198,7 @@
             });
         };
 
-        var attachAddPostHandler = function attachAddPostHandler(container) {
+        attachAddPostHandler = function attachAddPostHandler(container) {
             var _this = this;
             container.on('click', '#submit-post', function (ev) {
                 var postTitle = $('#post-title').val().trim();
@@ -234,7 +228,7 @@
             });
         };
 
-        var attachAddCommentHandler = function attachAddCommentHandler(container) {
+        attachAddCommentHandler = function attachAddCommentHandler(container) {
             var _this = this;
             container.on('click', '#submit-comment', function (ev) {
                 var commentContent = $('#comment-content').val();
