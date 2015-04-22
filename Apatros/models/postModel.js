@@ -5,7 +5,7 @@
         this.author = author;
         this.title = title;
         this.body = body;
-        this.date = date;
+        this.date = new Date(date).toDateString();
         this.visits = visits;
     }
 

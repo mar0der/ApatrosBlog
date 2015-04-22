@@ -1,15 +1,16 @@
 ﻿define(['notifications', 'postsView', 'postView', 'tagsView',
         'loginView', 'logoutView', 'registerView', 'addPostView',
-        'registrationValidator', 'credentialsModel'],
+        'archiveView', 'registrationValidator', 'credentialsModel'],
     function (noty, postsView, postView, tagsView,
               loginView, logoutView, registerView, addPostView,
-              validator, credentials) {
+              archiveView, validator, credentials) {
 
         var attachRegisterHandler,
             attachLoginHandler,
             attachAddPostHandler,
             attachAddCommentHandler,
-                test;
+            attachLogoutHandler,
+            test;
 
         function Controller(model) {
             this.model = model;
@@ -23,14 +24,36 @@
             attachAddCommentHandler.call(this, container);
             test.call(this, container);
         };
-        //Routing
-        Controller.prototype.loadPosts = function (container) {
+        Controller.prototype.loadPosts = function (container, leftAside) {
             this.model.posts.getPosts().then(
+                function (data) {
+                    postsView.load(container, data);
+                    archiveView.load(leftAside, filterArchives(data));
+                }
+            );
+        };
+
+        Controller.prototype.loadArchive = function (container, leftAside, date) {
+            this.model.posts.getPostsByDate(date).then(
                 function (data) {
                     postsView.load(container, data);
                 }
             );
         };
+
+        function filterArchives(data) {
+            var uniqueDates = [],
+                uniqueObjects = {dates: []};
+
+            for (var post in data.posts) {
+                var d = data.posts[post].date;
+                if (uniqueDates.indexOf(d) < 0) {
+                    uniqueDates.push(d);
+                    uniqueObjects.dates.push({date: d});
+                }
+            }
+            return uniqueObjects;
+        }
 
         Controller.prototype.loadPost = function (container, id) {
             this.model.posts.getPost(id).then(
@@ -65,11 +88,12 @@
             addPostView.load(container);
         };
 
+
         test = function (container) {
             container.on('click', function () {
                 ///TODO: delete later
             });
-        }
+        };
 
         //Event Handlers
         attachRegisterHandler = function attachRegisterHandler(container) {
