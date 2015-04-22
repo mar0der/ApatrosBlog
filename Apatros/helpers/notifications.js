@@ -24,8 +24,13 @@
     function error(message) {
         notification('top', 'error', message, true, 'toggle', 'toggle', 'swing', 500, 0, ['button']);
     }
+
+    function information(message) {
+        notification('top', 'information', message, true, 'toggle', 'toggle', 'swing', 500, 0, ['click']);
+    }
     return {
         'success': success,
-        'error': error
+        'error': error,
+        'info': information
     }
 });

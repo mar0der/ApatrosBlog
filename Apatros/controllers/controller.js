@@ -128,9 +128,12 @@
 
                 _this.model.users.addUser(newUser)
                     .then(function (data) {
-                        $('#noty-container').html('');
-                        noty.success('You have successfully registered!');
-                        window.location.hash = '/posts?hidenoty=true';
+                        _this.model.users.assignRole(data)
+                        .then(function () {
+                            $('#noty-container').html('');
+                            noty.success('You have successfully registered!');
+                            window.location.hash = '/posts?hidenoty=true';
+                        });
                     }, function (error) {
                         noty.error(error.responseJSON.error);
                     });
@@ -162,32 +165,28 @@
         attachLoginHandler = function attachLoginHandler(container) {
             var _this = this;
             container.on('click', '#submit-login', function (ev) {
-                var username = $('#username').val()
-                var password = $('#password').val()
-                var user = { username: username, password: password }
-
+                var username = $('#username').val();
+                var password = $('#password').val();
+                var user = {
+                    username: username,
+                    password: password
+                };
                 _this.model.users.loginUser(user)
                    .then(function (data) {
                        credentials.setSessionToken(data['sessionToken']);
-                       var userId = data['objectId'];
+                       credentials.setUserId(data['objecId']);
 
-                       _this.model.users.getUser(userId)
+                       _this.model.users.getUser(credentials.getUserId())
                            .then(function (data) {
                                var emailVerified = data['emailVerified'];
 
                                if (!emailVerified) {
-                                   alert('Please verify e-mail.');
-                                   _this.model.users.logoutUser();
-                                   delete sessionStorage.sessionToken;
-                                   window.location.hash = '/posts';
+                                   noty.info('Please verify your email address');
                                }
-                               else {
-                                   _this.model.users.assignRole(data);
-                                   logoutView.load(container);
-                               }
+                               window.location.hash = '/posts';
                            });
                    }, function (error) {
-                       console.log(JSON.parse(error['responseText'])['error']);
+                       noty.error(error.responseJSON.error);
                    });
             });
         };
