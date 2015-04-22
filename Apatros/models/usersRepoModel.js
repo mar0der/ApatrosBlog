@@ -111,7 +111,10 @@
         
         Requester.post(this.baseUrl + 'logout', headers)
             .then(function (response) {
+
                 
+                
+
                 deffer.resolve(response);
             }, function (error) {
                 deffer.reject(error);

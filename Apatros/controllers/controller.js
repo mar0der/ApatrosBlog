@@ -100,8 +100,8 @@
                 _this.model.users.addUser(newUser)
                     .then(function (data) {
 
-                        alert(2);
-                        _this.model.users.assignRole(data);
+                  
+                        
 
                     }, function (error) {
 
@@ -155,18 +155,32 @@
                     
                        _this.model.users.getUser(userId)
                            .then(function (data) {
-                           console.log(data)
-                       });
+                               var emailVerified = data['emailVerified'];
+
+                               if (!emailVerified) {
+
+                                   alert('Please verify e-mail.')
+                                   _this.model.users.logoutUser();
+                                   delete sessionStorage.sessionToken;
+                                   window.location.hash = '/posts';
 
 
-                       logoutView.load(container);
-                   }
+                               }
+                               else
+                               {
+                                   _this.model.users.assignRole(data);
+                                   logoutView.load(container);
+                               }
+
+                        
+                           });
+
+                               
+                          
 
 
-
-
-
-                   , function (error) {
+                       
+                   }, function (error) {
 
                        console.log(JSON.parse(error['responseText'])['error']);
 
@@ -178,17 +192,14 @@
         var attachLogoutHandler = function attachLogoutHandler(container) {
             var _this = this;
             container.on('click', '#submit-logout', function (ev) {
-                _this.model.users.logoutUser()
+                _this.model.users.logoutUser()              
+                .then(function (data) {
+                        
+                }, function (error) {
 
-                   .then(function (data) {
-                       //loginView.load(container)
-                        delete sessionStorage.sessionToken;
-                        window.location.hash = '/posts';
-                   }, function (error) {
+                    console.log(JSON.parse(error['responseText'])['error']);
 
-                       console.log(JSON.parse(error['responseText'])['error']);
-
-                   });
+                });
 
             });
         };
