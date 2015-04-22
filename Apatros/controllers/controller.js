@@ -1,9 +1,9 @@
 ﻿define(['postsView', 'postView', 'tagsView',
         'loginView', 'logoutView', 'registerView', 'addPostView',
-        'registrationValidator', 'credentialsModel'],
+        'archiveView','registrationValidator', 'credentialsModel'],
     function (postsView, postView, tagsView,
               loginView, logoutView, registerView, addPostView,
-              validator, credentials) {
+              archiveView, validator, credentials) {
 
         var attachRegisterHandler,
             attachLoginHandler,
@@ -22,13 +22,36 @@
             attachAddCommentHandler.call(this, container);
         };
 
-        Controller.prototype.loadPosts = function (container) {
+        Controller.prototype.loadPosts = function (container, leftAside) {
             this.model.posts.getPosts().then(
+                function (data) {
+                    postsView.load(container, data);
+                    archiveView.load(leftAside, filterArchives(data));
+                }
+            );
+        };
+
+        Controller.prototype.loadArchive = function (container, leftAside, date) {
+            this.model.posts.getPostsByDate(date).then(
                 function (data) {
                     postsView.load(container, data);
                 }
             );
         };
+
+        function filterArchives(data) {
+            var uniqueDates = [],
+                uniqueObjects = {dates: []};
+
+            for (var post in data.posts) {
+                var d = data.posts[post].date;
+                if (uniqueDates.indexOf(d) < 0) {
+                    uniqueDates.push(d);
+                    uniqueObjects.dates.push({date: d});
+                }
+            }
+            return uniqueObjects;
+        }
 
         Controller.prototype.loadPost = function (container, id) {
             this.model.posts.getPost(id).then(
@@ -37,8 +60,6 @@
                 }
             )
         };
-
-
 
         Controller.prototype.loadTags = function (container) {
             //TODO: Load Tags logic
@@ -66,7 +87,7 @@
             addPostView.load(container);
         };
 
-        var attachRegisterHandler = function attachRegisterHandler(container) {
+        attachRegisterHandler = function attachRegisterHandler(container) {
             var _this = this;
 
             // Attach keyup to validate the fields of the registration form
@@ -141,7 +162,7 @@
             }
         };
 
-        var attachLoginHandler = function attachLoginHandler(container) {
+        attachLoginHandler = function attachLoginHandler(container) {
             var _this = this;
             container.on('click', '#submit-login', function (ev) {
                 var username = $('#username').val()
@@ -204,7 +225,7 @@
             });
         };
 
-        var attachAddPostHandler = function attachAddPostHandler(container) {
+        attachAddPostHandler = function attachAddPostHandler(container) {
             var _this = this;
             container.on('click', '#submit-post', function (ev) {
                 var postTitle = $('#post-title').val().trim();
@@ -234,7 +255,7 @@
             });
         };
 
-        var attachAddCommentHandler = function attachAddCommentHandler(container) {
+        attachAddCommentHandler = function attachAddCommentHandler(container) {
             var _this = this;
             container.on('click', '#submit-comment', function (ev) {
                 var commentContent = $('#comment-content').val();

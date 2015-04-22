@@ -27,6 +27,7 @@
         'logoutView': 'views/logoutView',
         'registerView': 'views/registerView',
         'tagsView': 'views/tagsView',
+        'archiveView' : 'views/archiveView',
         'registrationValidator': 'helpers/registration-validator'
     },
     shim: {
@@ -37,20 +38,28 @@
 require(['sammy', 'controller', 'appRepository', 'config', 'noty', 'jquery'],
     function (Sammy, Controller, appRepo, config) {
 
-        var container = $('#content');
-        var model = appRepo.load(config.baseUrl);
-        var controller = Controller.load(model);
-        var router;
+        var container = $('#content'),
+            leftAside = $('#left'),
+            model = appRepo.load(config.baseUrl),
+            controller = Controller.load(model),
+            router;
+
         controller.init(container);
 
         router = Sammy(function () {
 
             this.get('#/posts', function () {
-                controller.loadPosts(container);
+                controller.loadPosts(container, leftAside);
             });
+
+            this.get('#/archive/:date', function () {
+                controller.loadArchive(container, leftAside, this.params['date']);
+            });
+
             this.get('#/view-post/:id', function () {
                 controller.loadPost(container, this.params['id']);
             });
+
             this.get('#/login', function () {
                 controller.loadLogin(container);
             });

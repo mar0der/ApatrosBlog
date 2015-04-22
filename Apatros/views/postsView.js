@@ -3,7 +3,11 @@
         $.get('templates/posts.html', function (template) {
             var shorterData = JSON.parse(JSON.stringify(data));
             shorterData['posts'].forEach(function (post) {
-            post['body'] = post['body'].substr(0,200)+'...';
+                post['body'] = post['body'].substr(0,200);
+
+                if (post['body'].length > 199) {
+                    post['body'] += '...';
+                }
             });
 
             var output = Mustache.render(template, shorterData);

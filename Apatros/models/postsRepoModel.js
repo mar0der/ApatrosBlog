@@ -6,13 +6,58 @@ define(['ajaxRequesterModel', 'postModel', 'Q', 'credentialsModel'], function (R
         };
     }
 
-    PostsRepo.prototype.getPosts = function () {
-    var deffer = Q.defer();
-    var _this = this;
-    this.postsRepo.posts.length = 0;
-    var data = Requester.get(this._serviceUrl + '?include=author', credentials.getHeaders()).then(
-        function (data) {
-            data['results'].forEach(function (post) {
+    PostsRepo.prototype.getPosts = function (query) {
+        var deffer = Q.defer(),
+            _this = this,
+            url = this._serviceUrl + '?include=author';
+
+        if (query) {
+            url += query;
+        }
+
+        this.postsRepo.posts.length = 0;
+        Requester.get(url, credentials.getHeaders()).then(
+            function (data) {
+                data['results'].forEach(function (post) {
+                    var p = new postModel(
+                        post['objectId'],
+                        post['author'].username,
+                        post['title'],
+                        post['body'],
+                        post['createdAt'],
+                        post['visits']
+                    );
+                    _this.postsRepo.posts.push(p);
+                });
+                deffer.resolve(_this.postsRepo);
+                },
+            function(error){
+                console.log(error.responseText);
+            }
+        );
+            return deffer.promise;
+    };
+
+    PostsRepo.prototype.getPostsByDate = function (date) {
+        var _this = this,
+            query,
+            minDate = new Date(date).toISOString(),
+            maxDate = new Date(date);
+            maxDate.setDate(maxDate.getDate() + 1);
+            maxDate = new Date(maxDate).toISOString();
+
+        query = '&where={"createdAt":' +
+        '{"$gte":"'+minDate+'\",' +
+        '"$lte":"'+maxDate+'\"}}';
+
+        return _this.getPosts(query);
+    };
+
+
+    PostsRepo.prototype.getPost = function (id) {
+        var deffer = Q.defer();
+        Requester.get(this._serviceUrl + id + '?include=author', credentials.getHeaders()).then(
+            function (post) {
                 var p = new postModel(
                     post['objectId'],
                     post['author'].username,
@@ -21,22 +66,9 @@ define(['ajaxRequesterModel', 'postModel', 'Q', 'credentialsModel'], function (R
                     post['createdAt'],
                     post['visits']
                 );
-                _this.postsRepo.posts.push(p);
-            });
-            deffer.resolve(_this.postsRepo);
-            },
-        function(error){
-            console.log(error.responseText);
-        }
-        );
-        return deffer.promise;
-    };
-    PostsRepo.prototype.getPost = function (id) {
-        var deffer = Q.defer();
-        Requester.get(this._serviceUrl + id + '?include=author', credentials.getHeaders()).then(
-            function (post) {
-                deffer.resolve(post);
+                deffer.resolve(p);
             }, function (error) {
+
                 deffer.reject(error)
             }
         );
