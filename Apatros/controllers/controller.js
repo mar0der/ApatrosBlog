@@ -181,8 +181,9 @@
                 _this.model.users.logoutUser()
 
                    .then(function (data) {
-                       loginView.load(container)
-
+                       //loginView.load(container)
+                        delete sessionStorage.sessionToken;
+                        window.location.hash = '/posts';
                    }, function (error) {
 
                        console.log(JSON.parse(error['responseText'])['error']);

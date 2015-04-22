@@ -26,6 +26,7 @@
     }
 
     function getHeaders() {
+        headers['X-Parse-Session-Token'] = getSessionToken();
         return headers;
     }
 
