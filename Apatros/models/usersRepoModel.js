@@ -1,4 +1,4 @@
-﻿define(['ajaxRequesterModel', 'postModel', 'Q', 'credentialsModel', 'noty'], function (Requester, userModel, Q, credentials, noty) {
+﻿define(['ajaxRequesterModel', 'postModel', 'Q', 'credentialsModel', 'config'], function (Requester, userModel, Q, credentials, config) {
     function UsersRepo(baseUrl) {
         this.baseUrl = baseUrl;
         this.usersRepo = {
@@ -44,7 +44,7 @@
 
     UsersRepo.prototype.addUser = function (data) {
         var deffer = Q.defer();
-        
+
         Requester.post(this.baseUrl + 'users', credentials.getHeaders(), data)
             .then(function (response) {
                 deffer.resolve(response);
@@ -56,28 +56,21 @@
 
     UsersRepo.prototype.assignRole = function (userInfo) {
 
-        alert(1);
-        console.log(userInfo);
-
+        credentials.setUserId(userInfo['objectId']);
         var deffer = Q.defer();
-        var userId = userInfo['objectId'];
-        var headers = credentials.getHeaders();
-        headers['X-Parse-Master-Key'] = 'AYHqrzBjPK0HChcSGosMOmIwjVR3YI78We60hY1X';
-
         var data = {
             "users": {
                 "__op": "AddRelation",
                 "objects": [
-                    {
-                        "__type": "Pointer",
-                        "className": "_User",
-                        "objectId": userId
-                    }
-                ]
+                {
+                    "__type": "Pointer",
+                    "className": "_User",
+                    "objectId": credentials.getUserId()
+                }]
             }
         };
 
-        Requester.put(this.baseUrl + 'roles/poOqnRXGE3', headers, data)
+        Requester.put(this.baseUrl + 'roles/'+ config.usersRoleId, headers, data)
             .then(function (response) {
                 deffer.resolve(response);
             }, function (error) {
@@ -92,8 +85,7 @@
         var username = data['username'];
         var password = data['password'];
         var loginUrl = '?username=' + username + '&password=' + password;
-
-
+        
         Requester.get(this.baseUrl + 'login/' + loginUrl, credentials.getHeaders())
             .then(function (response) {
                 deffer.resolve(response);
@@ -105,16 +97,12 @@
 
     UsersRepo.prototype.logoutUser = function () {
         var deffer = Q.defer();
-        
+
         var headers = credentials.getHeaders();
         headers['X-Parse-Session-Token'] = credentials.getSessionToken();
-        
+
         Requester.post(this.baseUrl + 'logout', headers)
             .then(function (response) {
-
-                
-                
-
                 deffer.resolve(response);
             }, function (error) {
                 deffer.reject(error);
