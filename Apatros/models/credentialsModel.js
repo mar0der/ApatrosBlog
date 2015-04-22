@@ -1,6 +1,5 @@
 ﻿define(['config'], function(config) {
     var headers = config.headers;
-    headers['X-Parse-Session-Token'] = getSessionToken();
     
     function getSessionToken() {
         return sessionStorage.getItem('sessionToken');
@@ -10,15 +9,15 @@
         sessionStorage.setItem('sessionToken', sessionToken);
     }
 
-    function getUsername(username) {
+    function getUsername() {
         return sessionStorage.getItem('username');
     }
 
-    function setUsername(sessionToken) {
+    function setUsername(username) {
         sessionStorage.setItem('username', username);
     }
 
-    function getUserId(userId) {
+    function getUserId() {
         return sessionStorage.getItem('userId');
     }
 

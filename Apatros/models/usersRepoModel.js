@@ -30,12 +30,21 @@
     };
 
     UsersRepo.prototype.getUser = function (id) {
-        // TODO Will implement when required
+        var deffer = Q.defer();
+
+        Requester.get(this.baseUrl + 'users/' + id, credentials.getHeaders())
+            .then(function (response) {
+                deffer.resolve(response);
+            }, function (error) {
+                deffer.reject(error);
+            });
+        return deffer.promise;
 
     };
 
     UsersRepo.prototype.addUser = function (data) {
         var deffer = Q.defer();
+        
         Requester.post(this.baseUrl + 'users', credentials.getHeaders(), data)
             .then(function (response) {
                 deffer.resolve(response);
@@ -76,6 +85,38 @@
             });
         return deffer.promise;
 
+    };
+
+    UsersRepo.prototype.loginUser = function (data) {
+        var deffer = Q.defer();
+        var username = data['username'];
+        var password = data['password'];
+        var loginUrl = '?username=' + username + '&password=' + password;
+
+
+        Requester.get(this.baseUrl + 'login/' + loginUrl, credentials.getHeaders())
+            .then(function (response) {
+                deffer.resolve(response);
+            }, function (error) {
+                deffer.reject(error);
+            });
+        return deffer.promise;
+    };
+
+    UsersRepo.prototype.logoutUser = function () {
+        var deffer = Q.defer();
+        
+        var headers = credentials.getHeaders();
+        headers['X-Parse-Session-Token'] = credentials.getSessionToken();
+        
+        Requester.post(this.baseUrl + 'logout', headers)
+            .then(function (response) {
+                
+                deffer.resolve(response);
+            }, function (error) {
+                deffer.reject(error);
+            });
+        return deffer.promise;
     };
 
     UsersRepo.prototype.editUser = function () {

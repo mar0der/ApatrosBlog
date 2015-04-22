@@ -229,6 +229,7 @@
     <Content Include="templates\addPost.html" />
     <Content Include="templates\editPost.html" />
     <Content Include="templates\login.html" />
+    <Content Include="templates\logout.html" />
     <Content Include="templates\post.html" />
     <Content Include="templates\posts.html" />
     <Content Include="templates\register.html" />
@@ -236,6 +237,7 @@
     <Content Include="views\addPostView.js" />
     <Content Include="views\editPostView.js" />
     <Content Include="views\loginView.js" />
+    <Content Include="views\logoutView.js" />
     <Content Include="views\postsView.js" />
     <Content Include="views\postView.js" />
     <Content Include="views\registerView.js" />

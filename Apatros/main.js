@@ -24,6 +24,7 @@
         'addPostView': 'views/addPostView',
         'editPostView': 'views/editPostView',
         'loginView': 'views/loginView',
+        'logoutView': 'views/logoutView',
         'registerView': 'views/registerView',
         'tagsView': 'views/tagsView',
         'registrationValidator': 'helpers/registration-validator'
@@ -53,7 +54,7 @@ require(['sammy', 'controller', 'appRepository', 'config', 'noty', 'jquery'],
             this.get('#/login', function () {
                 controller.loadLogin(container);
             });
-
+           
             this.get('#/register', function () {
                 controller.loadRegister(container);
             });

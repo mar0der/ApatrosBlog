@@ -1,8 +1,8 @@
 ﻿define(['postsView', 'postView', 'tagsView',
-        'loginView', 'registerView', 'addPostView',
+        'loginView', 'logoutView', 'registerView', 'addPostView',
         'registrationValidator', 'credentialsModel'],
     function (postsView, postView, tagsView,
-              loginView, registerView, addPostView,
+              loginView, logoutView, registerView, addPostView,
               validator, credentials) {
 
         var attachRegisterHandler,
@@ -17,6 +17,7 @@
         Controller.prototype.init = function (container) {
             attachRegisterHandler.call(this, container);
             attachLoginHandler.call(this, container);
+            attachLogoutHandler.call(this, container);
             attachAddPostHandler.call(this, container);
             attachAddCommentHandler.call(this, container);
         };
@@ -37,6 +38,8 @@
             )
         };
 
+
+
         Controller.prototype.loadTags = function (container) {
             //TODO: Load Tags logic
             tagsView.load(container);
@@ -46,6 +49,12 @@
             loginView.load(container);
             //TODO: Login Logic
         };
+
+        Controller.prototype.loadLogout = function (container) {
+            logoutView.load(container);
+            //TODO: Login Logic
+        };
+
 
         Controller.prototype.loadRegister = function (container) {
             registerView.load(container);
@@ -101,6 +110,8 @@
                     });
 
 
+
+
                 // TODO Display successfull signup message
                 // TODO Logout user
             });
@@ -133,7 +144,51 @@
         var attachLoginHandler = function attachLoginHandler(container) {
             var _this = this;
             container.on('click', '#submit-login', function (ev) {
-                alert('login submit');
+                var username = $('#username').val()
+                var password = $('#password').val()
+                var user = { username: username, password: password }
+
+                _this.model.users.loginUser(user)
+                   .then(function (data) {
+                       credentials.setSessionToken(data['sessionToken']);
+                       var userId = data['objectId'];                       
+                    
+                       _this.model.users.getUser(userId)
+                           .then(function (data) {
+                           console.log(data)
+                       });
+
+
+                       logoutView.load(container);
+                   }
+
+
+
+
+
+                   , function (error) {
+
+                       console.log(JSON.parse(error['responseText'])['error']);
+
+                   });
+
+            });
+        };
+
+        var attachLogoutHandler = function attachLogoutHandler(container) {
+            var _this = this;
+            container.on('click', '#submit-logout', function (ev) {
+                _this.model.users.logoutUser()
+
+                   .then(function (data) {
+                       loginView.load(container)
+
+                   }, function (error) {
+
+                       console.log(JSON.parse(error['responseText'])['error']);
+
+                   });
+
             });
         };
 
