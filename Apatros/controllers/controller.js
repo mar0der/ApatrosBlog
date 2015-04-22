@@ -89,14 +89,11 @@
         };
 
 
-        test = function(container) {
+        test = function (container) {
             container.on('click', function () {
                 ///TODO: delete later
             });
         };
-
-
-
 
         //Event Handlers
         attachRegisterHandler = function attachRegisterHandler(container) {
@@ -121,7 +118,6 @@
             // Attach click to submit registration
             container.on('click', '#submit-registration', function (ev) {
                 var registrationInfo = parseRegistrationInfo();
-
                 var newUser = {
                     username: registrationInfo[0],
                     password: registrationInfo[1],
@@ -132,16 +128,12 @@
 
                 _this.model.users.addUser(newUser)
                     .then(function (data) {
+                        $('#noty-container').html('');
                         noty.success('You have successfully registered!');
-                        window.location.hash = '/posts';
-                       
-                        //// TODO Display successfull signup message
+                        window.location.hash = '/posts?hidenoty=true';
                     }, function (error) {
-                        alert('add noty popup');
-                        console.log(JSON.parse(error['responseText'])['error']);
+                        noty.error(error.responseJSON.error);
                     });
-
-
             });
 
             // WHERE SHOULD I PUT THIS ?
@@ -152,7 +144,6 @@
                     newEmail,
                     newFirstName,
                     newLastName,
-
                     registrationInfo = [];
 
                 newUserName = $('#register-user-name').val();
@@ -185,13 +176,10 @@
                                var emailVerified = data['emailVerified'];
 
                                if (!emailVerified) {
-
-                                   alert('Please verify e-mail.')
+                                   alert('Please verify e-mail.');
                                    _this.model.users.logoutUser();
                                    delete sessionStorage.sessionToken;
                                    window.location.hash = '/posts';
-
-
                                }
                                else {
                                    _this.model.users.assignRole(data);
@@ -199,11 +187,8 @@
                                }
                            });
                    }, function (error) {
-
                        console.log(JSON.parse(error['responseText'])['error']);
-
                    });
-
             });
         };
 

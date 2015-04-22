@@ -1,21 +1,31 @@
 ﻿define(['noty'], function (noty) {
     var notificationContainer = '#noty-container';
-    function success(message) {
+    function notification(layout, type, message, dismissQueue, open, close, easing, speed, timeout, closeWith) {
         $(notificationContainer).noty({
-            layout: 'top',
-            type: 'success',
+            layout: layout,
+            type: type,
             text: message,
-            dismissQueue: true,
+            dismissQueue: dismissQueue,
             animation: {
-                open: { height: 'toggle' },
-                close: { height: 'toggle' },
-                easing: 'swing',
-                speed: 500
+                open: { height: open },
+                close: { height: close },
+                easing: easing,
+                speed: speed
             },
-            timeout: 2000
+            timeout: timeout,
+            closeWith: closeWith
         });
     }
+
+    function success(message) {
+        notification('top', 'success', message, true, 'toggle', 'toggle', 'swing', 500, 2000, ['click']);
+    }
+
+    function error(message) {
+        notification('top', 'error', message, true, 'toggle', 'toggle', 'swing', 500, 0, ['button']);
+    }
     return {
-        'success': success
+        'success': success,
+        'error': error
     }
 });
