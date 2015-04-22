@@ -28,7 +28,9 @@
         'registerView': 'views/registerView',
         'tagsView': 'views/tagsView',
         'archiveView' : 'views/archiveView',
-        'registrationValidator': 'helpers/registration-validator'
+        //helpers
+        'registrationValidator': 'helpers/registration-validator',
+        'notifications': 'helpers/notifications'
     },
     shim: {
         'noty': ['jquery']
@@ -73,5 +75,9 @@ require(['sammy', 'controller', 'appRepository', 'config', 'noty', 'jquery'],
             });
         });
 
+
         router.run('#/posts');
+
+
+
     });

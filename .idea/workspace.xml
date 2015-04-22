@@ -2,17 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="19573f48-3cac-434c-aa57-e18bb8418277" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Apatros/views/archiveView.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/ApatrosBlog.iml" afterPath="$PROJECT_DIR$/.idea/ApatrosBlog.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Apatros/templates/archives.html" afterPath="$PROJECT_DIR$/Apatros/templates/archives.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Apatros/helpers/notifications.js" />
+      <change type="DELETED" beforePath="C:\Users\Georgi\Documents\GitHub\ApatrosBlog\Registration Module\.idea\.name" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Georgi\Documents\GitHub\ApatrosBlog\Registration Module\.idea\Registration Module.iml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Georgi\Documents\GitHub\ApatrosBlog\Registration Module\.idea\compiler.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Georgi\Documents\GitHub\ApatrosBlog\Registration Module\.idea\misc.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Georgi\Documents\GitHub\ApatrosBlog\Registration Module\.idea\modules.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Georgi\Documents\GitHub\ApatrosBlog\Registration Module\.idea\vcs.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Georgi\Documents\GitHub\ApatrosBlog\Registration Module\.idea\workspace.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Georgi\Documents\GitHub\ApatrosBlog\Registration Module\libs\Q-2.0.3-min.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Georgi\Documents\GitHub\ApatrosBlog\Registration Module\libs\jQuery-2.1.3-min.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Georgi\Documents\GitHub\ApatrosBlog\Registration Module\libs\mustache-0.8.1-min.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Georgi\Documents\GitHub\ApatrosBlog\Registration Module\libs\requireJS-2.1.17-min.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Georgi\Documents\GitHub\ApatrosBlog\Registration Module\libs\sammy-0.7.6-min.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Georgi\Documents\GitHub\ApatrosBlog\Registration Module\register.html" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Georgi\Documents\GitHub\ApatrosBlog\Registration Module\scripts\app.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Georgi\Documents\GitHub\ApatrosBlog\Registration Module\scripts\config\requireJS-config.js" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Georgi\Documents\GitHub\ApatrosBlog\Registration Module\styles\index.css" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Apatros/Apatros.csproj" afterPath="$PROJECT_DIR$/Apatros/Apatros.csproj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Apatros/models/commentsRepoModel.js" afterPath="$PROJECT_DIR$/Apatros/models/commentsRepoModel.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Apatros/controllers/controller.js" afterPath="$PROJECT_DIR$/Apatros/controllers/controller.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Apatros/index.html" afterPath="$PROJECT_DIR$/Apatros/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Apatros/templates/login.html" afterPath="$PROJECT_DIR$/Apatros/templates/login.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Apatros/main.js" afterPath="$PROJECT_DIR$/Apatros/main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Apatros/templates/post.html" afterPath="$PROJECT_DIR$/Apatros/templates/post.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Apatros/models/postModel.js" afterPath="$PROJECT_DIR$/Apatros/models/postModel.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Apatros/models/postsRepoModel.js" afterPath="$PROJECT_DIR$/Apatros/models/postsRepoModel.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Apatros/views/postsView.js" afterPath="$PROJECT_DIR$/Apatros/views/postsView.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ApatrosBlog.iws" />
@@ -40,8 +52,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Apatros/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.39344263" vertical-offset="0" max-vertical-offset="820">
-              <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
+            <state vertical-scroll-proportion="0.06557377" vertical-offset="180" max-vertical-offset="840">
+              <caret line="11" column="16" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -50,8 +62,8 @@
       <file leaf-file-name="controller.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Apatros/controllers/controller.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5620">
-              <caret line="39" column="10" selection-start-line="39" selection-start-column="10" selection-end-line="39" selection-end-column="10" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5560">
+              <caret line="14" column="34" selection-start-line="14" selection-start-column="34" selection-end-line="14" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -70,8 +82,8 @@
       <file leaf-file-name="main.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Apatros/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="881" max-vertical-offset="1660">
-              <caret line="55" column="39" selection-start-line="55" selection-start-column="39" selection-end-line="55" selection-end-column="39" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="221" max-vertical-offset="1780">
+              <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -149,16 +161,16 @@
         <option value="$PROJECT_DIR$/Apatros/models/usersRepoModel.js" />
         <option value="$PROJECT_DIR$/Apatros/helpers/registration-validator.js" />
         <option value="$PROJECT_DIR$/Apatros/models/appRepository.js" />
-        <option value="$PROJECT_DIR$/Apatros/index.html" />
         <option value="$PROJECT_DIR$/Apatros/views/archiveView.js" />
         <option value="$PROJECT_DIR$/Apatros/templates/posts.html" />
         <option value="$PROJECT_DIR$/Apatros/views/postsView.js" />
         <option value="$PROJECT_DIR$/Apatros/templates/post.html" />
         <option value="$PROJECT_DIR$/Apatros/templates/archives.html" />
         <option value="$PROJECT_DIR$/Apatros/models/postModel.js" />
+        <option value="$PROJECT_DIR$/Apatros/models/postsRepoModel.js" />
+        <option value="$PROJECT_DIR$/Apatros/index.html" />
         <option value="$PROJECT_DIR$/Apatros/main.js" />
         <option value="$PROJECT_DIR$/Apatros/controllers/controller.js" />
-        <option value="$PROJECT_DIR$/Apatros/models/postsRepoModel.js" />
       </list>
     </option>
   </component>
@@ -589,14 +601,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Apatros/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="881" max-vertical-offset="1660">
-          <caret line="55" column="39" selection-start-line="55" selection-start-column="39" selection-end-line="55" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Apatros/models/postsRepoModel.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="34" max-vertical-offset="2380">
@@ -621,18 +625,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Apatros/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="221" max-vertical-offset="1780">
+          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Apatros/controllers/controller.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="680" max-vertical-offset="5620">
-          <caret line="39" column="10" selection-start-line="39" selection-start-column="10" selection-end-line="39" selection-end-column="10" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5560">
+          <caret line="14" column="34" selection-start-line="14" selection-start-column="34" selection-end-line="14" selection-end-column="34" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Apatros/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.39344263" vertical-offset="0" max-vertical-offset="820">
-          <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
+        <state vertical-scroll-proportion="0.06557377" vertical-offset="180" max-vertical-offset="840">
+          <caret line="11" column="16" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
           <folding />
         </state>
       </provider>

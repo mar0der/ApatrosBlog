@@ -1,6 +1,6 @@
 ﻿define(['ajaxRequesterModel', 'commentModel', 'Q', 'credentialsModel'], function (ajax, commentModel, Q, credentials) {
     function CommentsRepo(baseUrl) {
-        this._serviceUrl = baseUrl + '/classes/Comment';
+        this._serviceUrl = baseUrl + 'classes/Comment';
         this.commentsRepo = {
             comments: []
         };
@@ -16,8 +16,7 @@
                 "post": {
                     "__type": "Pointer",
                     "className": "Post",
-                    "objectId": postId
-                }
+                    "objectId": postId}
             }
             ajax.post(this._serviceUrl, credentials.headers, data)
                 .then(function (response) {
