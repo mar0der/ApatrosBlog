@@ -29,6 +29,7 @@
         'tagsView': 'views/tagsView',
         'archiveView': 'views/archiveView',
         'menuView': 'views/menuView',
+        'commentsView': 'views/commentsView',
         //helpers
         'registrationValidator': 'helpers/registration-validator',
         'notifications': 'helpers/notifications'

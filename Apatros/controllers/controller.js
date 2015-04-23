@@ -1,9 +1,9 @@
 ﻿define(['notifications', 'postsView', 'postView', 'tagsView',
         'loginView', 'logoutView', 'registerView', 'addPostView',
-        'archiveView', 'registrationValidator', 'credentialsModel', 'menuView'],
+        'archiveView', 'registrationValidator', 'credentialsModel', 'menuView', 'commentsView'],
     function (noty, postsView, postView, tagsView,
               loginView, logoutView, registerView, addPostView,
-              archiveView, validator, credentials, menuView) {
+              archiveView, validator, credentials, menuView, commentsView) {
 
         var attachRegisterHandler,
             attachLoginHandler,
@@ -56,11 +56,16 @@
         }
 
         Controller.prototype.loadPost = function (container, id) {
+            var _this = this;
             this.model.posts.getPost(id).then(
                 function (post) {
                     postView.load(container, post);
-                }
-            );
+                    return _this.model.comments.getByPostId(id);
+                }).then(function (data) {
+                    commentsView.load('#comments-container', data);
+                }, function (error) {
+                    noty.error(error.responseJSON.error);
+                });
         };
 
         Controller.prototype.loadTags = function (container) {
@@ -203,8 +208,8 @@
                 _this.model.users.logoutUser()
                 .then(function () {
                     sessionStorage.clear();
-                        loggedOutMenu();
-                    }, function (error) {
+                    loggedOutMenu();
+                }, function (error) {
                     noty.error(error.responseJSON.error);
                 });
 
@@ -243,10 +248,30 @@
             container.on('click', '#submit-comment', function (ev) {
                 var commentContent = $('#comment-content').val();
                 var postId = $('#post-container').data('id');
-                if (commentContent) {
-                    _this.model.comments.add(commentContent, postId);
+                var authorId = credentials.getUserId();
+                if (authorId) {
+                    if (commentContent) {
+                        _this.model.comments.add(commentContent, postId, authorId)
+                            .then(function (data) {
+                                var newComment = {
+                                    results: [{
+                                        "author": {
+                                            "objectId": authorId,
+
+                                            "username": credentials.getUsername()
+                                        },
+                                        "content": commentContent,
+                                        "createdAt": data.createdAt,
+                                        "objectId": data.objectId
+                                    }]
+                                }
+                                commentsView.appendComment('#comments-container', newComment);
+                            });
+                    } else {
+                        noty.error('You can`t post empty comment!');
+                    }
                 } else {
-                    alert('add noty error');
+                    noty.error('Login to comment!');
                 }
             });
         };

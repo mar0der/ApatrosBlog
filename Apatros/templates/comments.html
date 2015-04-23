@@ -1,1 +1,10 @@
-﻿
+﻿{{#results}}
+<div class="comment-container" data-id="{{objectId}}">
+    <span class="author"><a href="#/user/{{author.objectId}}">{{author.username}}</a></span>
+    <span class="date">{{createdAt}}</span>
+    <span class="comments-edit"><a href="#">Edit</a></span>
+    <span class="comments-delete"><a href="#">Delete</a></span>
+    <p class="content">{{content}}</p>
+</div>
+{{/results}}
+

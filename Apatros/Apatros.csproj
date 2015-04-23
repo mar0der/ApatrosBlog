@@ -237,6 +237,7 @@
     <Content Include="templates\register.html" />
     <Content Include="templates\tags.html" />
     <Content Include="views\addPostView.js" />
+    <Content Include="views\commentsView.js" />
     <Content Include="views\editPostView.js" />
     <Content Include="views\loginView.js" />
     <Content Include="views\logoutView.js" />
