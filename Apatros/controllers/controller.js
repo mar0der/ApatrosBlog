@@ -18,6 +18,7 @@
         }
 
         Controller.prototype.init = function (container) {
+            this.model.tagsPosts.getTopTags();
             attachRegisterHandler.call(this, container);
             attachLoginHandler.call(this, container);
             attachLogoutHandler.call(this, container);

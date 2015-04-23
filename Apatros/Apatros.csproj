@@ -68,6 +68,7 @@
     <Content Include="libs\jquery\package.json" />
     <Content Include="libs\jquery\README.md" />
     <Content Include="libs\jquery\src\sizzle\dist\sizzle.min.map" />
+    <Content Include="libs\lodash\lodash.js" />
     <Content Include="libs\mustache\.gitmodules" />
     <Content Include="libs\mustache\.jshintrc" />
     <Content Include="libs\mustache\.npmignore" />
@@ -219,6 +220,7 @@
     <Content Include="models\postModel.js" />
     <Content Include="models\postsRepoModel.js" />
     <Content Include="models\tagModel.js" />
+    <Content Include="models\tagsPostsRepoModel.js" />
     <Content Include="models\tagsRepoModel.js" />
     <Content Include="models\userModel.js" />
     <Content Include="models\usersRepoModel.js" />

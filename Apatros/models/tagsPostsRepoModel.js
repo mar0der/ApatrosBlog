@@ -1,4 +1,4 @@
-define(['ajaxRequesterModel', 'Q', 'credentialsModel'], function (Requester, Q, credentials) {
+define(['ajaxRequesterModel', 'Q', 'credentialsModel', 'lodash'], function (Requester, Q, credentials, _) {
     function TagsRepo(baseUrl) {
         this._baseUrl = baseUrl;
         this._serviceUrl = baseUrl + 'classes/TagsPosts';
@@ -40,6 +40,14 @@ define(['ajaxRequesterModel', 'Q', 'credentialsModel'], function (Requester, Q, 
 
         return defer.promise;
     };
+
+    TagsRepo.prototype.getTopTags = function getTopTags() {
+        Requester.get(this._serviceUrl, credentials.getHeaders())
+        .then(function (data) {
+            var ggg =  _(data).groupBy("postId").valueOf();
+            console.log(ggg);
+            });
+    }
 
     return {
         load: function (baseUrl) {

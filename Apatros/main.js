@@ -1,11 +1,14 @@
 ﻿require.config({
     paths: {
+        //libs
         'controller': 'controllers/controller',
         'jquery': 'libs/jquery/dist/jquery',
         'mustache': 'libs/mustache/mustache',
         'Q': 'libs/q/q',
         'sammy': 'libs/sammy/main',
         'noty': 'libs/noty/js/noty/packaged/jquery.noty.packaged',
+        'lodash': 'libs/lodash/lodash',
+        //models views controllers
         'config': 'config',
         'ajaxRequesterModel': 'models/ajaxRequesterModel',
         'appRepository': 'models/appRepository',

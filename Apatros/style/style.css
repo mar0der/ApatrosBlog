@@ -29,7 +29,6 @@ div#wrapper {
 /*header*/
 header {
 	height: 150px;
-	background-color: pink;
 }
 
 header ul li {
@@ -39,7 +38,6 @@ header ul li {
     header ul li a {
         padding: 10px;
         border-radius: 5px;
-        background: antiquewhite;
         border: 1px solid black;
         text-decoration: none;
         font-size: 20px;
@@ -51,7 +49,6 @@ aside#left {
 	width: 20%;
 	border: 1px solid green;
 	float: left;
-	background-color: blue;
 	display: inline-block;
 }
 
@@ -70,7 +67,6 @@ section {
     min-height: 300px;
 	height: auto;
 	border: 1px solid red;
-	background-color: red;
 }
 .post h3{
     margin: 0;
@@ -103,7 +99,6 @@ section {
 /*footer*/
 footer {
 	height: 150px;
-	background-color: green;
 }
 
 /*responsive design*/
