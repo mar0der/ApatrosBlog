@@ -43,14 +43,10 @@ define(['ajaxRequesterModel', 'postModel', 'postDateModel', 'Q', 'credentialsMod
 
     PostsRepo.prototype.getPostsDates = function (query) {
         var deffer = Q.defer(),
-            _this = this,
-            url = this._serviceUrl;
+            _this = this;
 
-        if (query) {
-            url += query;
-        }
         this.postsDatesRepo.dates.length = 0;
-        Requester.get(url, credentials.getHeaders()).then(
+        Requester.get(_this._serviceUrl + '?keys=createdAt', credentials.getHeaders()).then(
             function (data) {
                 data['results'].forEach(function (postDate) {
                     var d = new postDateModel(

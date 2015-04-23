@@ -243,6 +243,7 @@
                         console.log(error.responseText);
                     }
                 );
+                _this.loadArchivePanel();
             });
         };
 
