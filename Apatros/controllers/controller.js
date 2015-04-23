@@ -25,7 +25,7 @@
             test.call(this, container);
         };
         Controller.prototype.loadPosts = function (container, leftAside) {
-            this.model.posts.getPosts().then(
+            this.model.posts.getPosts('&limit=5').then(
                 function (data) {
                     postsView.load(container, data);
                     archiveView.load(leftAside, filterArchives(data));
@@ -218,16 +218,13 @@
                 var postBody = $('#post-body').val().trim();
                 var postTags = $('#post-tags').val().trim();
                 var postId;
-                var tagsIds = [];
                 addPostView.loading(container);
+
                 _this.model.posts.addPost(postTitle, postBody).then(
                     function (data) {
                         postId = data.objectId;
                         return _this.model.tags.addTags(postTags);
-                    }).then(function (data) {
-                        data.forEach(function (value) {
-                            tagsIds.push(value.success.objectId);
-                        });
+                    }).then(function (tagsIds) {
 
                         return _this.model.tagsPosts.addTagsPosts(tagsIds, postId);
                     }).then(

@@ -9,7 +9,7 @@ define(['ajaxRequesterModel', 'postModel', 'Q', 'credentialsModel'], function (R
     PostsRepo.prototype.getPosts = function (query) {
         var deffer = Q.defer(),
             _this = this,
-            url = this._serviceUrl + '?include=author';
+            url = this._serviceUrl + '?include=author&order=-createdAt';
 
         if (query) {
             url += query;
