@@ -12,6 +12,7 @@
         'credentialsModel': 'models/credentialsModel',
         'postsRepoModel': 'models/postsRepoModel',
         'postModel': 'models/postModel',
+        'postDateModel': 'models/postDateModel',
         'commentsRepoModel': 'models/commentsRepoModel',
         'commentModel': 'models/commentModel',
         'tagsRepoModel': 'models/tagsRepoModel',
@@ -42,7 +43,6 @@ require(['sammy', 'controller', 'appRepository', 'config', 'noty', 'jquery'],
     function (Sammy, Controller, appRepo, config) {
 
         var container = $('#content'),
-            leftAside = $('#left'),
             model = appRepo.load(config.baseUrl),
             controller = Controller.load(model),
             router;
@@ -52,11 +52,11 @@ require(['sammy', 'controller', 'appRepository', 'config', 'noty', 'jquery'],
         router = Sammy(function () {
 
             this.get('#/posts', function () {
-                controller.loadPosts(container, leftAside);
+                controller.loadPosts(container);
             });
 
             this.get('#/archive/:date', function () {
-                controller.loadArchive(container, leftAside, this.params['date']);
+                controller.loadArchiveByPeriod(container, this.params['date']);
             });
 
             this.get('#/view-post/:id', function () {
@@ -78,7 +78,5 @@ require(['sammy', 'controller', 'appRepository', 'config', 'noty', 'jquery'],
 
 
         router.run('#/posts');
-
-
 
     });

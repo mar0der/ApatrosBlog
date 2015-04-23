@@ -1,9 +1,13 @@
-define(['ajaxRequesterModel', 'postModel', 'Q', 'credentialsModel'], function (Requester, postModel, Q, credentials) {
+define(['ajaxRequesterModel', 'postModel', 'postDateModel', 'Q', 'credentialsModel'],
+    function (Requester, postModel, postDateModel, Q, credentials) {
     function PostsRepo(baseUrl) {
         this._serviceUrl = baseUrl + 'classes/Post/';
         this.postsRepo = {
             posts:[]
         };
+        this.postsDatesRepo = {
+            dates:[]
+        }
     }
 
     PostsRepo.prototype.getPosts = function (query) {
@@ -14,7 +18,6 @@ define(['ajaxRequesterModel', 'postModel', 'Q', 'credentialsModel'], function (R
         if (query) {
             url += query;
         }
-
         this.postsRepo.posts.length = 0;
         Requester.get(url, credentials.getHeaders()).then(
             function (data) {
@@ -38,7 +41,33 @@ define(['ajaxRequesterModel', 'postModel', 'Q', 'credentialsModel'], function (R
             return deffer.promise;
     };
 
-    PostsRepo.prototype.getPostsByDate = function (date) {
+    PostsRepo.prototype.getPostsDates = function (query) {
+        var deffer = Q.defer(),
+            _this = this,
+            url = this._serviceUrl;
+
+        if (query) {
+            url += query;
+        }
+        this.postsDatesRepo.dates.length = 0;
+        Requester.get(url, credentials.getHeaders()).then(
+            function (data) {
+                data['results'].forEach(function (postDate) {
+                    var d = new postDateModel(
+                        postDate['createdAt']
+                    );
+                    _this.postsDatesRepo.dates.push(d);
+                });
+                deffer.resolve(_this.postsDatesRepo);
+            },
+            function(error){
+                console.log(error.responseText);
+            }
+        );
+        return deffer.promise;
+    };
+
+    PostsRepo.prototype.getArchiveByPeriod = function (date) {
         var _this = this,
             query,
             minDate = new Date(date).toISOString(),
@@ -47,8 +76,8 @@ define(['ajaxRequesterModel', 'postModel', 'Q', 'credentialsModel'], function (R
             maxDate = new Date(maxDate).toISOString();
 
         query = '&where={"createdAt":' +
-        '{"$gte":"'+minDate+'\",' +
-        '"$lte":"'+maxDate+'\"}}';
+                '{"$gte":"'+minDate+'\",' +
+                '"$lte":"'+maxDate+'\"}}';
 
         return _this.getPosts(query);
     };
