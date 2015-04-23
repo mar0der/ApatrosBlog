@@ -5,7 +5,8 @@
               loginView, logoutView, registerView, addPostView,
               archiveView, validator, credentials, menuView, commentsView) {
 
-        var attachRegisterHandler,
+        var leftAside = $('#left'),
+            attachRegisterHandler,
             attachLoginHandler,
             attachAddPostHandler,
             attachAddCommentHandler,
@@ -23,18 +24,25 @@
             attachAddPostHandler.call(this, container);
             attachAddCommentHandler.call(this, container);
             test.call(this, container);
+            this.loadArchivePanel();
         };
-        Controller.prototype.loadPosts = function (container, leftAside) {
+        Controller.prototype.loadPosts = function (container) {
+            var _this = this;
             this.model.posts.getPosts('&limit=5').then(
                 function (data) {
                     postsView.load(container, data);
+                }
+            );
+        };
+        Controller.prototype.loadArchivePanel = function () {
+            this.model.posts.getPostsDates().then(
+                function (data) {
                     archiveView.load(leftAside, filterArchives(data));
                 }
             );
         };
-
-        Controller.prototype.loadArchive = function (container, leftAside, date) {
-            this.model.posts.getPostsByDate(date).then(
+        Controller.prototype.loadArchiveByPeriod = function (container, date) {
+            this.model.posts.getArchiveByPeriod(date).then(
                 function (data) {
                     postsView.load(container, data);
                 }
@@ -44,9 +52,8 @@
         function filterArchives(data) {
             var uniqueDates = [],
                 uniqueObjects = { dates: [] };
-
-            for (var post in data.posts) {
-                var d = data.posts[post].date;
+            for (var dateObj in data.dates) {
+                var d = data.dates[dateObj].date;
                 if (uniqueDates.indexOf(d) < 0) {
                     uniqueDates.push(d);
                     uniqueObjects.dates.push({ date: d });
@@ -235,11 +242,13 @@
                     }).then(
                     function () {
                         window.location.hash = '/view-post/' + postId;
+
                     },
                     function (error) {
                         console.log(error.responseText);
                     }
                 );
+                _this.loadArchivePanel();
             });
         };
 
