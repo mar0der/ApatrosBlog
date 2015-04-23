@@ -39,7 +39,6 @@
                 deffer.reject(error);
             });
         return deffer.promise;
-
     };
 
     UsersRepo.prototype.addUser = function (data) {
@@ -54,9 +53,9 @@
         return deffer.promise;
     };
 
-    UsersRepo.prototype.assignRole = function (userInfo) {
+    UsersRepo.prototype.assignRole = function () {
 
-        credentials.setUserId(userInfo['objectId']);
+        
         var deffer = Q.defer();
         var data = {
             "users": {
@@ -70,7 +69,7 @@
             }
         };
 
-        Requester.put(this.baseUrl + 'roles/'+ config.usersRoleId, headers, data)
+        Requester.put(this.baseUrl + 'roles/' + config.usersRoleId, credentials.getHeaders(), data)
             .then(function (response) {
                 deffer.resolve(response);
             }, function (error) {
@@ -85,7 +84,7 @@
         var username = data['username'];
         var password = data['password'];
         var loginUrl = '?username=' + username + '&password=' + password;
-        
+
         Requester.get(this.baseUrl + 'login/' + loginUrl, credentials.getHeaders())
             .then(function (response) {
                 deffer.resolve(response);

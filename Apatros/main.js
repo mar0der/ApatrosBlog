@@ -27,7 +27,8 @@
         'logoutView': 'views/logoutView',
         'registerView': 'views/registerView',
         'tagsView': 'views/tagsView',
-        'archiveView' : 'views/archiveView',
+        'archiveView': 'views/archiveView',
+        'menuView': 'views/menuView',
         //helpers
         'registrationValidator': 'helpers/registration-validator',
         'notifications': 'helpers/notifications'

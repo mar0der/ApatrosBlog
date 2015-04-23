@@ -1,9 +1,9 @@
 ﻿define(['notifications', 'postsView', 'postView', 'tagsView',
         'loginView', 'logoutView', 'registerView', 'addPostView',
-        'archiveView', 'registrationValidator', 'credentialsModel'],
+        'archiveView', 'registrationValidator', 'credentialsModel', 'menuView'],
     function (noty, postsView, postView, tagsView,
               loginView, logoutView, registerView, addPostView,
-              archiveView, validator, credentials) {
+              archiveView, validator, credentials, menuView) {
 
         var attachRegisterHandler,
             attachLoginHandler,
@@ -43,13 +43,13 @@
 
         function filterArchives(data) {
             var uniqueDates = [],
-                uniqueObjects = {dates: []};
+                uniqueObjects = { dates: [] };
 
             for (var post in data.posts) {
                 var d = data.posts[post].date;
                 if (uniqueDates.indexOf(d) < 0) {
                     uniqueDates.push(d);
-                    uniqueObjects.dates.push({date: d});
+                    uniqueObjects.dates.push({ date: d });
                 }
             }
             return uniqueObjects;
@@ -127,10 +127,14 @@
                 };
 
                 _this.model.users.addUser(newUser)
-                    .then(function (data) {
-                        _this.model.users.assignRole(data)
+                    .then(function (addUserData) {
+                        credentials.setUserId(addUserData['objectId']);
+                        credentials.setSessionToken(addUserData['sessionToken']);
+                        credentials.setUsername(newUser.username);
+                        _this.model.users.assignRole()
                         .then(function () {
                             $('#noty-container').html('');
+                            loggedMenu();
                             noty.success('You have successfully registered!');
                             window.location.hash = '/posts?hidenoty=true';
                         });
@@ -174,7 +178,8 @@
                 _this.model.users.loginUser(user)
                    .then(function (data) {
                        credentials.setSessionToken(data['sessionToken']);
-                       credentials.setUserId(data['objecId']);
+                       credentials.setUserId(data['objectId']);
+                       credentials.setUsername(data['username']);
 
                        _this.model.users.getUser(credentials.getUserId())
                            .then(function (data) {
@@ -183,6 +188,7 @@
                                if (!emailVerified) {
                                    noty.info('Please verify your email address');
                                }
+                               loggedMenu();
                                window.location.hash = '/posts';
                            });
                    }, function (error) {
@@ -193,14 +199,13 @@
 
         attachLogoutHandler = function attachLogoutHandler(container) {
             var _this = this;
-            container.on('click', '#submit-logout', function (ev) {
+            $('body').on('click', '#submit-logout', function (ev) {
                 _this.model.users.logoutUser()
-                .then(function (data) {
-
-                }, function (error) {
-
-                    console.log(JSON.parse(error['responseText'])['error']);
-
+                .then(function () {
+                    sessionStorage.clear();
+                        loggedOutMenu();
+                    }, function (error) {
+                    noty.error(error.responseJSON.error);
                 });
 
             });
@@ -249,6 +254,12 @@
             });
         };
 
+        function loggedMenu() {
+            menuView.load("#main-menu", { 'login': false, 'register': false, 'logout': true });
+        }
+        function loggedOutMenu() {
+            menuView.load("#main-menu", { 'login': true, 'register': true, 'logout': false });
+        }
         return {
             load: function (model) {
                 return new Controller(model);

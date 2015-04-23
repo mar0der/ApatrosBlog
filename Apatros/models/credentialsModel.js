@@ -1,5 +1,6 @@
 ﻿define(['config'], function(config) {
     var headers = config.headers;
+    var masterHeaders = config.masterHeaders;
     
     function getSessionToken() {
         return sessionStorage.getItem('sessionToken');
@@ -25,9 +26,16 @@
         sessionStorage.setItem('userId', userId);
     }
 
-    function getHeaders() {
-        headers['X-Parse-Session-Token'] = getSessionToken();
-        return headers;
+    function getHeaders(master) {
+
+        if (master === 'master') {
+            masterHeaders['X-Parse-Session-Token'] = getSessionToken();
+            return masterHeaders;
+        } else {
+            headers['X-Parse-Session-Token'] = getSessionToken();
+            return headers;
+        }
+
     }
 
     return {
