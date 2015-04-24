@@ -82,15 +82,20 @@ define(['ajaxRequesterModel', 'postModel', 'postDateModel', 'Q', 'credentialsMod
 
     PostsRepo.prototype.getPost = function (id) {
         var deffer = Q.defer();
-        Requester.get(this._serviceUrl + id + '?include=author', credentials.getHeaders()).then(
-            function (post) {
+        var data = {
+            'postId': id
+        };
+        Requester.post(this._baseUrl + 'functions/getPostById', credentials.getHeaders(), data).then(
+            function (response) {
+                var post = response.result;
                 var p = new postModel(
                     post['objectId'],
                     post['author'].username,
                     post['title'],
                     post['body'],
                     post['createdAt'],
-                    post['visits']
+                    post['visits'],
+                    post['tags']
                 );
                 deffer.resolve(p);
             }, function (error) {

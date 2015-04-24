@@ -4,10 +4,9 @@
         this._serviceUrl = baseUrl + 'classes/Tag';
     }
 
-    TagsRepo.prototype.addTags = function addTags(tagsText){
+    TagsRepo.prototype.addTags = function addTags(tags){
         var _this = this;
         var defer = Q.defer();
-        var tags = tagsText.split(',');
         var tagsIds = [];
         var checkedTags = 0;
         var batchData = {
