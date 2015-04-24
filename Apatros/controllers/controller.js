@@ -1,11 +1,14 @@
 ﻿define(['notifications', 'postsView', 'postView', 'tagsView',
         'loginView', 'logoutView', 'registerView', 'addPostView',
-        'archiveView', 'registrationValidator', 'credentialsModel', 'menuView', 'commentsView'],
+        'archiveView', 'registrationValidator', 'credentialsModel', 'menuView', 'commentsView',
+        'mostFamousTagsView'],
     function (noty, postsView, postView, tagsView,
               loginView, logoutView, registerView, addPostView,
-              archiveView, validator, credentials, menuView, commentsView) {
+              archiveView, validator, credentials, menuView, commentsView,
+              mostFamousTagsView) {
 
         var leftAside = $('#left'),
+            rightAside = $('#right'),
             attachRegisterHandler,
             attachLoginHandler,
             attachAddPostHandler,
@@ -18,7 +21,7 @@
         }
 
         Controller.prototype.init = function (container) {
-            this.model.tagsPosts.getTopTags();
+            this.loadMostFamousTags();
             attachRegisterHandler.call(this, container);
             attachLoginHandler.call(this, container);
             attachLogoutHandler.call(this, container);
@@ -42,6 +45,18 @@
                 }
             );
         };
+
+        Controller.prototype.loadMostFamousTags = function loadMostFamousTags(){
+            this.model.tagsPosts.getMostFamousTags(3).then(
+                function(data){
+                    mostFamousTagsView.load(rightAside, data);
+                },
+                function(error){
+                    console.log(error.responseText);
+                }
+            )
+        };
+
         Controller.prototype.loadArchiveByPeriod = function (container, date) {
             this.model.posts.getArchiveByPeriod(date).then(
                 function (data) {
@@ -76,6 +91,22 @@
                 });
         };
 
+        Controller.prototype.loadPostsByTag = function loadPostsByTag(container, tagId){
+            var _this = this;
+            postsView.loading(container);
+            this.model.tagsPosts.getPostsIdsByTagId(tagId).then(
+                function(data){
+                    return _this.model.posts.getPostsByIds(data);
+                }
+            ).then(
+                function(data){
+                    postsView.load(container, data);
+                },
+                function(error){
+                    console.log(error);
+                }
+            );
+        };
         Controller.prototype.loadTags = function (container) {
             //TODO: Load Tags logic
             tagsView.load(container);

@@ -33,6 +33,7 @@
         'tagsView': 'views/tagsView',
         'archiveView': 'views/archiveView',
         'menuView': 'views/menuView',
+        'mostFamousTagsView': 'views/mostFamousTagsView',
         'commentsView': 'views/commentsView',
         //helpers
         'registrationValidator': 'helpers/registration-validator',
@@ -61,6 +62,10 @@ require(['sammy', 'controller', 'appRepository', 'config', 'noty', 'jquery'],
 
             this.get('#/archive/:date', function () {
                 controller.loadArchiveByPeriod(container, this.params['date']);
+            });
+
+            this.get('#/view-post-by-tag/:tagId', function(){
+                controller.loadPostsByTag(container, this.params.tagId);
             });
 
             this.get('#/view-post/:id', function () {

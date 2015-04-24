@@ -2,6 +2,7 @@ define(['ajaxRequesterModel', 'postModel', 'postDateModel', 'Q', 'credentialsMod
     function (Requester, postModel, postDateModel, Q, credentials) {
     function PostsRepo(baseUrl) {
         this._serviceUrl = baseUrl + 'classes/Post/';
+        this._baseUrl = baseUrl;
         this.postsRepo = {
             posts:[]
         };
@@ -101,7 +102,6 @@ define(['ajaxRequesterModel', 'postModel', 'postDateModel', 'Q', 'credentialsMod
     };
 
     PostsRepo.prototype.addPost = function (title, body) {
-        var defer = Q.defer();
         var data = {
             author: {
                  "__type": "Pointer",
@@ -113,17 +113,42 @@ define(['ajaxRequesterModel', 'postModel', 'postDateModel', 'Q', 'credentialsMod
             visits: 0
         };
 
-        Requester.post(this._serviceUrl, credentials.getHeaders(), data).then(
+        return Requester.post(this._serviceUrl, credentials.getHeaders(), data);
+    };
+
+    PostsRepo.prototype.getPostsByIds = function getPostsByIds(postIds){
+        var url = this._baseUrl + '/functions/getPostsByIds';
+        var data = {
+            postIds: postIds
+        };
+        var defer = Q.defer();
+        var result = {
+            posts: []
+        };
+        Requester.post(url, credentials.getHeaders(), data).then(
             function(data){
-                defer.resolve(data);
+                data.result.forEach(function(post){
+                    var p = new postModel(
+                        post['objectId'],
+                        post['author'].username,
+                        post['title'],
+                        post['body'],
+                        post['createdAt'],
+                        post['visits']
+                    );
+                    result.posts.push(p);
+                });
+                defer.resolve(result);
             },
             function(error){
-               defer.reject(error);
+                console.log('error');
+                defer.reject(error);
             }
         );
 
         return defer.promise;
     };
+
     PostsRepo.prototype.editPost = function () {
         //TODO
     };

@@ -17,6 +17,9 @@
     return {
         load: function (selector, data) {
             PostsView(selector, data);
+        },
+        loading: function(container){
+            container.html('Loading...');
         }
     }
 });

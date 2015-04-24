@@ -66,6 +66,7 @@ section {
 	width: 48%;
     min-height: 300px;
 	height: auto;
+    background: #d3d3d3;
 	border: 1px solid red;
 }
 .post h3{

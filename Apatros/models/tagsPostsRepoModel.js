@@ -1,4 +1,4 @@
-define(['ajaxRequesterModel', 'Q', 'credentialsModel', 'lodash'], function (Requester, Q, credentials, _) {
+define(['ajaxRequesterModel', 'Q', 'credentialsModel', 'lodash', 'postsRepoModel'], function (Requester, Q, credentials, _, postsRepo) {
     function TagsRepo(baseUrl) {
         this._baseUrl = baseUrl;
         this._serviceUrl = baseUrl + 'classes/TagsPosts';
@@ -41,13 +41,28 @@ define(['ajaxRequesterModel', 'Q', 'credentialsModel', 'lodash'], function (Requ
         return defer.promise;
     };
 
-    TagsRepo.prototype.getTopTags = function getTopTags() {
-        Requester.get(this._serviceUrl, credentials.getHeaders())
-        .then(function (data) {
-            var ggg =  _(data).groupBy("postId").valueOf();
-            console.log(ggg);
-            });
-    }
+    TagsRepo.prototype.getPostsIdsByTagId = function getPostsIdsByTagId(tagId){
+        var query = '?where={"tagId": {"__type": "Pointer", "className": "Tag", "objectId": "' + tagId + '"}}';
+        var url = this._serviceUrl + query;
+        var defer = Q.defer();
+        var postIds = [];
+
+        Requester.get(url, credentials.getHeaders()).then(
+            function(data){
+                data.results.forEach(function(row){
+                    postIds.push(row.postId.objectId);
+                });
+
+                defer.resolve(postIds);
+            }
+        );
+
+        return defer.promise;
+    };
+
+    TagsRepo.prototype.getMostFamousTags = function getMostFamousTags(limit){
+        return Requester.post(this._baseUrl + 'functions/getMostFamousTags', credentials.getHeaders(), {limit: limit});
+    };
 
     return {
         load: function (baseUrl) {
