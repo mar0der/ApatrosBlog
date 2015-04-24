@@ -47,7 +47,7 @@
         };
 
         Controller.prototype.loadMostFamousTags = function loadMostFamousTags(){
-            this.model.tagsPosts.getMostFamousTags(3).then(
+            this.model.tagsPosts.getMostFamousTags(20).then(
                 function(data){
                     mostFamousTagsView.load(rightAside, data);
                 },

@@ -8,7 +8,6 @@
        }
 
        CommentsRepo.prototype.add = function add(content, postId, authorId) {
-           //var authorIdString = '"' + authorId + '"';
            var data = {
                "content": content,
                "author": {
