@@ -12,7 +12,10 @@
         var batchData = {
             requests: []
         };
-
+        var tagsCnt = 0;
+        tags.forEach(function(){
+            tagsCnt++;
+        });
         tags.forEach(function (value){
             _this.getTag(value.trim()).then(function(data){
                 if(data.results.length){
@@ -27,7 +30,7 @@
                     });
                 }
                 checkedTags++;
-                if(checkedTags == tags.length){
+                if(checkedTags == tagsCnt){
                     Requester.post(_this._baseUrl + 'batch', credentials.getHeaders(), batchData).then(
                         function(data){
                             data.forEach(function(value){

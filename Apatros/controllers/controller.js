@@ -28,6 +28,7 @@
         }
 
         Controller.prototype.init = function (container) {
+            this.loadMostFamousTags();
             attachRegisterHandler.call(this, container);
             attachLoginHandler.call(this, container);
             attachLogoutHandler.call(this, container);
@@ -57,7 +58,7 @@
         }
 
         Controller.prototype.loadPosts = function (container) {
-            var _this = this;
+            postsView.loading(container);
             this.model.posts.getPosts('&limit=5').then(
                 function (data) {
                     postsView.load(container, data);
@@ -84,6 +85,7 @@
         };
 
         Controller.prototype.loadArchiveByPeriod = function (container, date) {
+            postsView.loading(container);
             this.model.posts.getArchiveByPeriod(date).then(
                 function (data) {
                     postsView.load(container, data);
@@ -158,11 +160,14 @@
             addPostView.load(container);
         };
 
+
         test = function (container) {
             container.on('click', function () {
                 ///TODO: delete later
             });
         };
+
+        //Event Handlers
         attachRegisterHandler = function attachRegisterHandler(container) {
             var _this = this;
 
@@ -250,7 +255,7 @@
                        if (data['role']) {
                            credentials.setUserRole(data['role'].objectId);
                        }
-                       
+
 
                        _this.model.users.getUser(credentials.getUserId())
                            .then(function (data) {
@@ -373,6 +378,7 @@
                         postId = data.objectId;
                         return _this.model.tags.addTags(postTags);
                     }).then(function (tagsIds) {
+                        console.log('vikago');
                         return _this.model.tagsPosts.addTagsPosts(tagsIds, postId);
                     }).then(
                     function () {
