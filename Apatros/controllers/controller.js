@@ -440,7 +440,11 @@
         }
 
         attachDeleteCommentHandler = function attachDeleteCommentHandler(container) {
-
+            var _this = this;
+            container.on('click', "#delete-comment", function (ev) {
+                var commentContainer = $(this).parent().parent().parent();
+                commentsView.deleteComment(_this, commentContainer);
+            });
         }
 
         function loggedMenu() {

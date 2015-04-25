@@ -24,18 +24,26 @@
                    "*": { "read": true },
                    "role:admin": { "write": true }
                }
-           }
+           };
            data["ACL"][authorId] = { "write": true, "read": true };
            return Requester.post(this._serviceUrl, credentials.getHeaders(), data);
-       }
+       };
 
        CommentsRepo.prototype.update = function updateComment(content, commentId) {
            var data = {
                "content": content
-           }
+           };
 
            return Requester.put(this._serviceUrl + commentId, credentials.getHeaders(), data);
-       }
+       };
+
+       CommentsRepo.prototype.delete = function updateComment(commentId) {
+           var data = {
+               "content": content
+           };
+
+           return Requester.delete(this._serviceUrl + commentId, credentials.getHeaders());
+       };
 
        CommentsRepo.prototype.getByPostId = function (postId) {
            var url = this._serviceUrl + '?where={"post": { "__type": "Pointer", "className": "Post", "objectId": "' + postId + '" }}&include=author&order=createdAt';

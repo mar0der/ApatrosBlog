@@ -55,11 +55,17 @@
             });
         });
 
-    };
+    }
+
+    function deleteComment(controller, commentDiv) {
+        controller.model.comments.delete(commentDiv.data('id'));
+        commentDiv.parent().remove()
+    }
 
     return {
         load: commentsView,
         appendComment: appendComment,
-        loadEditForm: loadEditForm
+        loadEditForm: loadEditForm,
+        deleteComment: deleteComment
     }
 });
