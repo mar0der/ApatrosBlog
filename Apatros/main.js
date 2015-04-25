@@ -28,6 +28,7 @@
         'addPostView': 'views/addPostView',
         'editPostView': 'views/editPostView',
         'loginView': 'views/loginView',
+        'profileView': 'views/profileView',
         'logoutView': 'views/logoutView',
         'registerView': 'views/registerView',
         'tagsView': 'views/tagsView',
@@ -76,6 +77,10 @@ require(['sammy', 'controller', 'appRepository', 'config', 'noty', 'jquery'],
                 controller.loadLogin(container);
             });
            
+            this.get('#/profile', function () {
+                controller.loadProfile(container);
+            });
+
             this.get('#/register', function () {
                 controller.loadRegister(container);
             });

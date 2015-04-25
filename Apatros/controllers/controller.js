@@ -1,8 +1,8 @@
-﻿define(['notifications', 'postsView', 'postView', 'tagsView',
+﻿define(['notifications', 'postsView', 'postView', 'tagsView', 'profileView',
         'loginView', 'logoutView', 'registerView', 'addPostView',
         'archiveView', 'registrationValidator', 'credentialsModel', 'menuView', 'commentsView',
         'mostFamousTagsView'],
-    function (noty, postsView, postView, tagsView,
+    function (noty, postsView, postView, tagsView, profileView,
               loginView, logoutView, registerView, addPostView,
               archiveView, validator, credentials, menuView, commentsView,
               mostFamousTagsView) {
@@ -138,6 +138,11 @@
         Controller.prototype.loadTags = function (container) {
             //TODO: Load Tags logic
             tagsView.load(container);
+        };
+
+        Controller.prototype.loadProfile = function (container) {
+            profileView.load(container);
+            //TODO: Login Logic
         };
 
         Controller.prototype.loadLogin = function (container) {
