@@ -1,13 +1,11 @@
 ﻿<ul>
     <li><a href="#/posts">Posts</a></li>
     <li><a href="#/writePost">Write Post</a></li>
-    {{#register}}
+    {{^logged}}
     <li><a href="#/register">Register</a></li>
-    {{/register}}
-    {{#login}}
     <li><a href="#/login">Login</a></li>
-    {{/login}}
-    {{#logout}}
+    {{/logged}}
+    {{#logged}}
     <li><a id="submit-logout" href="#/posts">Logout</a></li>
-    {{/logout}}
+    {{/logged}}
 </ul>

@@ -9,6 +9,7 @@
 
         var leftAside = $('#left'),
             rightAside = $('#right'),
+            mainMenu = $('#main-menu'),
             attachRegisterHandler,
             attachLoginHandler,
             attachAddPostHandler,
@@ -27,6 +28,8 @@
             attachLogoutHandler.call(this, container);
             attachAddPostHandler.call(this, container);
             attachAddCommentHandler.call(this, container);
+            attachAddPostTagsHandler.call(this, container);
+            menuView.load.call(this, mainMenu);
             test.call(this, container);
             this.loadArchivePanel();
         };
@@ -255,21 +258,97 @@
             });
         };
 
+        function attachAddPostTagsHandler(container){
+            var catchedTags = [];
+            var catchedTagsSpans = [];
+            var input;
+            var isEmptyField = true;
+            $(window).on('hashchange', function() {
+                catchedTags = [];
+                catchedTagsSpans = [];
+                if(input){
+                    input.data('tags', []);
+                }
+            });
+            container.on('click', '#tags-wrapper', function(){
+                $(this).children('input').focus();
+            });
+            container.on('blur', '#post-tags', function(){
+                addTag($(this).val());
+                $(this).val('');
+            });
+            container.on('keyup', '#post-tags', function(event){
+                input = $(this);
+                var value = input.val();
+                var _this = this;
+                var tagsContainer = $('.tags');
+                var tags = value.split(',');
+                var backSpaceCode = 8;
+                if(event.keyCode == backSpaceCode && isEmptyField){
+                    var lastTagIndex = _.findLastIndex(catchedTags);
+                    deleteTagByIndex(lastTagIndex, true);
+                }
+
+                if(!input.val().length){
+                    isEmptyField = true;
+                }else{
+                    isEmptyField = false;
+                }
+                if(tags.length > 1){
+                    tags.forEach(function(tag){
+                        addTag(tag);
+                    });
+                    $(this).val('');
+                    isEmptyField = true;
+                }
+                input.data('tags',catchedTags);
+            });
+            function addTag(tag){
+                tag = tag.trim().toLowerCase();
+                if(tag.length && !_.includes(catchedTags, tag)){
+                    var tagSpan = $('<span class="tag" title="'+tag+'">' + tag + '<span class="deleteTag" data-index="'+catchedTags.length+'">x</span></span>');
+                    catchedTags.push(tag);
+                    catchedTagsSpans.push({
+                        tagName: tag,
+                        tagSpan: tagSpan
+                    });
+                    input.before(tagSpan);
+                }
+            }
+            function deleteTagByIndex(index, backSpace){
+                if(catchedTags.length > 0){
+                    if(backSpace){
+                        input.val(catchedTags[index]);
+                    }
+                    catchedTagsSpans.forEach(function(row){
+                        if(row.tagName == catchedTags[index]){
+                            row.tagSpan.remove();
+                            delete row;
+                        }
+                    });
+                    delete catchedTags[index];
+                    input.data('tags', catchedTags);
+                }
+            }
+            container.on('click', '.deleteTag', function(){
+                var tagIndex = $(this).data('index');
+                deleteTagByIndex(tagIndex);
+            });
+        };
         attachAddPostHandler = function attachAddPostHandler(container) {
             var _this = this;
             container.on('click', '#submit-post', function (ev) {
                 var postTitle = $('#post-title').val().trim();
                 var postBody = $('#post-body').val().trim();
-                var postTags = $('#post-tags').val().trim();
+                var postTags = $('#post-tags').data('tags');
                 var postId;
                 addPostView.loading(container);
-
                 _this.model.posts.addPost(postTitle, postBody).then(
                     function (data) {
                         postId = data.objectId;
                         return _this.model.tags.addTags(postTags);
                     }).then(function (tagsIds) {
-
+                        console.log('vikago');
                         return _this.model.tagsPosts.addTagsPosts(tagsIds, postId);
                     }).then(
                     function () {
@@ -277,9 +356,9 @@
 
                     },
                     function (error) {
-                        console.log(error.responseText);
+                        console.log(error);
                     }
-                );
+                ).done();
                 _this.loadArchivePanel();
             });
         };

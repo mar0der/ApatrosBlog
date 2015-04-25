@@ -11,7 +11,9 @@
         <p>{{body}}</p>
     </div>
     <div class="tags">
-        <p>{{tags}}</p>
+        {{#tags}}
+        <span class="tag"><a href="#/view-post-by-tag/{{tagId.objectId}}">#{{tagId.tagName}}</a></span>
+        {{/tags}}
     </div>
 </div>
 <div id="comments-container">

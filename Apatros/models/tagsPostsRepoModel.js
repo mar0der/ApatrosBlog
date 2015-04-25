@@ -29,7 +29,6 @@ define(['ajaxRequesterModel', 'Q', 'credentialsModel', 'lodash', 'postsRepoModel
                 }
             });
         });
-
         Requester.post(this._baseUrl + 'batch', credentials.getHeaders(), data).then(
             function(data){
                 defer.resolve(data);
