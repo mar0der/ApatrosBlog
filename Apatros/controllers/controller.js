@@ -352,7 +352,6 @@
                         postId = data.objectId;
                         return _this.model.tags.addTags(postTags);
                     }).then(function (tagsIds) {
-                        console.log('vikago');
                         return _this.model.tagsPosts.addTagsPosts(tagsIds, postId);
                     }).then(
                     function () {
