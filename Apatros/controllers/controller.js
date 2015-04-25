@@ -9,6 +9,7 @@
 
         var leftAside = $('#left'),
             rightAside = $('#right'),
+            mainMenu = $('#main-menu'),
             attachRegisterHandler,
             attachLoginHandler,
             attachAddPostHandler,
@@ -28,6 +29,7 @@
             attachAddPostHandler.call(this, container);
             attachAddCommentHandler.call(this, container);
             attachAddPostTagsHandler.call(this, container);
+            menuView.load.call(this, mainMenu);
             test.call(this, container);
             this.loadArchivePanel();
         };
