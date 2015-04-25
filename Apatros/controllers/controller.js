@@ -15,24 +15,47 @@
             attachAddPostHandler,
             attachAddCommentHandler,
             attachLogoutHandler,
+            attachAddPostTagsHandler,
+            attachEditCommentHandler,
+            attachDeleteCommentHandler,
+            attachSeveEditedComment,
             test;
 
         function Controller(model) {
             this.model = model;
+            this.noty = noty;
+            this.credentials = credentials;
         }
 
         Controller.prototype.init = function (container) {
-            this.loadMostFamousTags();
             attachRegisterHandler.call(this, container);
             attachLoginHandler.call(this, container);
             attachLogoutHandler.call(this, container);
             attachAddPostHandler.call(this, container);
-            attachAddCommentHandler.call(this, container);
             attachAddPostTagsHandler.call(this, container);
+            attachAddCommentHandler.call(this, container);
+            attachEditCommentHandler.call(this, container);
+            attachDeleteCommentHandler.call(this, container);
             menuView.load.call(this, mainMenu);
             test.call(this, container);
+            this.loadMostFamousTags();
             this.loadArchivePanel();
         };
+
+        Controller.prototype.isLogged = function isLogged() {
+            if (sessionStorage['sessionToken']) {
+                return true;
+            }
+            return false;
+        }
+
+        Controller.prototype.isAdmin = function isAdmin() {
+            if (credentials.getUserRole() === '8QLZGmzWmP') {
+                return true;
+            }
+            return false;
+        }
+
         Controller.prototype.loadPosts = function (container) {
             var _this = this;
             this.model.posts.getPosts('&limit=5').then(
@@ -49,15 +72,15 @@
             );
         };
 
-        Controller.prototype.loadMostFamousTags = function loadMostFamousTags(){
+        Controller.prototype.loadMostFamousTags = function loadMostFamousTags() {
             this.model.tagsPosts.getMostFamousTags(20).then(
-                function(data){
+                function(data) {
                     mostFamousTagsView.load(rightAside, data);
                 },
-                function(error){
+                function(error) {
                     console.log(error.responseText);
                 }
-            )
+            );
         };
 
         Controller.prototype.loadArchiveByPeriod = function (container, date) {
@@ -88,25 +111,25 @@
                     postView.load(container, post);
                     return _this.model.comments.getByPostId(id);
                 }).then(function (data) {
-                    commentsView.load('#comments-container', data);
+                    commentsView.load(_this, '#comments-container', data);
                 }, function (error) {
                     noty.error(error.responseJSON.error);
                 });
         };
 
-        Controller.prototype.loadPostsByTag = function loadPostsByTag(container, tagId){
+        Controller.prototype.loadPostsByTag = function loadPostsByTag(container, tagId) {
             var _this = this;
             postsView.loading(container);
             this.model.tagsPosts.getPostsIdsByTagId(tagId).then(
-                function(data){
+                function (data) {
                     return _this.model.posts.getPostsByIds(data);
                 }
             ).then(
-                function(data){
+                function (data) {
                     postsView.load(container, data);
                 },
-                function(error){
-                    console.log(error);
+                function (error) {
+                    noty.error(error.responseJSON.error);
                 }
             );
         };
@@ -135,14 +158,11 @@
             addPostView.load(container);
         };
 
-
         test = function (container) {
             container.on('click', function () {
                 ///TODO: delete later
             });
         };
-
-        //Event Handlers
         attachRegisterHandler = function attachRegisterHandler(container) {
             var _this = this;
 
@@ -227,6 +247,10 @@
                        credentials.setSessionToken(data['sessionToken']);
                        credentials.setUserId(data['objectId']);
                        credentials.setUsername(data['username']);
+                       if (data['role']) {
+                           credentials.setUserRole(data['role'].objectId);
+                       }
+                       
 
                        _this.model.users.getUser(credentials.getUserId())
                            .then(function (data) {
@@ -258,55 +282,56 @@
             });
         };
 
-        function attachAddPostTagsHandler(container){
+        function attachAddPostTagsHandler(container) {
             var catchedTags = [];
             var catchedTagsSpans = [];
             var input;
             var isEmptyField = true;
-            $(window).on('hashchange', function() {
+            $(window).on('hashchange', function () {
                 catchedTags = [];
                 catchedTagsSpans = [];
-                if(input){
+                if (input) {
                     input.data('tags', []);
                 }
             });
-            container.on('click', '#tags-wrapper', function(){
+            container.on('click', '#tags-wrapper', function () {
                 $(this).children('input').focus();
             });
-            container.on('blur', '#post-tags', function(){
+            container.on('blur', '#post-tags', function () {
                 addTag($(this).val());
                 $(this).val('');
             });
-            container.on('keyup', '#post-tags', function(event){
+            container.on('keyup', '#post-tags', function (event) {
                 input = $(this);
                 var value = input.val();
                 var _this = this;
                 var tagsContainer = $('.tags');
                 var tags = value.split(',');
                 var backSpaceCode = 8;
-                if(event.keyCode == backSpaceCode && isEmptyField){
+                if (event.keyCode == backSpaceCode && isEmptyField) {
                     var lastTagIndex = _.findLastIndex(catchedTags);
                     deleteTagByIndex(lastTagIndex, true);
                 }
 
-                if(!input.val().length){
+                if (!input.val().length) {
                     isEmptyField = true;
-                }else{
+                } else {
                     isEmptyField = false;
                 }
-                if(tags.length > 1){
-                    tags.forEach(function(tag){
+                if (tags.length > 1) {
+                    tags.forEach(function (tag) {
                         addTag(tag);
                     });
                     $(this).val('');
                     isEmptyField = true;
                 }
-                input.data('tags',catchedTags);
+                input.data('tags', catchedTags);
             });
-            function addTag(tag){
+
+            function addTag(tag) {
                 tag = tag.trim().toLowerCase();
-                if(tag.length && !_.includes(catchedTags, tag)){
-                    var tagSpan = $('<span class="tag" title="'+tag+'">' + tag + '<span class="deleteTag" data-index="'+catchedTags.length+'">x</span></span>');
+                if (tag.length && !_.includes(catchedTags, tag)) {
+                    var tagSpan = $('<span class="tag" title="' + tag + '">' + tag + '<span class="deleteTag" data-index="' + catchedTags.length + '">x</span></span>');
                     catchedTags.push(tag);
                     catchedTagsSpans.push({
                         tagName: tag,
@@ -315,13 +340,13 @@
                     input.before(tagSpan);
                 }
             }
-            function deleteTagByIndex(index, backSpace){
-                if(catchedTags.length > 0){
-                    if(backSpace){
+            function deleteTagByIndex(index, backSpace) {
+                if (catchedTags.length > 0) {
+                    if (backSpace) {
                         input.val(catchedTags[index]);
                     }
-                    catchedTagsSpans.forEach(function(row){
-                        if(row.tagName == catchedTags[index]){
+                    catchedTagsSpans.forEach(function (row) {
+                        if (row.tagName == catchedTags[index]) {
                             row.tagSpan.remove();
                             delete row;
                         }
@@ -330,7 +355,7 @@
                     input.data('tags', catchedTags);
                 }
             }
-            container.on('click', '.deleteTag', function(){
+            container.on('click', '.deleteTag', function () {
                 var tagIndex = $(this).data('index');
                 deleteTagByIndex(tagIndex);
             });
@@ -348,7 +373,6 @@
                         postId = data.objectId;
                         return _this.model.tags.addTags(postTags);
                     }).then(function (tagsIds) {
-                        console.log('vikago');
                         return _this.model.tagsPosts.addTagsPosts(tagsIds, postId);
                     }).then(
                     function () {
@@ -385,7 +409,7 @@
                                         "objectId": data.objectId
                                     }]
                                 }
-                                commentsView.appendComment('#comments-container', newComment);
+                                commentsView.appendComment(_this, '#comments-container', newComment);
                             });
                     } else {
                         noty.error('You can`t post empty comment!');
@@ -395,6 +419,18 @@
                 }
             });
         };
+
+        attachEditCommentHandler = function attachEditCommentHandler(container) {
+            var _this = this;
+            container.on('click', "#edit-comment", function (ev) {
+                var commentContainer = $(this).parent().parent();
+                commentsView.loadEditForm(_this, commentContainer);
+            });
+        }
+
+        attachDeleteCommentHandler = function attachDeleteCommentHandler(container) {
+
+        }
 
         function loggedMenu() {
             menuView.load("#main-menu", { 'login': false, 'register': false, 'logout': true });

@@ -18,6 +18,14 @@
         sessionStorage.setItem('username', username);
     }
 
+    function getUserRole() {
+        return sessionStorage.getItem('userRole');
+    }
+
+    function setUserRole(userRole) {
+        sessionStorage.setItem('userRole', userRole);
+    }
+
     function getUserId() {
         return sessionStorage.getItem('userId');
     }
@@ -25,7 +33,6 @@
     function setUserId(userId) {
         sessionStorage.setItem('userId', userId);
     }
-
     function getHeaders(master) {
 
         if (master === 'master') {
@@ -45,6 +52,8 @@
         setUsername: setUsername,
         getUserId: getUserId,
         setUserId: setUserId,
+        getUserRole: getUserRole,
+        setUserRole: setUserRole,
         getHeaders: getHeaders
     }
 });

@@ -226,10 +226,11 @@
     <Content Include="models\usersRepoModel.js" />
     <Content Include="templates\addComment.html" />
     <Content Include="templates\archives.html" />
+    <Content Include="templates\comment.html" />
     <Content Include="templates\comments.html" />
-    <Content Include="templates\EditComment.html" />
     <Content Include="style\style.css" />
     <Content Include="templates\addPost.html" />
+    <Content Include="templates\editCommentForm.html" />
     <Content Include="templates\editPost.html" />
     <Content Include="templates\login.html" />
     <Content Include="templates\logout.html" />

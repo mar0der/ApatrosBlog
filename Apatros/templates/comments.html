@@ -1,9 +1,11 @@
 ﻿{{#results}}
 <div class="comment-container" data-id="{{objectId}}">
-    <span class="author"><a href="#/user/{{author.objectId}}">{{author.username}}</a></span>
+    <span class="author" data-id="{{author.objectId}}"><a href="#/user/{{author.objectId}}">{{author.username}}</a></span>
     <span class="date">{{createdAt}}</span>
-    <span class="comments-edit"><a href="#">Edit</a></span>
-    <span class="comments-delete"><a href="#">Delete</a></span>
+    {{#allowedToEdit}}
+    <span class="comments-edit"><a href="#" id="edit-comment">Edit</a></span>
+    <span class="comments-delete"><a href="#" id="delete-comment">Delete</a></span>
+    {{/allowedToEdit}}
     <p class="content">{{content}}</p>
 </div>
 {{/results}}
