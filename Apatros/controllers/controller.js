@@ -33,14 +33,30 @@
             test.call(this, container);
             this.loadArchivePanel();
         };
+
         Controller.prototype.loadPosts = function (container) {
-            var _this = this;
+            postsView.loading(container);
             this.model.posts.getPosts('&limit=5').then(
                 function (data) {
                     postsView.load(container, data);
                 }
             );
         };
+
+        Controller.prototype.loadPost = function (container, id) {
+            var _this = this;
+            postsView.loading(container);
+            this.model.posts.getPost(id).then(
+                function (post) {
+                    postView.load(container, post);
+                    return _this.model.comments.getByPostId(id);
+                }).then(function (data) {
+                    commentsView.load('#comments-container', data);
+                }, function (error) {
+                    noty.error(error.responseJSON.error);
+                });
+        };
+
         Controller.prototype.loadArchivePanel = function () {
             this.model.posts.getPostsDates().then(
                 function (data) {
@@ -49,18 +65,8 @@
             );
         };
 
-        Controller.prototype.loadMostFamousTags = function loadMostFamousTags(){
-            this.model.tagsPosts.getMostFamousTags(3).then(
-                function(data){
-                    mostFamousTagsView.load(rightAside, data);
-                },
-                function(error){
-                    console.log(error.responseText);
-                }
-            )
-        };
-
         Controller.prototype.loadArchiveByPeriod = function (container, date) {
+            postsView.loading(container);
             this.model.posts.getArchiveByPeriod(date).then(
                 function (data) {
                     postsView.load(container, data);
@@ -81,17 +87,15 @@
             return uniqueObjects;
         }
 
-        Controller.prototype.loadPost = function (container, id) {
-            var _this = this;
-            this.model.posts.getPost(id).then(
-                function (post) {
-                    postView.load(container, post);
-                    return _this.model.comments.getByPostId(id);
-                }).then(function (data) {
-                    commentsView.load('#comments-container', data);
-                }, function (error) {
-                    noty.error(error.responseJSON.error);
-                });
+        Controller.prototype.loadMostFamousTags = function loadMostFamousTags(){
+            this.model.tagsPosts.getMostFamousTags(3).then(
+                function(data){
+                    mostFamousTagsView.load(rightAside, data);
+                },
+                function(error){
+                    console.log(error.responseText);
+                }
+            )
         };
 
         Controller.prototype.loadPostsByTag = function loadPostsByTag(container, tagId){
