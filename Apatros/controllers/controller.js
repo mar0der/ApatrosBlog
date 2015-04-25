@@ -141,8 +141,9 @@
         };
 
         Controller.prototype.loadProfile = function (container) {
-            profileView.load(container);
-            //TODO: Login Logic
+            this.model.users.getUser(sessionStorage['userId']).then(function (user) {
+                profileView.load(container, user);
+            });
         };
 
         Controller.prototype.loadLogin = function (container) {

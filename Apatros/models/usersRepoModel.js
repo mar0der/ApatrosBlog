@@ -31,7 +31,6 @@
 
     UsersRepo.prototype.getUser = function (id) {
         var deffer = Q.defer();
-
         Requester.get(this.baseUrl + 'users/' + id, credentials.getHeaders())
             .then(function (response) {
                 deffer.resolve(response);
