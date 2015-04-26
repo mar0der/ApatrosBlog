@@ -2,6 +2,9 @@
     function commentsView(controller, selector, data) {
         $.get('templates/comments.html', function (template) {
             data.results.forEach(function (comment) {
+                var date = new Date(comment.createdAt);
+                var formattedDate = formatDate(date);
+                comment.createdAt = formattedDate;
                 if ((comment.author.objectId === controller.credentials.getUserId()
                     || controller.isAdmin())
                     && controller.isLogged()) {
@@ -12,6 +15,22 @@
             var output = Mustache.render(template, data);
             $(selector).html(output);
         });
+    }
+
+    function formatDate(dateString){
+        var date = new Date(dateString);
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var formattedDate = addZero(day) + '.' + addZero(month) + '.' + addZero(year) + ' ' + addZero(hours) + ':' + addZero(minutes);
+
+        function addZero(num){
+            return num > 9 ? num : '0' + num;
+        }
+
+        return formattedDate;
     }
 
     function appendComment(controller, selector, data) {

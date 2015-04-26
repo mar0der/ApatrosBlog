@@ -3,7 +3,7 @@
         this.id = id;
         this.date = date;
         this.author = author;
-        this.content = contnet;
+        this.content = content;
     }
 
     return Comment;

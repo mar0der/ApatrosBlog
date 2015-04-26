@@ -1,4 +1,13 @@
-﻿html, body, div, article, aside, header, nav, ul, li, a, p, span, strong, em, footer, section, h1, h2, h3, h4 {
+﻿@font-face {
+    font-family: 'GlyphIcons';
+    src: url('fonts/glyphicons-halflings-regular.eot'); /* IE9 Compat Modes */
+    src: url('fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('fonts/glyphicons-halflings-regular.woff2') format('woff2'), /* Super Modern Browsers */
+    url('fonts/glyphicons-halflings-regular.woff') format('woff'), /* Pretty Modern Browsers */
+    url('fonts/glyphicons-halflings-regular.ttf')  format('truetype'), /* Safari, Android, iOS */
+    url('fonts/glyphicons-halflings-regular.svg#svgFontName') format('svg'); /* Legacy iOS */
+}
+html, body, div, article, aside, header, nav, ul, li, a, p, span, strong, em, footer, section, h1, h2, h3, h4 {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
@@ -24,7 +33,7 @@ div, article, header, footer, section, aside, ul, li, h1, h2, h3, h4, h5, body {
     flex-grow: 1;
     max-width: 500px;
     box-sizing: border-box;
-    margin: 0 30px 50px 30px;
+    margin: 30px 30px 50px 30px;
 }
 div#wrapper {
     margin-top: 50px;
@@ -66,7 +75,7 @@ header ul li {
     /*sidebars*/
 
 aside#right h3, aside#left h3{
-    border-bottom: 3px double #ccc;
+    border-bottom: 2px solid #e6e6e6;
     font-size: 14pt;
     padding-bottom: 10px;
     margin-bottom: 15px;
@@ -74,15 +83,30 @@ aside#right h3, aside#left h3{
     text-transform: uppercase;
     color: #333;
 }
+#main-menu .icon{
+    font-family: GlyphIcons;
+    margin-right: 6px;
+    color: #ffd5b4;
+}
+#noty-container li{
+    margin-bottom: 20px;
+}
 aside#right a, aside#left a {
+    transition: all ease 0.2s;
     display: inline-block;
     margin: 3px;
     padding: 5px 10px;
-    background: #F3E3DD;
+    background: #fff;
     text-decoration: none;
-    color: #FF5E3A;
+    color: #999;
+    border-bottom: 2px solid #e3e3e3;
     border-radius: 3px;
     font-size: 11pt;
+}
+aside#right a:hover, aside#left a:hover {
+    background: #F3E3DD;
+    color: #FF5E3A;
+    border-bottom: 2px solid #ddcdc7;
 }
 aside#right, aside#left{
     width: 200px;
@@ -90,7 +114,6 @@ aside#right, aside#left{
     display: block;
     padding: 20px;
 }
-
 /*content*/
 /*section {*/
 	/*display: inline-block;*/
@@ -103,7 +126,7 @@ aside#right, aside#left{
 #post-container{
     margin-bottom: 20px;
 }
-#add-comment-form textarea{
+#add-comment-form textarea, .edit-comment-textarea{
     display: block;
     width: 100%;
     box-sizing: border-box;
@@ -116,14 +139,18 @@ aside#right, aside#left{
     height: 100px;
     font-family: Georgia, serif;
     font-size: 13pt;
+    color: #666;
+}
+#add-comment-form textarea:focus, .edit-comment-textarea:focus{
+    border-bottom-color: #c3c3c3;
     color: #333;
 }
-#add-comment-form > div > label{
+label{
     color: #888;
     font-size: 10pt;
     text-transform: uppercase;
 }
-#add-comment-form button{
+#add-comment-form button, .save-edited-comment, #addPostForm #submit-post{
     display: block;
     margin-top: 10px;
     border: 0;
@@ -137,14 +164,71 @@ aside#right, aside#left{
     outline: none;
     cursor: pointer;
 }
-#add-comment-form button:hover{
+#addPostForm #submit-post{
+    width: auto;
+}
+.save-edited-comment{
+    float: none;
+}
+.forgot-password{
+    float: right;
+    position: relative;
+    top: 10px;
+    text-decoration: none;
+    color: #ffa751;
+    text-transform: uppercase;
+}
+.forgot-password:hover{
+    color: #db894b;
+}
+#rememberMe{
+    position: relative;
+    top: 2px;
+    left: 3px;
+}
+#add-comment-form{
+    margin-top: 30px;
+}
+#add-comment-form button:hover,  #addPostForm #submit-post:hover, #submit-registration:hover{
     background: #12bdde;
 }
-#add-comment-form button:active{
+#add-comment-form button:active,  #addPostForm #submit-post:active, #submit-registration:active{
     background: #12a3c3;
 }
 .comment-container{
-    margin: 10px 0;
+    margin: 15px 0;
+}
+.comment-container .date{
+    color: red;
+    float: right;
+}
+.comment-container .author a{
+    display: inline-block;
+    margin-bottom: 5px;
+    font-size: 12pt;
+    color: #666;
+    font-weight: bold;
+    text-decoration: none;
+}
+.comment-container .author a:hover{
+    text-decoration: underline;
+}
+.comment-container .content{
+    color: #666;
+    font-size: 10pt;
+}
+.comment-delete-btn, #delete-post-btn, .comment-edit-btn, #edit-post-btn{
+    float: right;
+    background: none;
+    border: 0;
+    padding: 0 5px;
+    font-size: 10pt;
+    cursor: pointer;
+    color: #999;
+    text-transform: uppercase;
+}
+.comment-delete-btn:hover, #delete-post-btn:hover, .comment-edit-btn:hover, #edit-post-btn:hover{
+    text-decoration: underline;
 }
 .post .tags{
     margin-top: 20px;
@@ -183,6 +267,14 @@ aside#right, aside#left{
 .post .author{
     float: left;
 }
+.post .author a{
+    color: #333;
+    font-size: 10pt;
+    text-decoration: none;
+}
+.post .author a:hover{
+    color: #999;
+}
 .post .author, .post .numberOfViews{
     color:#ccc;
     font-size: 10pt;
@@ -192,7 +284,8 @@ aside#right, aside#left{
 }
 .post {
     border-bottom: 3px dotted #ccc;
-    padding: 20px 0;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
 }
 .postBody p{
     color:#666;
@@ -201,6 +294,7 @@ aside#right, aside#left{
     margin-top: 10px;
 }
 .post .readMore{
+    transition: all ease 0.2s;
     background: #ffcc00;
     padding: 5px 10px;
     text-transform: uppercase;
@@ -209,13 +303,118 @@ aside#right, aside#left{
     color: #333;
     float: right;
 }
+.post .readMore:hover{
+    background: #ffda10;
+}
+h1{
+    font-size: 20pt;
+    font-family: Georgia, serif;
+    font-weight: normal;
+    color: #666;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 3px double #eee;
+}
+#addPostForm label, #addPostForm textarea, #addPostForm button, #addPostForm input{
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+}
+#addPostForm textarea{
+    height: 100px;
+}
+#addPostForm textarea, #addPostForm input, #addPostForm #tags-wrapper{
+    padding: 10px;
+    outline: none;
+    resize: none;
+    border: none;
+    background: #eee;
+    border-bottom: 2px solid #ccc;
+    font-family: Georgia, serif;
+    font-size: 13pt;
+    color: #666;
+}
+input#username, #password{
+    display: block;
+    padding: 10px;
+    outline: none;
+    resize: none;
+    border: none;
+    background: #eee;
+    border-bottom: 2px solid #ccc;
+    font-family: Georgia, serif;
+    font-size: 13pt;
+    color: #666;
+    width: 100%;
+    box-sizing: border-box;
+}
+#submit-login, body #registration-form #submit-registration{
+    display: block;
+    margin-top: 10px;
+    border: 0;
+    background: #12accc;
+    color: #fff;
+    padding: 8px 10px;
+    float: right;
+    text-transform: uppercase;
+    font-size: 9pt;
+    border-bottom: 2px solid #129aba;
+    outline: none;
+    cursor: pointer;
+}
+#submit-registration:disabled{
+    opacity: 0.4;
+}
+#registration-form label{
+    display: block;
+    margin-top: 10px;
+}
+#registration-form input {
+    display: inline-block;
+    padding: 10px;
+    outline: none;
+    resize: none;
+    border: none;
+    background: #eee;
+    border-bottom: 2px solid #ccc;
+    font-family: Georgia, serif;
+    font-size: 13pt;
+    color: #666;
+    width: 100%;
+    box-sizing: border-box;
+}
+#registration-form .validation{
+    float: right;
+    font-family: GlyphIcons;
+}
+#registration-form .passed{
+    color: #aade69;
+}
+#registration-form .passed:before{
+    content: '\e013';
+}
+#registration-form .wrong{
+    color: #ff7e5b;
+}
+#registration-form .wrong:before{
+    content: '\e014';
+}
 .clear:after{
     content: '';
     display: block;
     clear: both;
     zoom: 1;
 }
-
+#user-profile div > span:nth-of-type(1){
+    color: #888;
+    font-size: 10pt;
+    text-transform: uppercase;
+}
+#user-profile div > span:nth-of-type(2){
+    color: #333;
+    font-family: Georgia, serif;
+    font-size: 12pt;
+}
 /*footer*/
 footer {
 	/*height: 150px;*/
@@ -288,16 +487,20 @@ span {
 #tags-wrapper input{
     background: #eee;
     flex-grow: 1;
+    width: auto;
+    font-size: 10pt;
     border:0;
     margin:0;
 }
 .tag{
-    background: #ddd;
-    padding: 5px 16px 5px 5px;
+    background: #fff;
+    padding: 5px 26px 5px 5px;
     border: #999;
+    font-size: 10pt;
+    font-family: Georgia, serif;
     color: #333;
-    border-radius: 3px;
-    margin:0 5px 5px 0;
+    border-bottom: 2px solid #e3e3e3;
+    margin: 5px 5px 5px 0;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -308,19 +511,26 @@ span {
     position:relative;
 }
 #tags-wrapper .tag .deleteTag{
-    padding: 1px;
-    border-radius: 2px;
+    font-family: 'GlyphIcons';
+    /*border-radius: 50%;*/
+    /*padding: 0 4px 4px 4px;*/
+    padding: 5px;
+    line-height: 13px;
     margin-left: 3px;
     font-weight: bold;
     cursor: pointer;
     position: absolute;
-    right: 5px;
-    top:4px;
-    color: #333;
-    background: #bbb;
+    right: 0;
+    top:0;
+    color: #fff;
+    background: #ff9984;
+}
+.deleteTag:before{
+    font-size: 7pt;
+    content: '\e014';
 }
 #tags-wrapper .tag .deleteTag:hover{
-    background: #ddd;
+    background: #f28c79;
 }
 
 

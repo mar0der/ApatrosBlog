@@ -94,11 +94,13 @@ define([], function () {
     }
 
     function passValidation(input) {
-        input.next('.validation').addClass('passed').html('&#10004;');
+//        $('label[for=' + input.attr('id') + '] .validation').addClass('passed').html('&#10004;');
+        $('label[for=' + input.attr('id') + '] .validation').attr('class', 'validation passed');
     }
 
     function failValidation(input) {
-        input.next('.validation').removeClass('passed').html('&#10008;');
+//        $('label[for=' + input.attr('id') + '] .validation').removeClass('passed').html('&#10008;');
+        $('label[for=' + input.attr('id') + '] .validation').attr('class', 'vali');
     }
 
     return {

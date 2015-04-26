@@ -56,7 +56,7 @@
         function addTag(tag) {
             tag = tag.trim().toLowerCase();
             if (tag.length && !_.includes(catchedTags, tag)) {
-                var tagSpan = $('<span class="tag" title="' + tag + '">' + tag + '<span class="deleteTag" data-index="' + catchedTags.length + '">x</span></span>');
+                var tagSpan = $('<span class="tag" title="' + tag + '">' + tag + '<span class="deleteTag" data-index="' + catchedTags.length + '"></span></span>');
                 catchedTags.push(tag);
                 catchedTagsSpans.push({
                     tagName: tag,

@@ -1,11 +1,13 @@
-<div class="post clear" id="post-container" data-id="{{id}}">
+﻿<div class="post clear" id="post-container" data-id="{{id}}">
     <div class="clear">
         <h3>{{title}}</h3>
         <div class="date">{{date}}</div>
     </div>
     <div class="clear">
-        <span>Author: </span><a class="author" href="#/user/{{author.objectId}}">{{author.username}}</a>
+        <span class="author">Author: <a href="#/user/{{author.objectId}}">{{author.username}}</a></span>
         <span class="numberOfViews">Number of views: {{visits}}</span>
+    </div>
+    <div class="clear">
         <button id="edit-post-btn">edit</button>
         <button id="delete-post-btn">delete</button>
     </div>

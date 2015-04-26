@@ -9,7 +9,7 @@
 
     function registerHandler(controller, container) {
         // Attach keyup to validate the fields of the registration form
-        var inputFields = $('#registration-form  > fieldset > input');
+        var inputFields = $('#registration-form input');
 
         container.on('keyup', inputFields, function (event) {
             var target = event.target;

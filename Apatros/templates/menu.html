@@ -1,14 +1,14 @@
 ﻿<ul>
-    <li><a href="#/posts">Posts</a></li>
+    <li><a href="#/posts"><span class="icon">&#xe054;</span>Posts</a></li>
     {{#isAdmin}}
-    <li><a href="#/writePost">Write Post</a></li>
+    <li><a href="#/writePost"><span class="icon">&#xe065;</span>Write Post</a></li>
     {{/isAdmin}}
     {{^isLogged}}
-    <li><a href="#/register">Register</a></li>
-    <li><a href="#/login">Login</a></li>
+    <li><a href="#/register"><span class="icon">&#xe067;</span>Register</a></li>
+    <li><a href="#/login"><span class="icon">&#xe161;</span>Login</a></li>
     {{/isLogged}}
     {{#isLogged}}
-    <li><a href="#/profile">Profile</a></li>
-    <li><a id="submit-logout" href="#/posts">Logout</a></li>
+    <li><a href="#/profile"><span class="icon">&#xe008;</span>Profile</a></li>
+    <li><a id="submit-logout" href="#/posts"><span class="icon">&#xe163;</span>Logout</a></li>
     {{/isLogged}}
 </ul>
