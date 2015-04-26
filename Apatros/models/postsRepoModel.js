@@ -78,8 +78,7 @@ define(['ajaxRequesterModel', 'postModel', 'postDateModel', 'Q', 'credentialsMod
 
         return _this.getPosts(query);
     };
-
-
+        
     PostsRepo.prototype.getPost = function (id) {
         var deffer = Q.defer();
         var data = {
@@ -154,9 +153,15 @@ define(['ajaxRequesterModel', 'postModel', 'postDateModel', 'Q', 'credentialsMod
         return defer.promise;
     };
 
-    PostsRepo.prototype.editPost = function () {
-        //TODO
+    PostsRepo.prototype.editPost = function (id, title, body) {
+        var data = {
+            title: title,
+            body: body
+         };
+
+        return Requester.put(this._serviceUrl + id, credentials.getHeaders(), data);
     };
+
     PostsRepo.prototype.deletePost = function () {
         //TODO
     };

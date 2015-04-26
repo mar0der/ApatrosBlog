@@ -280,9 +280,9 @@
 
         function attachEditPostHandler(container) {
             var _this = this;
-            container.on('click', "#save-post-btn", function() {
-                var postContainer = $(this).parent();
-                editPostView.loadEditForm(_this, postContainer);
+            container.on('click', "#edit-post-btn", function () {
+                var postContainer = $(this).parent().parent();
+                editPostView.loadEditForm(_this, postContainer, container);
             });
         }
         
