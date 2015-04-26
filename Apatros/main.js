@@ -29,7 +29,6 @@
         'editPostView': 'views/editPostView',
         'loginView': 'views/loginView',
         'profileView': 'views/profileView',
-        'logoutView': 'views/logoutView',
         'registerView': 'views/registerView',
         'tagsView': 'views/tagsView',
         'archiveView': 'views/archiveView',
