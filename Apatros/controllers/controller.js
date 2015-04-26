@@ -104,6 +104,12 @@
             });
         };
 
+        Controller.prototype.loadUser = function (container, id) {
+            this.model.users.getUser(id).then(function (user) {
+                profileView.load(container, user);
+            });
+        };
+
         Controller.prototype.loadLogin = function (container) {
 
             if (this.isLogged()) {

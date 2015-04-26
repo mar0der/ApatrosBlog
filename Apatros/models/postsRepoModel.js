@@ -25,7 +25,7 @@ define(['ajaxRequesterModel', 'postModel', 'postDateModel', 'Q', 'credentialsMod
                 data['results'].forEach(function (post) {
                     var p = new postModel(
                         post['objectId'],
-                        post['author'].username,
+                        post['author'],
                         post['title'],
                         post['body'],
                         post['createdAt'],
@@ -90,7 +90,7 @@ define(['ajaxRequesterModel', 'postModel', 'postDateModel', 'Q', 'credentialsMod
                 var post = response.result.post;
                 var p = new postModel(
                     post['objectId'],
-                    post['author'].username,
+                    post['author'],
                     post['title'],
                     post['body'],
                     post['createdAt'],

@@ -82,6 +82,10 @@ require(['sammy', 'controller', 'appRepository', 'config', 'noty', 'jquery'],
                 controller.loadProfile(container);
             });
 
+            this.get('#/user/:id', function () {
+                controller.loadUser(container, this.params['id']);
+            });
+
             this.get('#/register', function () {
                 controller.loadRegister(container);
             });
