@@ -10,7 +10,7 @@
         var leftAside = $('#left'),
             rightAside = $('#right'),
             mainMenu = $('#main-menu'),
-            commentsContainer = $('#comments-container');
+            commentsContainerSelector = '#comments-container';
 
         function Controller(model) {
             this.model = model;
@@ -71,7 +71,7 @@
                     postView.load(container, post);
                     return _this.model.comments.getByPostId(id);
                 }).then(function (data) {
-                    commentsView.load(_this, commentsContainer, data);
+                    commentsView.load(_this, commentsContainerSelector, data);
                 }, function (error) {
                     noty.error(error.responseJSON.error);
                 });
@@ -293,7 +293,7 @@
                                         "objectId": data.objectId
                                     }]
                                 }
-                                commentsView.appendComment(_this, '#comments-container', newComment);
+                                commentsView.appendComment(_this, commentsContainerSelector, newComment);
                             });
                     } else {
                         noty.error('You can`t post empty comment!');
