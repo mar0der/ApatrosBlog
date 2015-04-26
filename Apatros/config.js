@@ -14,6 +14,10 @@
             'X-Parse-Master-Key': 'AYHqrzBjPK0HChcSGosMOmIwjVR3YI78We60hY1X',
             'X-Parse-Session-Token': ''
         },
-        'usersRoleId': 'poOqnRXGE3'
+        'usersRoleId': 'poOqnRXGE3',
+        'adminRoleId': '8QLZGmzWmP',
+        'defaultPostPerPage': 5,
+        'defaultTagsLimit': 20,
+        'defaultRoute': '/posts'
     }
 });

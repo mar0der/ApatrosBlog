@@ -1,15 +1,16 @@
 ﻿define(['notifications', 'postsView', 'postView', 'tagsView', 'profileView',
-        'loginView', 'logoutView', 'registerView', 'addPostView',
-        'archiveView', 'registrationValidator', 'credentialsModel', 'menuView', 'commentsView',
-        'mostFamousTagsView', 'notFoundView'],
+        'loginView', 'registerView', 'addPostView',
+        'archiveView', 'credentialsModel', 'menuView', 'commentsView',
+        'mostFamousTagsView', 'notFoundView', 'config'],
     function (noty, postsView, postView, tagsView, profileView,
-              loginView, logoutView, registerView, addPostView,
-              archiveView, validator, credentials, menuView, commentsView,
-              mostFamousTagsView, notFoundView) {
+              loginView, registerView, addPostView,
+              archiveView, credentials, menuView, commentsView,
+              mostFamousTagsView, notFoundView, config) {
 
         var leftAside = $('#left'),
             rightAside = $('#right'),
-            mainMenu = $('#main-menu');
+            mainMenu = $('#main-menu'),
+            commentsContainer = $('#comments-container');
 
         function Controller(model) {
             this.model = model;
@@ -18,20 +19,19 @@
         }
 
         Controller.prototype.init = function (container) {
-            this.loadMostFamousTags();
-            attachRegisterHandler.call(this, container);
+            attachRegistrationHandler.call(this, container);
             attachLoginHandler.call(this, container);
-            attachLogoutHandler.call(this, container);
+            attachLogoutHandler.call(this);
             attachAddPostHandler.call(this, container);
             attachAddCommentHandler.call(this, container);
             attachEditCommentHandler.call(this, container);
             attachDeleteCommentHandler.call(this, container);
+            loadMostFamousTags.call(this);
+            loadArchivePanel.call(this);
             menuView.load(mainMenu, this);
-            this.loadMostFamousTags();
-            this.loadArchivePanel();
         };
-        //load pages
 
+        //Load routes
         Controller.prototype.isLogged = function isLogged() {
             if (sessionStorage['sessionToken']) {
                 return true;
@@ -40,7 +40,7 @@
         }
 
         Controller.prototype.isAdmin = function isAdmin() {
-            if (credentials.getUserRole() === '8QLZGmzWmP') {
+            if (credentials.getUserRole() === config.adminRoleId) {
                 return true;
             }
             return false;
@@ -48,27 +48,9 @@
 
         Controller.prototype.loadPosts = function (container) {
             postsView.loading(container);
-            this.model.posts.getPosts('&limit=5').then(
+            this.model.posts.getPosts('&limit=' + config.defaultPostPerPage).then(
                 function (data) {
                     postsView.load(container, data);
-                }
-            );
-        };
-        Controller.prototype.loadArchivePanel = function () {
-            this.model.posts.getPostsDates().then(
-                function (data) {
-                    archiveView.load(leftAside, filterArchives(data));
-                }
-            );
-        };
-
-        Controller.prototype.loadMostFamousTags = function loadMostFamousTags() {
-            this.model.tagsPosts.getMostFamousTags(20).then(
-                function (data) {
-                    mostFamousTagsView.load(rightAside, data);
-                },
-                function (error) {
-                    console.log(error.responseText);
                 }
             );
         };
@@ -82,19 +64,6 @@
             );
         };
 
-        function filterArchives(data) {
-            var uniqueDates = [],
-                uniqueObjects = { dates: [] };
-            for (var dateObj in data.dates) {
-                var d = data.dates[dateObj].date;
-                if (uniqueDates.indexOf(d) < 0) {
-                    uniqueDates.push(d);
-                    uniqueObjects.dates.push({ date: d });
-                }
-            }
-            return uniqueObjects;
-        }
-
         Controller.prototype.loadPost = function (container, id) {
             var _this = this;
             this.model.posts.getPost(id).then(
@@ -102,7 +71,7 @@
                     postView.load(container, post);
                     return _this.model.comments.getByPostId(id);
                 }).then(function (data) {
-                    commentsView.load(_this, '#comments-container', data);
+                    commentsView.load(_this, commentsContainer, data);
                 }, function (error) {
                     noty.error(error.responseJSON.error);
                 });
@@ -124,41 +93,35 @@
                 }
             );
         };
+
         Controller.prototype.loadTags = function (container) {
-            //TODO: Load Tags logic
             tagsView.load(container);
         };
 
         Controller.prototype.loadProfile = function (container) {
-            this.model.users.getUser(sessionStorage['userId']).then(function (user) {
+            this.model.users.getUser(credentials.getUserId()).then(function (user) {
                 profileView.load(container, user);
             });
         };
 
         Controller.prototype.loadLogin = function (container) {
-            
+
             if (this.isLogged()) {
-                window.location.hash = '/posts';
+                window.location.hash = config.defaultRoute;
             } else {
                 loginView.load(this, container);
             }
         };
 
-        Controller.prototype.loadLogout = function (container) {
-            logoutView.load(container);
-            //TODO: Login Logic
-        };
-
         Controller.prototype.loadRegister = function (container) {
             if (this.isLogged()) {
-                window.location.hash = '/posts';
+                window.location.hash = config.defaultRoute;
             } else {
-                registerView.load(container);
+                registerView.load(this, container);
             }
         };
 
         Controller.prototype.loadAddPost = function (container) {
-            //TODO: Add Post Logic
             addPostView.load(container);
         };
 
@@ -166,29 +129,44 @@
             notFoundView.load(container, url);
         }
 
-        //Event Handlers
-        function attachRegisterHandler(container) {
-            var _this = this;
-
-            // Attach keyup to validate the fields of the registration form
-            var inputFields = $('#registration-form  > fieldset > input');
-
-            container.on('keyup', inputFields, function (event) {
-                var target = event.target;
-                var submitButton = $('#submit-registration');
-
-                validator.validateInput(target);
-
-                if (document.getElementsByClassName('passed').length === 6) {
-                    submitButton.prop('disabled', false);
-                } else {
-                    submitButton.prop('disabled', true);
+        //Load SideBars
+        function loadArchivePanel() {
+            this.model.posts.getPostsDates().then(
+                function (data) {
+                    archiveView.load(leftAside, filterArchives(data));
                 }
-            });
+            );
 
-            // Attach click to submit registration
+            function filterArchives(data) {
+                var uniqueDates = [],
+                    uniqueObjects = { dates: [] };
+                for (var dateObj in data.dates) {
+                    var d = data.dates[dateObj].date;
+                    if (uniqueDates.indexOf(d) < 0) {
+                        uniqueDates.push(d);
+                        uniqueObjects.dates.push({ date: d });
+                    }
+                }
+                return uniqueObjects;
+            }
+        };
+
+        function loadMostFamousTags() {
+            this.model.tagsPosts.getMostFamousTags(config.defaultTagsLimit).then(
+                function (data) {
+                    mostFamousTagsView.load(rightAside, data);
+                },
+                function (error) {
+                    noty.error(error.responseJSON.error);
+                }
+            );
+        };
+
+        //Event Handlers
+        function attachRegistrationHandler(container) {
+            var _this = this;
             container.on('click', '#submit-registration', function (ev) {
-                var registrationInfo = parseRegistrationInfo();
+                var registrationInfo = registerView.parseRegistrationInfo();
                 var newUser = {
                     username: registrationInfo[0],
                     password: registrationInfo[1],
@@ -204,7 +182,7 @@
                         credentials.setUsername(newUser.username);
                         _this.model.users.assignRole()
                         .then(function () {
-                            $('#noty-container').html('');
+                            noty.clear();
                             noty.success('You have successfully registered!');
                             menuView.load(mainMenu, _this);
                             window.location.hash = '/posts?hidenoty=true';
@@ -213,32 +191,11 @@
                         noty.error(error.responseJSON.error);
                     });
             });
-            // WHERE SHOULD I PUT THIS ?
-            function parseRegistrationInfo() {
-                var newUserName,
-                    newPassword_1,
-                    newPassword_2,
-                    newEmail,
-                    newFirstName,
-                    newLastName,
-                    registrationInfo = [];
-
-                newUserName = $('#register-user-name').val();
-                newPassword_1 = $('#register-password').val();
-                newPassword_2 = $('#repeat-password').val();
-                newEmail = $('#register-email').val();
-                newFirstName = $('#register-first-name').val();
-                newLastName = $('#register-last-name').val();
-
-                registrationInfo.push(newUserName, newPassword_1, newPassword_2, newEmail, newFirstName, newLastName);
-
-                return registrationInfo;
-            }
-        };
+        }
 
         function attachLoginHandler(container) {
             var _this = this;
-            container.on('click', '#submit-login', function (ev) {
+            container.on('click', '#submit-login', function () {
                 var username = $('#username').val();
                 var password = $('#password').val();
                 var user = {
@@ -246,30 +203,31 @@
                     password: password
                 };
                 _this.model.users.loginUser(user)
-                   .then(function (data) {
-                       credentials.setSessionToken(data['sessionToken']);
-                       credentials.setUserId(data['objectId']);
-                       credentials.setUsername(data['username']);
-                       if (data['role']) {
-                           credentials.setUserRole(data['role'].objectId);
-                       }
-                       _this.model.users.getUser(credentials.getUserId())
-                           .then(function (data) {
-                               var emailVerified = data['emailVerified'];
+                    .then(function(data) {
+                        credentials.setSessionToken(data['sessionToken']);
+                        credentials.setUserId(data['objectId']);
+                        credentials.setUsername(data['username']);
+                        if (data['role']) {
+                            credentials.setUserRole(data['role'].objectId);
+                        }
+                        return _this.model.users.getUser(credentials.getUserId());
 
-                               if (!emailVerified) {
-                                   noty.info('Please verify your email address');
-                               }
-                               menuView.load(mainMenu, _this);
-                               window.location.hash = '/posts';
-                           });
-                   }, function (error) {
-                       noty.error(error.responseJSON.error);
-                   });
+                    })
+                    .then(function (data) {
+                        var emailVerified = data['emailVerified'];
+
+                        if (!emailVerified) {
+                            noty.info('Please verify your email address');
+                        }
+                        menuView.load(mainMenu, _this);
+                        window.location.hash = config.defaultRoute;
+                    }, function (error) {
+                        noty.error(error.responseJSON.error);
+                    });
             });
         };
 
-        function attachLogoutHandler(container) {
+        function attachLogoutHandler() {
             var _this = this;
             $('body').on('click', '#submit-logout', function (ev) {
                 _this.model.users.logoutUser()
@@ -285,30 +243,31 @@
 
         function attachAddPostHandler(container) {
             var _this = this;
-            container.on('click', '#submit-post', function (ev) {
+            container.on('click', '#submit-post', function () {
                 var postTitle = $('#post-title').val().trim();
                 var postBody = $('#post-body').val().trim();
                 var postTags = $('#post-tags').data('tags');
                 var postId;
-                
+
                 addPostView.loading(container);
                 _this.model.posts.addPost(postTitle, postBody).then(
                     function (data) {
                         postId = data.objectId;
                         return _this.model.tags.addTags(postTags);
-                    }).then(function (tagsIds) {
-                        console.log('vikago');
+                    })
+                    .then(function (tagsIds) {
                         return _this.model.tagsPosts.addTagsPosts(tagsIds, postId);
-                    }).then(
+                    })
+                    .then(
                     function () {
                         window.location.hash = '/view-post/' + postId;
 
-                    },
-                    function (error) {
+                    },function (error) {
                         console.log(error);
                     }
                 ).done();
-                _this.loadArchivePanel();
+                loadArchivePanel.call(_this);
+                loadMostFamousTags.call(_this);
             });
         };
 
@@ -318,7 +277,7 @@
                 var commentContent = $('#comment-content').val();
                 var postId = $('#post-container').data('id');
                 var authorId = credentials.getUserId();
-                if (authorId) {
+                if (_this.isLogged()) {
                     if (commentContent) {
                         _this.model.comments.add(commentContent, postId, authorId)
                             .then(function (data) {
@@ -347,19 +306,20 @@
 
         function attachEditCommentHandler(container) {
             var _this = this;
-            container.on('click', "#edit-comment", function (ev) {
-                var commentContainer = $(this).parent().parent();
+            container.on('click', ".comment-edit-btn", function () {
+                var commentContainer = $(this).parent();
                 commentsView.loadEditForm(_this, commentContainer);
             });
         }
 
         function attachDeleteCommentHandler(container) {
             var _this = this;
-            container.on('click', "#delete-comment", function (ev) {
-                var commentContainer = $(this).parent().parent().parent();
+            container.on('click', ".comment-delete-btn", function () {
+                var commentContainer = $(this).parent();
                 commentsView.deleteComment(_this, commentContainer);
             });
         }
+
         return {
             load: function (model) {
                 return new Controller(model);

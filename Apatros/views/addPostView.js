@@ -30,7 +30,6 @@
             $(this).val('');
         });
         $('#post-tags').off('keyup').on('keyup', function (event) {
-            console.log('keyup');
             var value = input.val();
             var tags = value.split(',');
             var backSpaceCode = 8;

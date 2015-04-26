@@ -96,6 +96,6 @@ require(['sammy', 'controller', 'appRepository', 'config', 'noty', 'jquery'],
         });
 
 
-        router.run('#/posts');
+        router.run('#'+config.defaultRoute);
 
     });

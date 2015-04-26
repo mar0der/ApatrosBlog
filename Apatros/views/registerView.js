@@ -1,13 +1,55 @@
-﻿define(['mustache'], function (Mustache) {
-    function registerView(selector, data) {
-        $.get('templates/register.html', function(template) {
+﻿define(['mustache', 'registrationValidator'], function (Mustache, validator) {
+    function registerView(controller, selector, data) {
+        $.get('templates/register.html', function (template) {
             var output = Mustache.render(template, data);
             $(selector).html(output);
+            registerHandler(controller, $(selector));
         });
     }
+
+    function registerHandler(controller, container) {
+        // Attach keyup to validate the fields of the registration form
+        var inputFields = $('#registration-form  > fieldset > input');
+
+        container.on('keyup', inputFields, function (event) {
+            var target = event.target;
+            var submitButton = $('#submit-registration');
+
+            validator.validateInput(target);
+
+            if (document.getElementsByClassName('passed').length === 6) {
+                submitButton.prop('disabled', false);
+            } else {
+                submitButton.prop('disabled', true);
+            }
+        });
+    }
+
+    function parseRegistrationInfo() {
+        var newUserName,
+            newPassword_1,
+            newPassword_2,
+            newEmail,
+            newFirstName,
+            newLastName,
+            registrationInfo = [];
+
+        newUserName = $('#register-user-name').val();
+        newPassword_1 = $('#register-password').val();
+        newPassword_2 = $('#repeat-password').val();
+        newEmail = $('#register-email').val();
+        newFirstName = $('#register-first-name').val();
+        newLastName = $('#register-last-name').val();
+
+        registrationInfo.push(newUserName, newPassword_1, newPassword_2, newEmail, newFirstName, newLastName);
+
+        return registrationInfo;
+    }
+
     return {
-        load: function (selector, data) {
-            registerView(selector, data);
-        }
+        load: function (controller, selector, data) {
+            registerView(controller, selector, data);
+        },
+        parseRegistrationInfo: parseRegistrationInfo
     }
 });

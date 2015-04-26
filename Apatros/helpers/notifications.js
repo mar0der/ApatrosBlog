@@ -28,9 +28,14 @@
     function information(message) {
         notification('top', 'information', message, true, 'toggle', 'toggle', 'swing', 500, 0, ['click']);
     }
+
+    function clear() {
+        $(notificationContainer).html('');
+    }
     return {
         'success': success,
         'error': error,
-        'info': information
+        'info': information,
+        'clear': clear
     }
 });

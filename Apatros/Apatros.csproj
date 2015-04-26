@@ -233,7 +233,6 @@
     <Content Include="templates\editCommentForm.html" />
     <Content Include="templates\editPost.html" />
     <Content Include="templates\login.html" />
-    <Content Include="templates\logout.html" />
     <Content Include="templates\menu.html" />
     <Content Include="templates\mostFamousTags.html" />
     <Content Include="templates\notFound.html" />
@@ -246,7 +245,6 @@
     <Content Include="views\commentsView.js" />
     <Content Include="views\editPostView.js" />
     <Content Include="views\loginView.js" />
-    <Content Include="views\logoutView.js" />
     <Content Include="helpers\notifications.js" />
     <Content Include="views\menuView.js" />
     <Content Include="views\notFoundView.js" />
