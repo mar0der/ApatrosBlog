@@ -36,6 +36,7 @@
         'menuView': 'views/menuView',
         'mostFamousTagsView': 'views/mostFamousTagsView',
         'commentsView': 'views/commentsView',
+        'notFoundView': 'views/notFoundView',
         //helpers
         'registrationValidator': 'helpers/registration-validator',
         'notifications': 'helpers/notifications'
@@ -88,6 +89,10 @@ require(['sammy', 'controller', 'appRepository', 'config', 'noty', 'jquery'],
             this.get('#/writePost', function () {
                 controller.loadAddPost(container);
             });
+
+            this.notFound = function (method, url) {
+                controller.loadNotFound(container, url);
+            }
         });
 
 

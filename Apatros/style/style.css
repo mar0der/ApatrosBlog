@@ -202,3 +202,8 @@ span {
 #tags-wrapper .tag .deleteTag:hover{
     background: #ddd;
 }
+
+
+.not-found-url {
+    color: red;
+}

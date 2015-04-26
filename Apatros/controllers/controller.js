@@ -1,11 +1,11 @@
 ﻿define(['notifications', 'postsView', 'postView', 'tagsView', 'profileView',
         'loginView', 'logoutView', 'registerView', 'addPostView',
         'archiveView', 'registrationValidator', 'credentialsModel', 'menuView', 'commentsView',
-        'mostFamousTagsView'],
+        'mostFamousTagsView', 'notFoundView'],
     function (noty, postsView, postView, tagsView, profileView,
               loginView, logoutView, registerView, addPostView,
               archiveView, validator, credentials, menuView, commentsView,
-              mostFamousTagsView) {
+              mostFamousTagsView, notFoundView) {
 
         var leftAside = $('#left'),
             rightAside = $('#right'),
@@ -37,8 +37,8 @@
             attachAddCommentHandler.call(this, container);
             attachEditCommentHandler.call(this, container);
             attachDeleteCommentHandler.call(this, container);
-            menuView.load.call(this, mainMenu);
-            test.call(this, container);
+            menuView.load(mainMenu, this);
+            test.call(this, container, this);
             this.loadMostFamousTags();
             this.loadArchivePanel();
         };
@@ -75,10 +75,10 @@
 
         Controller.prototype.loadMostFamousTags = function loadMostFamousTags() {
             this.model.tagsPosts.getMostFamousTags(20).then(
-                function(data) {
+                function (data) {
                     mostFamousTagsView.load(rightAside, data);
                 },
-                function(error) {
+                function (error) {
                     console.log(error.responseText);
                 }
             );
@@ -147,8 +147,11 @@
         };
 
         Controller.prototype.loadLogin = function (container) {
-            loginView.load(container);
-            //TODO: Login Logic
+            if (this.isLogged()) {
+                window.location.hash = '/posts';
+            } else {
+                loginView.load(container);
+            }
         };
 
         Controller.prototype.loadLogout = function (container) {
@@ -157,14 +160,21 @@
         };
 
         Controller.prototype.loadRegister = function (container) {
-            registerView.load(container);
-            //TODO: Register Logic
+            if (this.isLogged()) {
+                window.location.hash = '/posts';
+            } else {
+                registerView.load(container);
+            }
         };
 
         Controller.prototype.loadAddPost = function (container) {
             //TODO: Add Post Logic
             addPostView.load(container);
         };
+
+        Controller.prototype.loadNotFound = function loadNotFound(container, url) {
+            notFoundView.load(container, url);
+        }
 
 
         test = function (container) {
@@ -270,7 +280,7 @@
                                if (!emailVerified) {
                                    noty.info('Please verify your email address');
                                }
-                               loggedMenu();
+                               menuView.load(mainMenu, _this);
                                window.location.hash = '/posts';
                            });
                    }, function (error) {
@@ -285,7 +295,7 @@
                 _this.model.users.logoutUser()
                 .then(function () {
                     sessionStorage.clear();
-                    loggedOutMenu();
+                    menuView.load(mainMenu, _this);
                 }, function (error) {
                     noty.error(error.responseJSON.error);
                 });

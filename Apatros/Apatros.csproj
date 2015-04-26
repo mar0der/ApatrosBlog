@@ -236,6 +236,7 @@
     <Content Include="templates\logout.html" />
     <Content Include="templates\menu.html" />
     <Content Include="templates\mostFamousTags.html" />
+    <Content Include="templates\notFound.html" />
     <Content Include="templates\post.html" />
     <Content Include="templates\posts.html" />
     <Content Include="templates\profile.html" />
@@ -248,6 +249,7 @@
     <Content Include="views\logoutView.js" />
     <Content Include="helpers\notifications.js" />
     <Content Include="views\menuView.js" />
+    <Content Include="views\notFoundView.js" />
     <Content Include="views\postsView.js" />
     <Content Include="views\postView.js" />
     <Content Include="views\profileView.js" />
