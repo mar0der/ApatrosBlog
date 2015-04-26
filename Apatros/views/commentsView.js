@@ -59,7 +59,7 @@
 
     function deleteComment(controller, commentDiv) {
         controller.model.comments.delete(commentDiv.data('id'));
-        commentDiv.remove()
+        commentDiv.remove();
     }
 
     return {

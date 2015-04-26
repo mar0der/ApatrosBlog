@@ -9,17 +9,7 @@
 
         var leftAside = $('#left'),
             rightAside = $('#right'),
-            mainMenu = $('#main-menu'),
-            attachRegisterHandler,
-            attachLoginHandler,
-            attachAddPostHandler,
-            attachAddCommentHandler,
-            attachLogoutHandler,
-            attachAddPostTagsHandler,
-            attachEditCommentHandler,
-            attachDeleteCommentHandler,
-            attachSeveEditedComment,
-            test;
+            mainMenu = $('#main-menu');
 
         function Controller(model) {
             this.model = model;
@@ -33,15 +23,14 @@
             attachLoginHandler.call(this, container);
             attachLogoutHandler.call(this, container);
             attachAddPostHandler.call(this, container);
-            attachAddPostTagsHandler.call(this, container);
             attachAddCommentHandler.call(this, container);
             attachEditCommentHandler.call(this, container);
             attachDeleteCommentHandler.call(this, container);
             menuView.load(mainMenu, this);
-            test.call(this, container, this);
             this.loadMostFamousTags();
             this.loadArchivePanel();
         };
+        //load pages
 
         Controller.prototype.isLogged = function isLogged() {
             if (sessionStorage['sessionToken']) {
@@ -147,10 +136,11 @@
         };
 
         Controller.prototype.loadLogin = function (container) {
+            
             if (this.isLogged()) {
                 window.location.hash = '/posts';
             } else {
-                loginView.load(container);
+                loginView.load(this, container);
             }
         };
 
@@ -176,15 +166,8 @@
             notFoundView.load(container, url);
         }
 
-
-        test = function (container) {
-            container.on('click', function () {
-                ///TODO: delete later
-            });
-        };
-
         //Event Handlers
-        attachRegisterHandler = function attachRegisterHandler(container) {
+        function attachRegisterHandler(container) {
             var _this = this;
 
             // Attach keyup to validate the fields of the registration form
@@ -222,15 +205,14 @@
                         _this.model.users.assignRole()
                         .then(function () {
                             $('#noty-container').html('');
-                            loggedMenu();
                             noty.success('You have successfully registered!');
+                            menuView.load(mainMenu, _this);
                             window.location.hash = '/posts?hidenoty=true';
                         });
                     }, function (error) {
                         noty.error(error.responseJSON.error);
                     });
             });
-
             // WHERE SHOULD I PUT THIS ?
             function parseRegistrationInfo() {
                 var newUserName,
@@ -254,7 +236,7 @@
             }
         };
 
-        attachLoginHandler = function attachLoginHandler(container) {
+        function attachLoginHandler(container) {
             var _this = this;
             container.on('click', '#submit-login', function (ev) {
                 var username = $('#username').val();
@@ -271,8 +253,6 @@
                        if (data['role']) {
                            credentials.setUserRole(data['role'].objectId);
                        }
-
-
                        _this.model.users.getUser(credentials.getUserId())
                            .then(function (data) {
                                var emailVerified = data['emailVerified'];
@@ -289,7 +269,7 @@
             });
         };
 
-        attachLogoutHandler = function attachLogoutHandler(container) {
+        function attachLogoutHandler(container) {
             var _this = this;
             $('body').on('click', '#submit-logout', function (ev) {
                 _this.model.users.logoutUser()
@@ -303,91 +283,14 @@
             });
         };
 
-        function attachAddPostTagsHandler(container) {
-            var catchedTags = [];
-            var catchedTagsSpans = [];
-            var input;
-            var isEmptyField = true;
-            $(window).on('hashchange', function () {
-                catchedTags = [];
-                catchedTagsSpans = [];
-                if (input) {
-                    input.data('tags', []);
-                }
-            });
-            container.on('click', '#tags-wrapper', function () {
-                $(this).children('input').focus();
-            });
-            container.on('blur', '#post-tags', function () {
-                addTag($(this).val());
-                $(this).val('');
-            });
-            container.on('keyup', '#post-tags', function (event) {
-                input = $(this);
-                var value = input.val();
-                var _this = this;
-                var tagsContainer = $('.tags');
-                var tags = value.split(',');
-                var backSpaceCode = 8;
-                if (event.keyCode == backSpaceCode && isEmptyField) {
-                    var lastTagIndex = _.findLastIndex(catchedTags);
-                    deleteTagByIndex(lastTagIndex, true);
-                }
-
-                if (!input.val().length) {
-                    isEmptyField = true;
-                } else {
-                    isEmptyField = false;
-                }
-                if (tags.length > 1) {
-                    tags.forEach(function (tag) {
-                        addTag(tag);
-                    });
-                    $(this).val('');
-                    isEmptyField = true;
-                }
-                input.data('tags', catchedTags);
-            });
-
-            function addTag(tag) {
-                tag = tag.trim().toLowerCase();
-                if (tag.length && !_.includes(catchedTags, tag)) {
-                    var tagSpan = $('<span class="tag" title="' + tag + '">' + tag + '<span class="deleteTag" data-index="' + catchedTags.length + '">x</span></span>');
-                    catchedTags.push(tag);
-                    catchedTagsSpans.push({
-                        tagName: tag,
-                        tagSpan: tagSpan
-                    });
-                    input.before(tagSpan);
-                }
-            }
-            function deleteTagByIndex(index, backSpace) {
-                if (catchedTags.length > 0) {
-                    if (backSpace) {
-                        input.val(catchedTags[index]);
-                    }
-                    catchedTagsSpans.forEach(function (row) {
-                        if (row.tagName == catchedTags[index]) {
-                            row.tagSpan.remove();
-                            delete row;
-                        }
-                    });
-                    delete catchedTags[index];
-                    input.data('tags', catchedTags);
-                }
-            }
-            container.on('click', '.deleteTag', function () {
-                var tagIndex = $(this).data('index');
-                deleteTagByIndex(tagIndex);
-            });
-        };
-        attachAddPostHandler = function attachAddPostHandler(container) {
+        function attachAddPostHandler(container) {
             var _this = this;
             container.on('click', '#submit-post', function (ev) {
                 var postTitle = $('#post-title').val().trim();
                 var postBody = $('#post-body').val().trim();
                 var postTags = $('#post-tags').data('tags');
                 var postId;
+                
                 addPostView.loading(container);
                 _this.model.posts.addPost(postTitle, postBody).then(
                     function (data) {
@@ -409,7 +312,7 @@
             });
         };
 
-        attachAddCommentHandler = function attachAddCommentHandler(container) {
+        function attachAddCommentHandler(container) {
             var _this = this;
             container.on('click', '#submit-comment', function (ev) {
                 var commentContent = $('#comment-content').val();
@@ -442,7 +345,7 @@
             });
         };
 
-        attachEditCommentHandler = function attachEditCommentHandler(container) {
+        function attachEditCommentHandler(container) {
             var _this = this;
             container.on('click', "#edit-comment", function (ev) {
                 var commentContainer = $(this).parent().parent();
@@ -450,19 +353,12 @@
             });
         }
 
-        attachDeleteCommentHandler = function attachDeleteCommentHandler(container) {
+        function attachDeleteCommentHandler(container) {
             var _this = this;
             container.on('click', "#delete-comment", function (ev) {
                 var commentContainer = $(this).parent().parent().parent();
                 commentsView.deleteComment(_this, commentContainer);
             });
-        }
-
-        function loggedMenu() {
-            menuView.load("#main-menu", { 'login': false, 'register': false, 'logout': true });
-        }
-        function loggedOutMenu() {
-            menuView.load("#main-menu", { 'login': true, 'register': true, 'logout': false });
         }
         return {
             load: function (model) {
