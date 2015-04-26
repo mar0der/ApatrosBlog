@@ -87,7 +87,7 @@ define(['ajaxRequesterModel', 'postModel', 'postDateModel', 'Q', 'credentialsMod
         };
         Requester.post(this._baseUrl + 'functions/getPostById', credentials.getHeaders(), data).then(
             function (response) {
-                var post = response.result;
+                var post = response.result.post;
                 var p = new postModel(
                     post['objectId'],
                     post['author'].username,
@@ -95,12 +95,12 @@ define(['ajaxRequesterModel', 'postModel', 'postDateModel', 'Q', 'credentialsMod
                     post['body'],
                     post['createdAt'],
                     post['visits'],
-                    post['tags']
+                    response.result.tags
                 );
                 deffer.resolve(p);
             }, function (error) {
 
-                deffer.reject(error)
+                deffer.reject(error);
             }
         );
         return deffer.promise;
