@@ -16,7 +16,7 @@
         },
         'usersRoleId': 'poOqnRXGE3',
         'adminRoleId': '8QLZGmzWmP',
-        'defaultPostPerPage': 5,
+        'defaultPostPerPage': 15,
         'defaultTagsLimit': 20,
         'defaultRoute': '/posts'
     }

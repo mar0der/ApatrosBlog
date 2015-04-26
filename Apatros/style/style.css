@@ -2,11 +2,13 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
-	font-family: Arial;
+	font-family: Calibri, Tahoma, sans-serif;
 	font-size: 13px;
 	color: #000;
 }
-
+body{
+    background: #333;
+}
 /* very importat to have it*/
 
 .clearfix:before, .clearfix:after {  content: "\0020"; display: block; height: 0; visibility: hidden;    } 
@@ -15,20 +17,32 @@
 
 div, article, header, footer, section, aside, ul, li, h1, h2, h3, h4, h5, body {
 	display: block;
-	margin: 2%;
+	/*margin: 2%;*/
 }
 
-
+#main{
+    flex-grow: 1;
+    max-width: 500px;
+    box-sizing: border-box;
+    margin: 0 30px 50px 30px;
+}
 div#wrapper {
-	width: 955px;
-	height: auto;
-	border: 1px solid gray;
-	margin: 0 auto;
+    margin-top: 50px;
+    background: #fff;
+    display: flex;
+    flex-direction: row;
+    outline: 2px solid rgba(0,0,0,0.1);
 }
 
 /*header*/
 header {
-	height: 150px;
+    text-transform: uppercase;
+    background: #FF5E3A;
+    border-bottom: 3px solid #e24d2f;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9;
 }
 
 header ul li {
@@ -36,57 +50,163 @@ header ul li {
 }
 
     header ul li a {
-        padding: 10px;
-        border-radius: 5px;
-        border: 1px solid black;
+        transition: background ease 0.2s;
+        padding: 10px 20px;
+        display: inline-block;
         text-decoration: none;
-        font-size: 20px;
-        color: black;
+        font-size: 12pt;
+        font-weight: bold;
+        text-shadow: 1px 1px 0 #e24d2f;
+        color: #fff;
+    }
+    header ul li a:hover {
+        background: #f44f2e;
     }
 
     /*sidebars*/
-aside#left {
-	width: 20%;
-	border: 1px solid green;
-	float: left;
-	display: inline-block;
-}
 
-aside#right {
-	width: 20%;
-	border: 1px solid green;
-	float: right;
-	display: inline-block;
+aside#right h3, aside#left h3{
+    border-bottom: 3px double #ccc;
+    font-size: 14pt;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    font-weight: normal;
+    text-transform: uppercase;
+    color: #333;
+}
+aside#right a, aside#left a {
+    display: inline-block;
+    margin: 3px;
+    padding: 5px 10px;
+    background: #F3E3DD;
+    text-decoration: none;
+    color: #FF5E3A;
+    border-radius: 3px;
+    font-size: 11pt;
+}
+aside#right, aside#left{
+    width: 200px;
+    background: #F2F2F0;
+    display: block;
+    padding: 20px;
 }
 
 /*content*/
-section {
-	display: inline-block;
-	width: 48%;
-    min-height: 300px;
-	height: auto;
-    background: #d3d3d3;
-	border: 1px solid red;
+/*section {*/
+	/*display: inline-block;*/
+	/*width: 48%;*/
+    /*min-height: 300px;*/
+	/*height: auto;*/
+    /*background: #d3d3d3;*/
+	/*border: 1px solid red;*/
+/*}*/
+#post-container{
+    margin-bottom: 20px;
+}
+#add-comment-form textarea{
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    outline: none;
+    resize: none;
+    border: none;
+    background: #eee;
+    border-bottom: 2px solid #ccc;
+    height: 100px;
+    font-family: Georgia, serif;
+    font-size: 13pt;
+    color: #333;
+}
+#add-comment-form > div > label{
+    color: #888;
+    font-size: 10pt;
+    text-transform: uppercase;
+}
+#add-comment-form button{
+    display: block;
+    margin-top: 10px;
+    border: 0;
+    background: #12accc;
+    color: #fff;
+    padding: 8px 10px;
+    float: right;
+    text-transform: uppercase;
+    font-size: 9pt;
+    border-bottom: 2px solid #129aba;
+    outline: none;
+    cursor: pointer;
+}
+#add-comment-form button:hover{
+    background: #12bdde;
+}
+#add-comment-form button:active{
+    background: #12a3c3;
+}
+.comment-container{
+    margin: 10px 0;
+}
+.post .tags{
+    margin-top: 20px;
+}
+.post .tag{
+    border-radius: 0;
+    font-size: 10pt;
+    background: #666;
+    display: inline-block;
+    padding:0;
+    margin: 2px;
+}
+.post .tag a{
+    color: #fff;
+    display: inline-block;
+    text-decoration: none;
+    padding: 3px 6px;
 }
 .post h3{
     margin: 0;
     float: left;
+    font-weight: normal;
+    font-size: 15pt;
+    font-family: Georgia, serif;
+    color: #999;
 }
 .post .date{
     float: right;
+    font-size: 8pt;
+    background: #eee;
+    padding: 2px 4px;
+    border-right: 3px solid #ccc;
+    color: #999;
     margin: 0;
 }
 .post .author{
     float: left;
 }
+.post .author, .post .numberOfViews{
+    color:#ccc;
+    font-size: 10pt;
+}
 .post .numberOfViews{
     float: right;
 }
 .post {
-    border-bottom: 1px solid #000;
-    margin-bottom: 20px;
+    border-bottom: 3px dotted #ccc;
+    padding: 20px 0;
+}
+.postBody p{
+    color:#666;
+    font-style: italic;
+    font-size: 10pt;
+    margin-top: 10px;
 }
 .post .readMore{
+    background: #ffcc00;
+    padding: 5px 10px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-bottom: 2px solid #e7ba00;
+    color: #333;
     float: right;
 }
 .clear:after{
@@ -98,7 +218,7 @@ section {
 
 /*footer*/
 footer {
-	height: 150px;
+	/*height: 150px;*/
 }
 
 /*responsive design*/
@@ -206,4 +326,10 @@ span {
 
 .not-found-url {
     color: red;
+}
+
+.limiter{
+    max-width: 955px;
+    min-width: 700px;
+    margin: 0 auto;
 }
