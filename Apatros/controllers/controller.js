@@ -1,11 +1,11 @@
 ﻿define(['notifications', 'postsView', 'postView', 'tagsView', 'profileView',
         'loginView', 'registerView', 'addPostView',
         'archiveView', 'credentialsModel', 'menuView', 'commentsView',
-        'mostFamousTagsView', 'notFoundView', 'config'],
+        'mostFamousTagsView', 'notFoundView', 'editPostView', 'config'],
     function (noty, postsView, postView, tagsView, profileView,
               loginView, registerView, addPostView,
               archiveView, credentials, menuView, commentsView,
-              mostFamousTagsView, notFoundView, config) {
+              mostFamousTagsView, notFoundView, editPostView, config) {
 
         var leftAside = $('#left'),
             rightAside = $('#right'),
@@ -23,6 +23,7 @@
             attachLoginHandler.call(this, container);
             attachLogoutHandler.call(this);
             attachAddPostHandler.call(this, container);
+            attachEditPostHandler.call(this, container);
             attachAddCommentHandler.call(this, container);
             attachEditCommentHandler.call(this, container);
             attachDeleteCommentHandler.call(this, container);
@@ -277,6 +278,14 @@
             });
         };
 
+        function attachEditPostHandler(container) {
+            var _this = this;
+            container.on('click', "#save-post-btn", function() {
+                var postContainer = $(this).parent();
+                editPostView.loadEditForm(_this, postContainer);
+            });
+        }
+        
         function attachAddCommentHandler(container) {
             var _this = this;
             container.on('click', '#submit-comment', function (ev) {
