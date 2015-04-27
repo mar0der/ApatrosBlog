@@ -17,7 +17,8 @@
 
             validator.validateInput(target);
 
-            if (document.getElementsByClassName('passed').length === 6) {
+            var numberOfValidFields = 6;
+            if (document.getElementsByClassName('passed').length === numberOfValidFields) {
                 submitButton.prop('disabled', false);
             } else {
                 submitButton.prop('disabled', true);
@@ -34,14 +35,16 @@
             newLastName,
             registrationInfo = [];
 
-        newUserName = $('#register-user-name').val();
+        newUserName = $('#register-user-name').val().trim();
         newPassword_1 = $('#register-password').val();
         newPassword_2 = $('#repeat-password').val();
-        newEmail = $('#register-email').val();
-        newFirstName = $('#register-first-name').val();
-        newLastName = $('#register-last-name').val();
+        newEmail = $('#register-email').val().trim();
+        newFirstName = $('#register-first-name').val().trim();
+        newLastName = $('#register-last-name').val().trim();
 
         registrationInfo.push(newUserName, newPassword_1, newPassword_2, newEmail, newFirstName, newLastName);
+
+        console.log(registrationInfo);
 
         return registrationInfo;
     }

@@ -100,7 +100,7 @@ define([], function () {
 
     function failValidation(input) {
 //        $('label[for=' + input.attr('id') + '] .validation').removeClass('passed').html('&#10008;');
-        $('label[for=' + input.attr('id') + '] .validation').attr('class', 'vali');
+        $('label[for=' + input.attr('id') + '] .validation').attr('class', 'validation fail');
     }
 
     return {

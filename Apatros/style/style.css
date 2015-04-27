@@ -397,10 +397,10 @@ input#username, #password{
 #registration-form .passed:before{
     content: '\e013';
 }
-#registration-form .wrong{
+#registration-form .fail{
     color: #ff7e5b;
 }
-#registration-form .wrong:before{
+#registration-form .fail:before{
     content: '\e014';
 }
 .clear:after{
