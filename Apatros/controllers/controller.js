@@ -27,6 +27,7 @@
             attachAddCommentHandler.call(this, container);
             attachEditCommentHandler.call(this, container);
             attachDeleteCommentHandler.call(this, container);
+            attachEditProfileHandler.call(this, container);
             loadMostFamousTags.call(this);
             loadArchivePanel.call(this);
             menuView.load(mainMenu, this);
@@ -100,14 +101,16 @@
         };
 
         Controller.prototype.loadProfile = function (container) {
+            var _this = this;
             this.model.users.getUser(credentials.getUserId()).then(function (user) {
-                profileView.load(container, user);
+                profileView.load(_this, container, user);
             });
         };
 
         Controller.prototype.loadUser = function (container, id) {
+            var _this = this;
             this.model.users.getUser(id).then(function (user) {
-                profileView.load(container, user);
+                profileView.load(_this, container, user);
             });
         };
 
@@ -332,6 +335,14 @@
             container.on('click', ".comment-delete-btn", function () {
                 var commentContainer = $(this).parent();
                 commentsView.deleteComment(_this, commentContainer);
+            });
+        }
+
+        function attachEditProfileHandler(container) {
+            var _this = this;
+            container.on('click', ".profile-edit-btn", function () {
+                var profileContainer = $(this).parent();
+                profileView.loadEditProfile(_this, profileContainer);
             });
         }
 

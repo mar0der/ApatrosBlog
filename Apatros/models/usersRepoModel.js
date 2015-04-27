@@ -108,8 +108,21 @@
         return deffer.promise;
     };
 
-    UsersRepo.prototype.editUser = function () {
-        // TODO Will implement when required
+    UsersRepo.prototype.editUser = function (id, user) {
+        var deffer = Q.defer(),
+            data = {
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email
+            };
+
+        Requester.put(this.baseUrl + 'users/' + id, credentials.getHeaders(), data)
+            .then(function (response) {
+                deffer.resolve(response);
+            }, function (error) {
+                deffer.reject(error);
+            });
+        return deffer.promise;
     };
     UsersRepo.prototype.deleteUser = function () {
         // TODO Will implement when required
