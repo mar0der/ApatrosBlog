@@ -44,8 +44,6 @@
 
         registrationInfo.push(newUserName, newPassword_1, newPassword_2, newEmail, newFirstName, newLastName);
 
-        console.log(registrationInfo);
-
         return registrationInfo;
     }
 

@@ -1,37 +1,37 @@
-﻿define(['config'], function(config) {
+﻿define(['config'], function (config) {
     var headers = config.headers;
     var masterHeaders = config.masterHeaders;
-    
+
     function getSessionToken() {
-        return sessionStorage.getItem('sessionToken');
+        return localStorage.getItem('sessionToken');
     }
 
     function setSessionToken(sessionToken) {
-        sessionStorage.setItem('sessionToken', sessionToken);
+        localStorage.setItem('sessionToken', sessionToken);
     }
 
     function getUsername() {
-        return sessionStorage.getItem('username');
+        return localStorage.getItem('username');
     }
 
     function setUsername(username) {
-        sessionStorage.setItem('username', username);
+        localStorage.setItem('username', username);
     }
 
     function getUserRole() {
-        return sessionStorage.getItem('userRole');
+        return localStorage.getItem('userRole');
     }
 
     function setUserRole(userRole) {
-        sessionStorage.setItem('userRole', userRole);
+        localStorage.setItem('userRole', userRole);
     }
 
     function getUserId() {
-        return sessionStorage.getItem('userId');
+        return localStorage.getItem('userId');
     }
 
     function setUserId(userId) {
-        sessionStorage.setItem('userId', userId);
+        localStorage.setItem('userId', userId);
     }
     function getHeaders(master) {
 
@@ -45,6 +45,22 @@
 
     }
 
+    function getRememberMe() {
+        return localStorage['rememberMe'];
+    }
+
+    function setRememberMe() {
+        localStorage.setItem('rememberMe', true);
+    }
+
+    function clearCredentials() {
+        delete localStorage.username;
+        delete localStorage.sessionToken;
+        delete localStorage.userId;
+        delete localStorage.userRole;
+        delete localStorage.rememberMe;
+    }
+
     return {
         getSessionToken: getSessionToken,
         setSessionToken: setSessionToken,
@@ -54,6 +70,9 @@
         setUserId: setUserId,
         getUserRole: getUserRole,
         setUserRole: setUserRole,
-        getHeaders: getHeaders
+        getHeaders: getHeaders,
+        setRememberMe: setRememberMe,
+        getRememberMe: getRememberMe,
+        clearCredentials: clearCredentials
     }
 });

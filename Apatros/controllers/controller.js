@@ -27,6 +27,7 @@
             attachAddCommentHandler.call(this, container);
             attachEditCommentHandler.call(this, container);
             attachDeleteCommentHandler.call(this, container);
+            attachAutoLogoutHandler.call(this);
             loadMostFamousTags.call(this);
             loadArchivePanel.call(this);
             menuView.load(mainMenu, this);
@@ -34,7 +35,7 @@
 
         //Load routes
         Controller.prototype.isLogged = function isLogged() {
-            if (sessionStorage['sessionToken']) {
+            if (credentials.getSessionToken()) {
                 return true;
             }
             return false;
@@ -210,10 +211,13 @@
                     password: password
                 };
                 _this.model.users.loginUser(user)
-                    .then(function(data) {
+                    .then(function (data) {
                         credentials.setSessionToken(data['sessionToken']);
                         credentials.setUserId(data['objectId']);
                         credentials.setUsername(data['username']);
+                        if ($('#rememberMe').is(":checked")) {  
+                            credentials.setRememberMe();
+                        }
                         if (data['role']) {
                             credentials.setUserRole(data['role'].objectId);
                         }
@@ -236,16 +240,22 @@
 
         function attachLogoutHandler() {
             var _this = this;
-            $('body').on('click', '#submit-logout', function (ev) {
+            $('body').on('click', '#submit-logout', function () {
                 _this.model.users.logoutUser()
                 .then(function () {
-                    sessionStorage.clear();
+                    credentials.clearCredentials();
                     menuView.load(mainMenu, _this);
                 }, function (error) {
                     noty.error(error.responseJSON.error);
                 });
 
             });
+        };
+
+        function attachAutoLogoutHandler() {
+          if (!credentials.getRememberMe() ) {
+                this.model.users.logoutUser();
+            };
         };
 
         function attachAddPostHandler(container) {
@@ -269,7 +279,7 @@
                     function () {
                         window.location.hash = '/view-post/' + postId;
 
-                    },function (error) {
+                    }, function (error) {
                         console.log(error);
                     }
                 ).done();
@@ -285,7 +295,7 @@
                 editPostView.loadEditForm(_this, postContainer, container);
             });
         }
-        
+
         function attachAddCommentHandler(container) {
             var _this = this;
             container.on('click', '#submit-comment', function (ev) {
