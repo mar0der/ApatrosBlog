@@ -27,6 +27,7 @@
             attachAddCommentHandler.call(this, container);
             attachEditCommentHandler.call(this, container);
             attachDeleteCommentHandler.call(this, container);
+            attachSaveEditedPostHandler.call(this, container);
             attachAutoLogoutHandler.call(this);
             attachEditProfileHandler.call(this, container);
             loadMostFamousTags.call(this);
@@ -263,7 +264,7 @@
 
         function attachAddPostHandler(container) {
             var _this = this;
-            container.on('click', '#submit-post', function () {
+            container.on('click', '#Add-post', function () {
                 var postTitle = $('#post-title').val().trim();
                 var postBody = $('#post-body').val().trim();
                 var postTags = $('#post-tags').data('tags');
@@ -295,7 +296,16 @@
             var _this = this;
             container.on('click', "#edit-post-btn", function () {
                 var postContainer = $(this).parent().parent();
-                editPostView.loadEditForm(_this, postContainer, container);
+                addPostView.loadEditForm(_this, postContainer, container);
+            });
+        }
+
+        function attachSaveEditedPostHandler(container) {
+            var _this = this;
+            container.on('click', "#Edit-post", function () {
+                alert(1);
+                // var postContainer = $(this).parent().parent();
+                // addPostView.loadEditForm(_this, postContainer, container);
             });
         }
         

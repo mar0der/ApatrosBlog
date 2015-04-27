@@ -12,6 +12,9 @@
             "date": postContainer.find('.clear .date').text()
         }
 
+        var tags = $('.tags .tag');
+        
+
         $.get('templates/editPost.html', function (template) {
             var output = Mustache.render(template, post);
             contentContainer.html(output);

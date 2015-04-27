@@ -1,12 +1,12 @@
-<h1>Add post</h1>
+<h1>{{action}} post</h1>
 <div id="addPostForm">
     <label for="post-title">Title: </label>
-    <input type="text" name="post-title" id="post-title"/><br/>
+    <input type="text" name="post-title" id="post-title" value="{{title}}"/><br/>
     <label for="post-body">Body: </label>
-    <textarea type="text" name="postBody" id="post-body"></textarea><br/>
+    <textarea type="text" name="postBody" id="post-body">{{body}}</textarea><br/>
     <label for="post-tags">Tags: </label>
     <div id="tags-wrapper" for="post-tags">
-        <input type="text" name="post-tags" id="post-tags"/>
+        <input type="text" name="post-tags" id="post-tags" value ="{{tags}}"/>
     </div>
-    <button id="submit-post">Add post</button>
+    <button id="{{action}}-post">{{action}} post</button>
 </div>
