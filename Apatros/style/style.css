@@ -31,7 +31,8 @@ div, article, header, footer, section, aside, ul, li, h1, h2, h3, h4, h5, body {
 
 #main{
     flex-grow: 1;
-    max-width: 500px;
+    min-width: 300px;
+    width: 400px;
     box-sizing: border-box;
     margin: 30px 30px 50px 30px;
 }
@@ -39,7 +40,9 @@ div#wrapper {
     margin-top: 50px;
     background: #fff;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
+    box-sizing: border-box;
     outline: 2px solid rgba(0,0,0,0.1);
 }
 
@@ -313,6 +316,7 @@ h1{
     color: #666;
     margin-bottom: 15px;
     padding-bottom: 15px;
+    box-sizing: border-box;
     border-bottom: 3px double #eee;
 }
 #addPostForm label, #addPostForm textarea, #addPostForm button, #addPostForm input{
@@ -420,32 +424,6 @@ footer {
 	/*height: 150px;*/
 }
 
-/*responsive design*/
-@media (max-width: 960px) {
-	div#wrapper {
-		width: 100%
-	}
-
-	aside#right {
-		float: left;
-		clear: left;
-	}
-	
-	section{
-		width:72%;
-	}
-}
-
-/* Registration Styling*/
-form, h2 {
-	color: white;
-}
-
-fieldset {
-	border: 2px solid white;
-	margin: 5px;
-}
-
 #submit-registration:enabled {
 	color: green;
 	margin: 5px;
@@ -529,6 +507,9 @@ span {
     font-size: 7pt;
     content: '\e014';
 }
+#content{
+    width: 100%;
+}
 #tags-wrapper .tag .deleteTag:hover{
     background: #f28c79;
 }
@@ -540,6 +521,68 @@ span {
 
 .limiter{
     max-width: 955px;
-    min-width: 700px;
     margin: 0 auto;
+}
+/*responsive design*/
+@media (max-width: 955px) {
+    div#wrapper {
+        width: 100%
+    }
+}
+
+@media (max-width: 700px){
+    div#wrapper{
+        flex-wrap: wrap;
+    }
+    header{
+        position: static;
+    }
+    div#wrapper{
+        margin-top: 10px;
+    }
+    div#wrapper #main{
+        width: 100%;
+        min-width: 0;
+        order: 0;
+    }
+    div#wrapper #left{
+        order: 1;
+        width: 50%;
+    }
+    div#wrapper #left li {
+        display: inline-block;
+    }
+    div#wrapper #right{
+        order: 2;
+        width: 50%;
+    }
+}
+@media (max-width: 450px){
+    #main-menu ul li{
+        display: block;
+    }
+    #main-menu ul li a{
+        display: block;
+    }
+    div#wrapper #main{
+        width: 100%;
+        order: 0;
+    }
+    div#wrapper #left{
+        order: 2;
+        width: 100%;
+    }
+    div#wrapper #right{
+        order: 1;
+        width: 100%;
+    }
+}
+/* Registration Styling*/
+form, h2 {
+    color: white;
+}
+
+fieldset {
+    border: 2px solid white;
+    margin: 5px;
 }
