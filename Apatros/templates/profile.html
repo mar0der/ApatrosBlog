@@ -1,28 +1,30 @@
-﻿<div id="user-profile">
+﻿<div class="user-profile" id="{{objectId}}">
     <h1>User Profile:</h1>
-    <div id="username">
+    <div>
         <span>Username: </span>
-        <span>{{username}}</span>
+        <span  id="username">{{username}}</span>
     </div>
 
-    <div id="firstName">
+    <div>
         <span>First name: </span>
-        <span>{{firstName}}</span>
+        <span id="firstName">{{firstName}}</span>
     </div>
 
-    <div id="lastName">
+    <div>
         <span>Last name: </span>
-        <span>{{lastName}}</span>
+        <span id="lastName">{{lastName}}</span>
     </div>
 
-    <div id="E-mail">
+    <div>
         <span>e-mail: </span>
-        <span>{{email}}</span>
+        <span id="e-mail">{{email}}</span>
     </div>
 
-    <div id="registration-date">
+    <div>
         <span>Registration date: </span>
-        <span>{{createdAt}}</span>
+        <span id="registration-date">{{createdAt}}</span>
     </div>
-
+    {{#allowedToEdit}}
+        <button class="profile-edit-btn">Edit Profile</button>
+    {{/allowedToEdit}}
 </div>
