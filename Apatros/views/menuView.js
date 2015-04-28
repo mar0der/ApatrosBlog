@@ -1,7 +1,8 @@
-﻿define(['mustache'], function (Mustache) {
+﻿define(['mustache', 'credentialsModel'], function (Mustache, credentials) {
     function updateMenu(selector, controller) {
         $.get('templates/menu.html', function (template) {
             var data = {
+                username: credentials.getUsername(),
                 isLogged: controller.isLogged(),
                 isAdmin: controller.isAdmin()
             };

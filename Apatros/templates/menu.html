@@ -7,8 +7,10 @@
     <li><a href="#/register"><span class="icon">&#xe067;</span>Register</a></li>
     <li><a href="#/login"><span class="icon">&#xe161;</span>Login</a></li>
     {{/isLogged}}
+
     {{#isLogged}}
     <li><a href="#/profile"><span class="icon">&#xe008;</span>Profile</a></li>
     <li><a id="submit-logout" href="#/posts"><span class="icon">&#xe163;</span>Logout</a></li>
+    <span id="greeting">Greetings, <a href="#/profile">{{username}}</a>!</span>
     {{/isLogged}}
 </ul>

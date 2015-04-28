@@ -75,6 +75,23 @@ header ul li {
         background: #f44f2e;
     }
 
+    #greeting {
+        float: right;
+    }
+
+    #greeting,
+    #greeting a {
+        font-size: 12pt;
+        line-height: 36pt;
+        font-weight: bold;
+        color: #fff;
+    }
+
+    #greeting a {
+        display:inline;
+        text-decoration: underline;
+    }
+
     /*sidebars*/
 
 aside#right h3, aside#left h3{
