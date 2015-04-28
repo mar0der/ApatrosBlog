@@ -1,4 +1,5 @@
 ﻿<ul>
+    <span id="greeting">Greetings, <a href="#/profile">{{username}}</a>!</span>
     <li><a href="#/posts"><span class="icon">&#xe054;</span>Posts</a></li>
     {{#isAdmin}}
     <li><a href="#/writePost"><span class="icon">&#xe065;</span>Write Post</a></li>
@@ -11,6 +12,5 @@
     {{#isLogged}}
     <li><a href="#/profile"><span class="icon">&#xe008;</span>Profile</a></li>
     <li><a id="submit-logout" href="#/posts"><span class="icon">&#xe163;</span>Logout</a></li>
-    <span id="greeting">Greetings, <a href="#/profile">{{username}}</a>!</span>
     {{/isLogged}}
 </ul>

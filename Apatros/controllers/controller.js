@@ -270,6 +270,7 @@
         function attachAutoLogoutHandler() {
             var tenSeconds = 10000;
             var fiveSeconds = 5000;
+            var fourSeconds = 3500;
             var twoSeconds = 2000;
 
             if (window.localStorage) {
@@ -279,7 +280,7 @@
                 }
                 var t1 = new Date().getTime();
                 var duration = t1 - t0;
-                if (duration > twoSeconds) {
+                if (duration > fourSeconds) {
                     if (!credentials.getRememberMe()) {
                         this.model.users.logoutUser();
                         localStorage.clear();
