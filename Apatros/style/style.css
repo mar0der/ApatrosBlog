@@ -63,7 +63,7 @@ header ul li {
 
     header ul li a {
         transition: background ease 0.2s;
-        padding: 10px 20px;
+        padding: 11px 17px;
         display: inline-block;
         text-decoration: none;
         font-size: 12pt;
@@ -85,6 +85,7 @@ header ul li {
         font-size: 12pt;
         line-height: 30pt;
         font-weight: bold;
+        text-transform: none;
         color: #fff;
     }
 
@@ -103,6 +104,21 @@ aside#right h3, aside#left h3{
     font-weight: normal;
     text-transform: uppercase;
     color: #333;
+}
+#logo {
+    transition: all ease 0.5s;
+    background: url('../imgs/logo.png') no-repeat;
+    cursor: pointer;
+    width: 124px;
+    height: 36px;
+    display: block;
+    float: left;
+    opacity: 1;
+    margin-top: 2px;
+    margin-right: 30px;
+}
+#logo:hover {
+    opacity: 0.9;
 }
 #main-menu .icon{
     font-family: GlyphIcons;
@@ -220,7 +236,7 @@ label{
     margin: 15px 0;
 }
 .comment-container .date{
-    color: red;
+    color: #ccc;
     float: right;
 }
 .comment-container .author a{
