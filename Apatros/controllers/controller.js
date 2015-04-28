@@ -280,7 +280,6 @@
                 var t1 = new Date().getTime();
                 var duration = t1 - t0;
                 if (duration > twoSeconds) {
-                    alert('closed');
                     if (!credentials.getRememberMe()) {
                         this.model.users.logoutUser();
                         localStorage.clear();
