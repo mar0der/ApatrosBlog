@@ -162,8 +162,8 @@ define(['ajaxRequesterModel', 'postModel', 'postDateModel', 'Q', 'credentialsMod
         return Requester.put(this._serviceUrl + id, credentials.getHeaders(), data);
     };
 
-    PostsRepo.prototype.deletePost = function () {
-        //TODO
+    PostsRepo.prototype.deletePost = function (id) {
+        return Requester.delete(this._serviceUrl + id, credentials.getHeaders());
     };
 
     return {

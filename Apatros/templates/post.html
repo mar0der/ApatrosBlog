@@ -7,10 +7,12 @@
         <span class="author">Author: <a href="#/user/{{author.objectId}}">{{author.username}}</a></span>
         <span class="numberOfViews">Number of views: {{visits}}</span>
     </div>
+    {{#isAdmin}}
     <div class="clear">
         <button id="edit-post-btn">edit</button>
         <button id="delete-post-btn">delete</button>
     </div>
+    {{/isAdmin}}
     <div class="postBody">
         <p>{{body}}</p>
     </div>

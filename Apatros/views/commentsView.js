@@ -36,12 +36,14 @@
     function appendComment(controller, selector, data) {
         $.get('templates/comments.html', function (template) {
             data['allowedToEdit'] = true;
+            data.results[0]['createdAt'] = formatDate(data.results[0]['createdAt']);
+            console.log(data);
             var output = Mustache.render(template, data);
             $(selector).append(output);
         })
         .then(function() {
                 $('#comment-content').val('');
-            });
+        });
     }
 
     function loadEditForm(controller, commentDiv) {

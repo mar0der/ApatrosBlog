@@ -31,6 +31,7 @@
             attachTimeStampHandler.call(this, container);
             attachAutoLogoutHandler.call(this);
             attachEditProfileHandler.call(this, container);
+            attachDeletePostHandler.call(this, container);
             loadMostFamousTags.call(this);
             loadArchivePanel.call(this);
             menuView.load(mainMenu, this);
@@ -74,6 +75,7 @@
             this.model.posts.getPost(id).then(
                 function (post) {
                     postView.load(container, post);
+                    post.isAdmin = _this.isAdmin();
                     return _this.model.comments.getByPostId(id);
                 }).then(function (data) {
                     commentsView.load(_this, commentsContainerSelector, data);
@@ -398,6 +400,22 @@
             container.on('click', ".comment-delete-btn", function () {
                 var commentContainer = $(this).parent();
                 commentsView.deleteComment(_this, commentContainer);
+            });
+        }
+
+        function attachDeletePostHandler(container){
+            var _this = this;
+            container.on('click', "#delete-post-btn", function () {
+                var splittedHash = window.location.hash.split('/');
+                var postId = splittedHash[2];
+                if(confirm('Are you sure?')){
+                    container.html('loading..');
+                    _this.model.posts.deletePost(postId).then(
+                        function(){
+                            window.location.hash = '/posts';
+                        }
+                    );
+                }
             });
         }
 
