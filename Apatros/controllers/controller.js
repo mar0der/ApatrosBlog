@@ -142,7 +142,8 @@
 
         Controller.prototype.loadNotFound = function loadNotFound(container, url) {
             notFoundView.load(container, url);
-        }
+        };
+
 
         //Load SideBars
         function loadArchivePanel() {

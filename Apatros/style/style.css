@@ -201,6 +201,25 @@ label{
     outline: none;
     cursor: pointer;
 }
+.submitButton{
+    margin-top: 10px;
+    border: 0;
+    background: #12accc;
+    color: #fff;
+    padding: 8px 10px;
+    float: right;
+    text-transform: uppercase;
+    font-size: 9pt;
+    border-bottom: 2px solid #129aba;
+    outline: none;
+    cursor: pointer;
+}
+.submitButton:hover{
+    background: #12bdde;
+}
+.submitButton:active{
+    background: #12a3c3;
+}
 #addPostForm #submit-post{
     width: auto;
 }
@@ -259,7 +278,7 @@ label{
     background: none;
     border: 0;
     padding: 0 5px;
-    font-size: 10pt;
+    font-size: 8pt;
     cursor: pointer;
     color: #999;
     text-transform: uppercase;
@@ -283,6 +302,9 @@ label{
     display: inline-block;
     text-decoration: none;
     padding: 3px 6px;
+}
+.post .tag:hover{
+    background: #888;
 }
 .post h3{
     margin: 0;
@@ -437,6 +459,20 @@ input#username, #password{
 #registration-form .fail:before{
     content: '\e014';
 }
+.textField {
+    display: block;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    outline: none;
+    resize: none;
+    border: none;
+    background: #eee;
+    border-bottom: 2px solid #ccc;
+    font-family: Georgia, serif;
+    font-size: 13pt;
+    color: #666;
+}
 .clear:after{
     content: '';
     display: block;
@@ -453,9 +489,44 @@ input#username, #password{
     font-family: Georgia, serif;
     font-size: 12pt;
 }
+#pageNotFound h1{
+    font-size: 100pt;
+    color: #666;
+    text-shadow: 3px 2px 0 #eee;
+    font-family: Roboto, serif;
+    border-bottom: none;
+    /*font-style: italic;*/
+}
+#pageNotFound{
+    padding-top: 40px;
+    text-align: center;
+}
+#pageNotFound p{
+    padding: 20px 0;
+    border-top: 3px double #eee;
+    display: inline-block;
+    color: #ccc;
+    font-family: Georgia, serif;
+    font-size: 12pt;
+}
 /*footer*/
 footer {
-	/*height: 150px;*/
+    padding: 20px 0 75px 0;
+    text-align: center;
+    color: #111;
+}
+footer p {
+    font-family: Georgia, serif;
+    text-align: center;
+    font-size: 15pt;
+    color: #555;
+}
+footer a {
+    color: #999;
+    text-decoration: none;
+}
+footer a:hover{
+    color: #ffcc00;
 }
 
 #submit-registration:enabled {

@@ -3,8 +3,8 @@
     <span class="author" data-id="{{author.objectId}}"><a href="#/user/{{author.objectId}}">{{author.username}}</a></span>
     <span class="date">{{createdAt}}</span>
     {{#allowedToEdit}}
-    <button class="comment-edit-btn">Edit</button>
     <button class="comment-delete-btn">Delete</button>
+    <button class="comment-edit-btn">Edit</button>
     {{/allowedToEdit}}
     <p class="content">{{content}}</p>
 </div>
