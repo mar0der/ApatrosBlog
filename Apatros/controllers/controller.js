@@ -28,6 +28,7 @@
             attachEditCommentHandler.call(this, container);
             attachDeleteCommentHandler.call(this, container);
             attachSaveEditedPostHandler.call(this, container);
+            attachTimeStampHandler.call(this, container);
             attachAutoLogoutHandler.call(this);
             attachEditProfileHandler.call(this, container);
             loadMostFamousTags.call(this);
@@ -151,12 +152,12 @@
 
             function filterArchives(data) {
                 var uniqueDates = [],
-                    uniqueObjects = { dates: [] };
+                    uniqueObjects = {dates: []};
                 for (var dateObj in data.dates) {
                     var d = data.dates[dateObj].date;
                     if (uniqueDates.indexOf(d) < 0) {
                         uniqueDates.push(d);
-                        uniqueObjects.dates.push({ date: d });
+                        uniqueObjects.dates.push({date: d});
                     }
                 }
                 return uniqueObjects;
@@ -193,12 +194,12 @@
                         credentials.setSessionToken(addUserData['sessionToken']);
                         credentials.setUsername(newUser.username);
                         _this.model.users.assignRole()
-                        .then(function () {
-                            noty.clear();
-                            noty.success('You have successfully registered!');
-                            menuView.load(mainMenu, _this);
-                            window.location.hash = '/posts?hidenoty=true';
-                        });
+                            .then(function () {
+                                noty.clear();
+                                noty.success('You have successfully registered!');
+                                menuView.load(mainMenu, _this);
+                                window.location.hash = '/posts?hidenoty=true';
+                            });
                     }, function (error) {
                         noty.error(error.responseJSON.error);
                     });
@@ -219,7 +220,7 @@
                         credentials.setSessionToken(data['sessionToken']);
                         credentials.setUserId(data['objectId']);
                         credentials.setUsername(data['username']);
-                        if ($('#rememberMe').is(":checked")) {  
+                        if ($('#rememberMe').is(":checked")) {
                             credentials.setRememberMe();
                         }
                         if (data['role']) {
@@ -246,20 +247,47 @@
             var _this = this;
             $('body').on('click', '#submit-logout', function () {
                 _this.model.users.logoutUser()
-                .then(function () {
-                    credentials.clearCredentials();
-                    menuView.load(mainMenu, _this);
-                }, function (error) {
-                    noty.error(error.responseJSON.error);
-                });
+                    .then(function () {
+                        credentials.clearCredentials();
+                        menuView.load(mainMenu, _this);
+                    }, function (error) {
+                        noty.error(error.responseJSON.error);
+                    });
 
             });
         };
 
+        function attachTimeStampHandler() {
+            $(window).unload(setTimeStamp);
+
+            function setTimeStamp() {
+                if (window.localStorage) {
+                    window.localStorage['timeStamp'] = new Date().getTime();
+                }
+            }
+        }
+
         function attachAutoLogoutHandler() {
-          if (!credentials.getRememberMe() ) {
-                this.model.users.logoutUser();
-            };
+            var tenSeconds = 10000;
+            var fiveSeconds = 5000;
+            var twoSeconds = 2000;
+
+            if (window.localStorage) {
+                var t0 = Number(window.localStorage['timeStamp']);
+                if (isNaN(t0)) {
+                    t0 = 0;
+                }
+                var t1 = new Date().getTime();
+                var duration = t1 - t0;
+                if (duration > twoSeconds) {
+                    alert('closed');
+                    if (!credentials.getRememberMe()) {
+                        this.model.users.logoutUser();
+                        localStorage.clear();
+                        window.location.hash = config.defaultRoute;
+                    }
+                }
+            }
         };
 
         function attachAddPostHandler(container) {
@@ -308,7 +336,7 @@
                 // addPostView.loadEditForm(_this, postContainer, container);
             });
         }
-        
+
         function attachAddCommentHandler(container) {
             var _this = this;
             container.on('click', '#submit-comment', function (ev) {
