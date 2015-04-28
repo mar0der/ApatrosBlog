@@ -331,9 +331,24 @@
         function attachSaveEditedPostHandler(container) {
             var _this = this;
             container.on('click', "#Edit-post", function () {
-                alert(1);
-                // var postContainer = $(this).parent().parent();
-                // addPostView.loadEditForm(_this, postContainer, container);
+                var splittedHash = window.location.hash.split('/');
+                var id = splittedHash[2];
+                var postTitle = $('#post-title').val().trim();
+                var postBody = $('#post-body').val().trim();
+                var postTags = $('#post-tags').data('tags');
+
+                _this.model.posts.editPost(id, postTitle, postBody).then(
+                    function(){
+                        return _this.model.tagsPosts.updatePostTags(id, postTags);
+                    }
+                ).then(
+                    function(){
+                        _this.loadPost(container, id);
+                    },
+                    function(error){
+                        console.log(error.responseText);
+                    }
+                );
             });
         }
 
