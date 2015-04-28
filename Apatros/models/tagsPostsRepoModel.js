@@ -63,6 +63,19 @@ define(['ajaxRequesterModel', 'Q', 'credentialsModel', 'lodash', 'postsRepoModel
         return Requester.post(this._baseUrl + 'functions/getMostFamousTags', credentials.getHeaders(), {limit: limit});
     };
 
+    TagsRepo.prototype.updatePostTags = function updatePostTags(postId, tags){
+        var filterredTags = [];
+        tags.forEach(function(tag){
+            filterredTags.push(tag);
+        });
+        var data = {
+            postId: postId,
+            tags: filterredTags
+        };
+
+        return Requester.post(this._baseUrl + 'functions/updatePostTags', credentials.getHeaders(), data);
+    };
+
     return {
         load: function (baseUrl) {
             return new TagsRepo(baseUrl);
