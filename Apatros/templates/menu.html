@@ -1,6 +1,10 @@
 ﻿<ul>
+    {{#isLogged}}
     <span id="greeting">Greetings, <a href="#/profile">{{username}}</a>!</span>
+    {{/isLogged}}
+
     <li><a href="#/posts"><span class="icon">&#xe054;</span>Posts</a></li>
+
     {{#isAdmin}}
     <li><a href="#/writePost"><span class="icon">&#xe065;</span>Write Post</a></li>
     {{/isAdmin}}
