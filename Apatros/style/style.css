@@ -548,7 +548,7 @@ span {
     }
 }
 
-@media (max-width: 700px){
+@media (min-width: 451px) and (max-width: 700px){
     div#wrapper{
         flex-wrap: wrap;
     }
@@ -557,6 +557,10 @@ span {
     }
     div#wrapper{
         margin-top: 10px;
+    }
+    #main-menu ul li a{
+        padding-left:10px;
+        padding-right:10px;
     }
     div#wrapper #main{
         width: 100%;
