@@ -141,7 +141,11 @@
         };
 
         Controller.prototype.loadAddPost = function (container) {
-            addPostView.load(container);
+            if(this.isAdmin()){
+                addPostView.load(container);
+            }else{
+                window.location.hash = '/posts';
+            }
         };
 
         Controller.prototype.loadNotFound = function loadNotFound(container, url) {
