@@ -16,6 +16,9 @@
         tags.forEach(function () {
             tagsCnt++;
         });
+        if(!tagsCnt){
+            defer.resolve([]);
+        }
         tags.forEach(function (value) {
             _this.getTag(value.trim())
                 .then(function (data) {
@@ -32,22 +35,18 @@
                     }
                     checkedTags++;
                     if (checkedTags == tagsCnt) {
-                        if (batchData.requests.length) {
-                            Requester.post(_this._baseUrl + 'batch', credentials.getHeaders(), batchData)
-                                .then(
-                                    function (data) {
-                                        data.forEach(function (value) {
-                                            tagsIds.push(value.success.objectId);
-                                        });
-                                        defer.resolve(tagsIds);
-                                    }, function (error) {
-                                        console.log("vrashta");
-                                        defer.reject(error);
-                                    }
-                                );
-                        } else {
-                            defer.resolve(tagsIds);
-                        }
+                        Requester.post(_this._baseUrl + 'batch', credentials.getHeaders(), batchData)
+                            .then(
+                                function (data) {
+                                    data.forEach(function (value) {
+                                        tagsIds.push(value.success.objectId);
+                                    });
+                                    defer.resolve(tagsIds);
+                                }, function (error) {
+                                    console.log("vrashta");
+                                    defer.reject(error);
+                                }
+                            );
                     }
                 });
         });

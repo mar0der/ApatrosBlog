@@ -72,6 +72,7 @@
 
         Controller.prototype.loadPost = function (container, id) {
             var _this = this;
+            container.html('Loading');
             this.model.posts.getPost(id).then(
                 function (post) {
                     postView.load(container, post);
@@ -80,7 +81,8 @@
                 }).then(function (data) {
                     commentsView.load(_this, commentsContainerSelector, data);
                 }, function (error) {
-                    noty.error(error.responseJSON.error);
+                    window.location.hash = '/posts';
+//                    noty.error(error.responseJSON.error);
                 });
         };
 
@@ -107,6 +109,7 @@
 
         Controller.prototype.loadProfile = function (container) {
             var _this = this;
+            container.html('Loading...');
             this.model.users.getUser(credentials.getUserId()).then(function (user) {
                 profileView.load(_this, container, user);
             });
@@ -114,6 +117,7 @@
 
         Controller.prototype.loadUser = function (container, id) {
             var _this = this;
+            container.html('Loading...');
             this.model.users.getUser(id).then(function (user) {
                 profileView.load(_this, container, user);
             });
@@ -190,7 +194,8 @@
                     firstName: registrationInfo[4],
                     lastName: registrationInfo[5]
                 };
-
+                $('#noty-container').empty();
+                container.html('Loading...');
                 _this.model.users.addUser(newUser)
                     .then(function (addUserData) {
                         credentials.setUserId(addUserData['objectId']);
@@ -204,6 +209,7 @@
                                 window.location.hash = '/posts?hidenoty=true';
                             });
                     }, function (error) {
+                        registerView.load(_this, container);
                         noty.error(error.responseJSON.error);
                     });
             });
@@ -218,6 +224,8 @@
                     username: username,
                     password: password
                 };
+                $('#noty-container').empty();
+                container.html('Loading...');
                 _this.model.users.loginUser(user)
                     .then(function (data) {
                         credentials.setSessionToken(data['sessionToken']);
@@ -241,6 +249,7 @@
                         menuView.load(mainMenu, _this);
                         window.location.hash = config.defaultRoute;
                     }, function (error) {
+                        loginView.load(_this, container);
                         noty.error(error.responseJSON.error);
                     });
             });
@@ -300,26 +309,40 @@
                 var postBody = $('#post-body').val().trim();
                 var postTags = $('#post-tags').data('tags');
                 var postId;
+                var errors = [];
 
-                addPostView.loading(container);
-                _this.model.posts.addPost(postTitle, postBody).then(
-                    function (data) {
-                        postId = data.objectId;
-                        return _this.model.tags.addTags(postTags);
-                    })
-                    .then(function (tagsIds) {
-                        return _this.model.tagsPosts.addTagsPosts(tagsIds, postId);
-                    })
-                    .then(
-                    function () {
-                        window.location.hash = '/view-post/' + postId;
+                if(postTitle.length == 0){
+                    errors.push('Title cannot be empty.');
+                }
+                if(postBody.length == 0){
+                    errors.push('Post body cannot be enpty.');
+                }
 
-                    }, function (error) {
-                        console.log(error);
-                    }
-                ).done();
-                loadArchivePanel.call(_this);
-                loadMostFamousTags.call(_this);
+                if(!errors.length){
+                    addPostView.loading(container);
+                    _this.model.posts.addPost(postTitle, postBody).then(
+                        function (data) {
+                            postId = data.objectId;
+                            return _this.model.tags.addTags(postTags);
+                        })
+                        .then(function (tagsIds) {
+                            return _this.model.tagsPosts.addTagsPosts(tagsIds, postId);
+                        })
+                        .then(
+                        function () {
+                            window.location.hash = '/view-post/' + postId;
+
+                        }, function (error) {
+                            console.log(error);
+                        }
+                    ).done();
+                    loadArchivePanel.call(_this);
+                    loadMostFamousTags.call(_this);
+                }else{
+                    errors.forEach(function(error){
+                        noty.error(error);
+                    });
+                }
             });
         };
 
@@ -339,19 +362,33 @@
                 var postTitle = $('#post-title').val().trim();
                 var postBody = $('#post-body').val().trim();
                 var postTags = $('#post-tags').data('tags');
-
-                _this.model.posts.editPost(id, postTitle, postBody).then(
-                    function(){
-                        return _this.model.tagsPosts.updatePostTags(id, postTags);
-                    }
-                ).then(
-                    function(){
-                        _this.loadPost(container, id);
-                    },
-                    function(error){
-                        console.log(error.responseText);
-                    }
-                );
+                var errors = [];
+                if(postTitle.length == 0){
+                    errors.push('Title cannot be empty.');
+                }
+                if(postBody.length == 0){
+                    errors.push('Post body cannot be empty.');
+                }
+                if(!errors.length){
+                    $('#noty-container').empty();
+                    container.html('Loading...');
+                    _this.model.posts.editPost(id, postTitle, postBody).then(
+                        function(){
+                            return _this.model.tagsPosts.updatePostTags(id, postTags);
+                        }
+                    ).then(
+                        function(){
+                            _this.loadPost(container, id);
+                        },
+                        function(error){
+                            console.log(error.responseText);
+                        }
+                    );
+                }else{
+                    errors.forEach(function(error){
+                        noty.error(error);
+                    });
+                }
             });
         }
 
@@ -410,7 +447,7 @@
                 var splittedHash = window.location.hash.split('/');
                 var postId = splittedHash[2];
                 if(confirm('Are you sure?')){
-                    container.html('loading..');
+                    container.html('Loading..');
                     _this.model.posts.deletePost(postId).then(
                         function(){
                             window.location.hash = '/posts';

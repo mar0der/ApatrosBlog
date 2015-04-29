@@ -31,8 +31,8 @@ div, article, header, footer, section, aside, ul, li, h1, h2, h3, h4, h5, body {
 
 #main{
     flex-grow: 1;
-    min-width: 300px;
     width: 400px;
+    order: 1;
     box-sizing: border-box;
     margin: 30px 30px 50px 30px;
 }
@@ -40,8 +40,8 @@ div#wrapper {
     margin-top: 50px;
     background: #fff;
     display: flex;
-    flex-wrap: wrap;
     flex-direction: row;
+    align-items: stretch;
     box-sizing: border-box;
     outline: 2px solid rgba(0,0,0,0.1);
 }
@@ -55,8 +55,12 @@ header {
     top: 0;
     width: 100%;
     z-index: 9;
+    text-align: left;
 }
-
+header .limiter{
+    display: flex;
+    flex-direction: row;
+}
 header ul li {
     display: inline-block;
 }
@@ -88,11 +92,13 @@ header ul li {
         text-transform: none;
         color: #fff;
     }
-
     #greeting a {
         display:inline;
         text-decoration: underline;
     }
+#main-menu{
+    flex-grow: 1;
+}
 
     /*sidebars*/
 
@@ -105,14 +111,17 @@ aside#right h3, aside#left h3{
     text-transform: uppercase;
     color: #333;
 }
+#main-menu ul{
+    display: inline-block;
+}
 #logo {
     transition: all ease 0.5s;
     background: url('../imgs/logo.png') no-repeat;
     cursor: pointer;
     width: 124px;
     height: 36px;
+    min-width: 124px;
     display: block;
-    float: left;
     opacity: 1;
     margin-top: 2px;
     margin-right: 30px;
@@ -144,6 +153,12 @@ aside#right a:hover, aside#left a:hover {
     background: #F3E3DD;
     color: #FF5E3A;
     border-bottom: 2px solid #ddcdc7;
+}
+aside#right{
+    order: 2;
+}
+aside#left{
+    order: 0;
 }
 aside#right, aside#left{
     width: 200px;
@@ -295,6 +310,9 @@ label{
     background: #666;
     display: inline-block;
     padding:0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     margin: 2px;
 }
 .post .tag a{
@@ -631,28 +649,53 @@ span {
 /*responsive design*/
 @media (max-width: 955px) {
     div#wrapper {
-        width: 100%
-    }
-}
-
-@media (min-width: 451px) and (max-width: 700px){
-    div#wrapper{
-        flex-wrap: wrap;
+        width: 100%;
+        margin-top: 10px;
     }
     header{
         position: static;
     }
+}
+@media (max-width: 800px){
     div#wrapper{
-        margin-top: 10px;
+        display: block;
     }
+    #main {
+        width: 70%;
+        padding: 5px;
+        margin: 0;
+        float: right;
+    }
+    aside#right{
+        float: none;
+        width: 30%;
+    }
+    aside#left{
+        float: left;
+        width: 30%;
+    }
+}
+@media (max-width: 700px){
+
+    #main-menu{
+        text-align: center;
+    }
+
     #main-menu ul li a{
         padding-left:10px;
         padding-right:10px;
     }
+    div#wrapper{
+        display: flex;
+        flex-wrap: wrap;
+    }
     div#wrapper #main{
-        width: 100%;
-        min-width: 0;
+        min-width: 100%;
+        box-sizing: border-box;
         order: 0;
+        margin:0;
+        padding: 5px;
+        float: none;
     }
     div#wrapper #left{
         order: 1;
@@ -670,8 +713,24 @@ span {
     #main-menu ul li{
         display: block;
     }
+    #logo{
+        margin: 0 auto;
+    }
+    #greeting{
+        float: none;
+        display: block;
+        text-align: center;
+    }
+    #main-menu ul li, #main-menu ul, #main-menu{
+        width: 100%;
+    }
+    #main-menu ul li a .icon{
+        float: left;
+    }
     #main-menu ul li a{
         display: block;
+        text-align: center;
+        width: 100%;
     }
     div#wrapper #main{
         width: 100%;
@@ -694,4 +753,11 @@ form, h2 {
 fieldset {
     border: 2px solid white;
     margin: 5px;
+}
+
+
+@media (max-width: 600px){
+    body header .limiter{
+        display: block;
+    }
 }

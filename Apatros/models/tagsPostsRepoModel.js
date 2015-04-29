@@ -29,13 +29,17 @@ define(['ajaxRequesterModel', 'Q', 'credentialsModel', 'lodash', 'postsRepoModel
                 }
             });
         });
-        Requester.post(this._baseUrl + 'batch', credentials.getHeaders(), data).then(
-            function(data){
-                defer.resolve(data);
-            },
-            function(error){
-                defer.reject(error);
-            });
+        if(data.requests.length){
+            Requester.post(this._baseUrl + 'batch', credentials.getHeaders(), data).then(
+                function(data){
+                    defer.resolve(data);
+                },
+                function(error){
+                    defer.reject(error);
+                });
+        }else{
+            defer.resolve();
+        }
 
         return defer.promise;
     };
