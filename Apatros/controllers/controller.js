@@ -141,9 +141,9 @@
         };
 
         Controller.prototype.loadAddPost = function (container) {
-            if(this.isAdmin()){
+            if (this.isAdmin()) {
                 addPostView.load(container);
-            }else{
+            } else {
                 window.location.hash = '/posts';
             }
         };
@@ -164,13 +164,39 @@
             function filterArchives(data) {
                 var uniqueDates = [],
                     uniqueObjects = {dates: []};
+
                 for (var dateObj in data.dates) {
+
                     var d = data.dates[dateObj].date;
+
+                    d = (new Date(d).setHours(0, 0, 0, 0));
+
                     if (uniqueDates.indexOf(d) < 0) {
                         uniqueDates.push(d);
-                        uniqueObjects.dates.push({date: d});
+
+                        $.each(uniqueDates, function (i, el) {
+                            if ($.inArray(el, uniqueObjects.dates) === -1) {
+                                uniqueObjects.dates.push(el);
+                            }
+                        });
+
+                        console.log(uniqueObjects)
                     }
                 }
+
+                uniqueObjects.dates.sort(function (a, b) {
+                    return a - b
+                });
+
+                for(var i = 0; i<uniqueObjects.dates.length; i++) {
+
+                    var d3 = (new Date(uniqueObjects.dates[i]));
+
+                    uniqueObjects.dates[i] = {'date':d3};
+                }
+
+                console.log(uniqueObjects);
+
                 return uniqueObjects;
             }
         };
@@ -315,14 +341,14 @@
                 var postId;
                 var errors = [];
 
-                if(postTitle.length == 0){
+                if (postTitle.length == 0) {
                     errors.push('Title cannot be empty.');
                 }
-                if(postBody.length == 0){
+                if (postBody.length == 0) {
                     errors.push('Post body cannot be enpty.');
                 }
 
-                if(!errors.length){
+                if (!errors.length) {
                     addPostView.loading(container);
                     _this.model.posts.addPost(postTitle, postBody).then(
                         function (data) {
@@ -342,8 +368,8 @@
                     ).done();
                     loadArchivePanel.call(_this);
                     loadMostFamousTags.call(_this);
-                }else{
-                    errors.forEach(function(error){
+                } else {
+                    errors.forEach(function (error) {
                         noty.error(error);
                     });
                 }
@@ -367,29 +393,29 @@
                 var postBody = $('#post-body').val().trim();
                 var postTags = $('#post-tags').data('tags');
                 var errors = [];
-                if(postTitle.length == 0){
+                if (postTitle.length == 0) {
                     errors.push('Title cannot be empty.');
                 }
-                if(postBody.length == 0){
+                if (postBody.length == 0) {
                     errors.push('Post body cannot be empty.');
                 }
-                if(!errors.length){
+                if (!errors.length) {
                     $('#noty-container').empty();
                     container.html('Loading...');
                     _this.model.posts.editPost(id, postTitle, postBody).then(
-                        function(){
+                        function () {
                             return _this.model.tagsPosts.updatePostTags(id, postTags);
                         }
                     ).then(
-                        function(){
+                        function () {
                             _this.loadPost(container, id);
                         },
-                        function(error){
+                        function (error) {
                             console.log(error.responseText);
                         }
                     );
-                }else{
-                    errors.forEach(function(error){
+                } else {
+                    errors.forEach(function (error) {
                         noty.error(error);
                     });
                 }
@@ -445,15 +471,15 @@
             });
         }
 
-        function attachDeletePostHandler(container){
+        function attachDeletePostHandler(container) {
             var _this = this;
             container.on('click', "#delete-post-btn", function () {
                 var splittedHash = window.location.hash.split('/');
                 var postId = splittedHash[2];
-                if(confirm('Are you sure?')){
+                if (confirm('Are you sure?')) {
                     container.html('Loading..');
                     _this.model.posts.deletePost(postId).then(
-                        function(){
+                        function () {
                             window.location.hash = '/posts';
                         }
                     );
